@@ -1,6 +1,8 @@
 import React from "react";
+
 // components
 import Navbar from "../../components/Navbar/Navbar";
+import FormAddEmployee from "../../components/App/FormEmployee/FormAddEmployee";
 
 /**
  * This function displays the homepage
@@ -17,11 +19,11 @@ const Homepage = () => {
                     <h1>HR net</h1>
                 </div>
                 <div className="container">
-
+                    <FormAddEmployee />
                 </div>
             </main>
             <footer>
-                
+
             </footer>
            
             
