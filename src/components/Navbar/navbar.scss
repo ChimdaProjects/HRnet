@@ -40,7 +40,10 @@
 .button-path {
     
     border-radius: 15px;
-    background-color: rgb(172, 237, 172)
+    background-color: #718A1D;
+    &:hover {
+        color:white;
+    }
 }
 .navbar-content-path:hover {
     scale: 1.1;

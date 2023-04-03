@@ -3,6 +3,8 @@ import React from "react";
 // components
 import Navbar from "../../components/Navbar/Navbar";
 import FormAddEmployee from "../../components/App/FormEmployee/FormAddEmployee";
+import Datepicker from "../../components/Datepicker/Datepicker";
+import Modal from "../../components/Modal/Modal";
 
 /**
  * This function displays the homepage
@@ -15,11 +17,10 @@ const Homepage = () => {
                 <Navbar />
             </header>
             <main >
-                <div className="title">
-                    <h1>HR net</h1>
-                </div>
                 <div className="container">
                     <FormAddEmployee />
+                    <Modal />
+                  
                 </div>
             </main>
             <footer>
