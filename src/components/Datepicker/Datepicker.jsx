@@ -3,14 +3,14 @@ import { useState } from "react";
 
 import "./datepicker.scss"
 
-const Datepicker = ({ onSelect, handleDateClick, selectedDate, setSelectedDate }) => {
+const Datepicker = ({displayedMonth, setDisplayedMonth
+,showDatePicker, setShowDatePicker, onSelect,  handleDateClick, selectedDate, setSelectedDate }) => {
   // state
     //const [selectedDate, setSelectedDate] = useState(null);
-    const [displayedMonth, setDisplayedMonth] = useState(new Date());
-    
+    //const [displayedMonth, setDisplayedMonth] = useState(new Date());
+  
   handleDateClick = (date) => {
       setSelectedDate(date);
-
       if (onSelect) {
         onSelect(date);
       }
@@ -78,11 +78,16 @@ const Datepicker = ({ onSelect, handleDateClick, selectedDate, setSelectedDate }
       }
       return days;
     };
-  
+    
+    const closeDatePicker = () => {
+      setShowDatePicker(!showDatePicker)
+    }
     return (
-      <div>
-          {/*<p className="selected-date">Selected Date : {selectedDate && selectedDate.toLocaleDateString("fr-FR")}</p>*/}
+
+   
           <div className="calendar">
+
+          <span className="calendar-close" onClick={closeDatePicker}>X</span>
         <div className="calendar-header">
           <button onClick={handlePrevMonthClick}>&lt;</button>
           <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
@@ -115,9 +120,10 @@ const Datepicker = ({ onSelect, handleDateClick, selectedDate, setSelectedDate }
           </tbody>
         </table>
     </div>
-      </div>
+         )
+          
     
-    )
+    
 }
 
 export default Datepicker;

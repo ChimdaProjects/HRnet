@@ -1,5 +1,4 @@
 import React, {useState, useRef} from "react";
-import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import "./formemployee.scss"
 import Datepicker from "../Datepicker/Datepicker";
@@ -9,7 +8,7 @@ const FormAddEmployee = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-
+    const [currentMonth,setCurrentMonth] = useState("");
   
 
     // data retrieved from the form
@@ -26,16 +25,18 @@ const FormAddEmployee = () => {
         },
         department:""
     });
+    console.log("showDatePicker", showDatePicker)
 
-    const formEmployee = useRef();
     // handle change input
     const handleChangeInput = (e) => {
-        const { name, value } = e.target;
-        setDatas((prevState) => ({
-        ...prevState,
-        [name]: value, 
-        }));
-        setShowDatePicker(true);
+        // Vérifie si l'utilisateur a entré une date manuellement
+        const enteredDate = new Date(e.target.value);
+        if (!isNaN(enteredDate.getTime())) {
+            setSelectedDate(enteredDate);
+            setCurrentMonth(enteredDate);
+        }
+        setShowDatePicker(!showDatePicker);
+        
     }
     // handle change adress and store value in state
     const handleChangeAdress = (e) => {
@@ -57,19 +58,12 @@ const FormAddEmployee = () => {
         }));
     }
     console.log("datas",datas);
-    const formatDate = (date) => {
-        const year = date.getFullYear().toString().slice(-2);
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        return `${day} / ${month} / ${year}`;
-      }
-    
-   
-    
+
       const handleDateClick = (day) => {
+        console.log("day", day)
         const selectedDate = `${day.getDate()} / ${day.getMonth() + 1} / ${day.getFullYear()}`;
         setDatas({ ...datas, dateOfBirth: selectedDate });
-        setShowDatePicker(false);
+        setShowDatePicker(!showDatePicker);
       };
       
     // submit the form with datas
@@ -78,7 +72,7 @@ const FormAddEmployee = () => {
             e.preventDefault();
             setDatasEmployee(datas);
             setIsSubmitted(true);
-            formEmployee.current.value.clear();
+            
         }
         else {
             alert("form not completed !")
@@ -90,7 +84,7 @@ const FormAddEmployee = () => {
             <h2 className="form-title">
                 HR NET - Create employee
             </h2>
-            <form action="#" id="create-employee" onSubmit={saveEmployee} ref={formEmployee}>
+            <form action="#" id="create-employee" onSubmit={saveEmployee} >
                 <div className="form-content">
                     <div className="form-left">
                     
@@ -115,33 +109,44 @@ const FormAddEmployee = () => {
                             />
                         
                         
-      <label htmlFor="date-of-birth">Date of Birth</label>
-      <input 
-        id="date-of-birth" 
-        type="text" 
-        name="dateOfbirth"
-        value={selectedDate?selectedDate.toLocaleDateString("fr-FR"):""}
-        onClick={handleChangeInput}
-        required
-      />
-      {showDatePicker && (
-        <Datepicker 
-            handleDateClick={handleDateClick} 
-            selectedDate = {selectedDate} 
-            setSelectedDate={setSelectedDate}/>
-      )}
-   
-
-
-                    <label htmlFor="start-date">Start Date</label>
-                    <input 
-                        id="start-date" 
-                        type="text"
-                        name="startDate" 
-                        value={datas.startDate}
-                        onChange={handleChangeInput}
-                        required
+                        <label htmlFor="date-of-birth">Date of Birth</label>
+                        <input 
+                            id="date-of-birth" 
+                            type="text" 
+                            name="dateOfbirth"
+                            value={selectedDate?selectedDate.toLocaleDateString("fr-FR"):""}
+                            onChange={handleChangeInput}
+                            required
                         />
+                        {/*showDatePicker && (
+                            <Datepicker 
+                                handleDateClick={handleDateClick} 
+                                selectedDate = {selectedDate} 
+                                setSelectedDate={setSelectedDate}
+                                showDatePicker = {showDatePicker} 
+                                setShowDatePicker={setShowDatePicker}/>
+                        )*/}
+                        {showDatePicker || document.activeElement === document.getElementById('date-of-birth') ? (
+                        <Datepicker 
+                            handleDateClick={handleDateClick} 
+                            selectedDate={selectedDate} 
+                            setSelectedDate={setSelectedDate}
+                            showDatePicker={showDatePicker} 
+                            setShowDatePicker={setShowDatePicker}
+                            displayedMonth={currentMonth} 
+                            setDisplayedMonth={setCurrentMonth}
+                        />
+                        ) : null}
+
+                        <label htmlFor="start-date">Start Date</label>
+                        <input 
+                            id="start-date" 
+                            type="text"
+                            name="startDate" 
+                            value={datas.startDate}
+                            onChange={handleChangeInput}
+                            required
+                            />
                     </div>
                     <fieldset className="address">
                         <legend>Address</legend>
