@@ -2,8 +2,7 @@ import React from "react";
 
 // components
 import Navbar from "../../components/Navbar/Navbar";
-import FormAddEmployee from "../../components/App/FormEmployee/FormAddEmployee";
-import Datepicker from "../../components/Datepicker/Datepicker";
+import FormAddEmployee from "../../components/FormEmployee/FormAddEmployee";
 import Modal from "../../components/Modal/Modal";
 
 /**

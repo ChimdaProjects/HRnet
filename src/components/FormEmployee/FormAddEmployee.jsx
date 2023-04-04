@@ -1,11 +1,17 @@
 import React, {useState, useRef} from "react";
 import { Link } from "react-router-dom";
-import Modal from "../../Modal/Modal";
+import Modal from "../Modal/Modal";
 import "./formemployee.scss"
+import Datepicker from "../Datepicker/Datepicker";
 const FormAddEmployee = () => {
     // state 
     const [datasEmployee, setDatasEmployee] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+  
+
     // data retrieved from the form
     const [datas, setDatas] = useState({
         firstname: "",
@@ -27,9 +33,9 @@ const FormAddEmployee = () => {
         const { name, value } = e.target;
         setDatas((prevState) => ({
         ...prevState,
-        [name]: value,
-            
-    }));
+        [name]: value, 
+        }));
+        setShowDatePicker(true);
     }
     // handle change adress and store value in state
     const handleChangeAdress = (e) => {
@@ -50,7 +56,22 @@ const FormAddEmployee = () => {
             department: selectedDepartment
         }));
     }
-    console.log("datas",datas.firstname);
+    console.log("datas",datas);
+    const formatDate = (date) => {
+        const year = date.getFullYear().toString().slice(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${day} / ${month} / ${year}`;
+      }
+    
+   
+    
+      const handleDateClick = (day) => {
+        const selectedDate = `${day.getDate()} / ${day.getMonth() + 1} / ${day.getFullYear()}`;
+        setDatas({ ...datas, dateOfBirth: selectedDate });
+        setShowDatePicker(false);
+      };
+      
     // submit the form with datas
     const saveEmployee = (e) => {
         if (datas) {
@@ -92,16 +113,25 @@ const FormAddEmployee = () => {
                             onChange={handleChangeInput}
                             required
                             />
+                        
+                        
+      <label htmlFor="date-of-birth">Date of Birth</label>
+      <input 
+        id="date-of-birth" 
+        type="text" 
+        name="dateOfbirth"
+        value={selectedDate?selectedDate.toLocaleDateString("fr-FR"):""}
+        onClick={handleChangeInput}
+        required
+      />
+      {showDatePicker && (
+        <Datepicker 
+            handleDateClick={handleDateClick} 
+            selectedDate = {selectedDate} 
+            setSelectedDate={setSelectedDate}/>
+      )}
+   
 
-                        <label htmlFor="date-of-birth">Date of Birth</label>
-                        <input 
-                            id="date-of-birth" 
-                            type="text" 
-                            name="dateOfbirth"
-                            value={datas.dateOfBirth}
-                            onChange={handleChangeInput}
-                            required
-                        />
 
                     <label htmlFor="start-date">Start Date</label>
                     <input 

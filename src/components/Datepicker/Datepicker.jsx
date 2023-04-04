@@ -1,72 +1,88 @@
 import React from "react";
 import { useState } from "react";
-const Datepicker = ({ onSelect }) => {
-    const [selectedDate, setSelectedDate] = useState(null);
+
+import "./datepicker.scss"
+
+const Datepicker = ({ onSelect, handleDateClick, selectedDate, setSelectedDate }) => {
+  // state
+    //const [selectedDate, setSelectedDate] = useState(null);
     const [displayedMonth, setDisplayedMonth] = useState(new Date());
-  
-    const handleDateClick = (date) => {
+    
+  handleDateClick = (date) => {
       setSelectedDate(date);
+
       if (onSelect) {
         onSelect(date);
       }
     };
-  
+    console.log("selected date", selectedDate)
+    // when the user clicks to display the previous month
     const handlePrevMonthClick = () => {
       setDisplayedMonth(
         new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1)
       );
     };
-  
+    // when the user clicks to display the next month
     const handleNextMonthClick = () => {
       setDisplayedMonth(
         new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1)
       );
     };
-  
+    // number days of current month
     const getDaysInMonth = (date) => {
       const year = date.getFullYear();
       const month = date.getMonth();
+      
       return new Date(year, month + 1, 0).getDate();
     };
-  
+    // names of day on 1 week
     const getWeekdayNames = () => {
       return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     };
-  
+    
     const getCalendarDays = () => {
+      //  nombre de jours dans le mois 
       const daysInMonth = getDaysInMonth(displayedMonth);
+      // represente le 1er jour du mois en chiffre (lundi =1, mardi=2 etc...)
       const firstDayOfMonth = new Date(
         displayedMonth.getFullYear(),
         displayedMonth.getMonth(),
         1
       ).getDay();
+    
+      // represente le dernier jour du mois 
       const lastDayOfMonth = new Date(
         displayedMonth.getFullYear(),
         displayedMonth.getMonth(),
         daysInMonth
       ).getDay();
+    
       const days = [];
   
-      // Remplissez les jours du mois précédent
-      for (let i = firstDayOfMonth; i > 0; i--) {
+      // Remplir les jours du mois précédent (case vide pour les mois ou le 1er jour ne commence pas un lundi )
+      for (let i = firstDayOfMonth; i > 0; i--) { 
         days.push(null);
       }
   
-      // Remplissez les jours du mois en cours
+      // Remplir les jours du mois en cours
       for (let i = 1; i <= daysInMonth; i++) {
+        const calendrier =new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i) 
+      
         days.push(new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i));
       }
+      
   
       // Remplissez les jours du mois suivant
       for (let i = 0; i < 6 - lastDayOfMonth; i++) {
         days.push(null);
       }
-  
       return days;
     };
   
     return (
-      <div className="calendar">
+      <div>
+          {/*<p className="selected-date">Selected Date : {selectedDate && selectedDate.toLocaleDateString("fr-FR")}</p>*/}
+          <div className="calendar">
         <div className="calendar-header">
           <button onClick={handlePrevMonthClick}>&lt;</button>
           <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
@@ -99,7 +115,9 @@ const Datepicker = ({ onSelect }) => {
           </tbody>
         </table>
     </div>
+      </div>
+    
     )
-                }
+}
 
-                export default Datepicker;
+export default Datepicker;
