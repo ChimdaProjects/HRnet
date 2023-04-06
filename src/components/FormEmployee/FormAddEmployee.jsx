@@ -2,6 +2,7 @@ import React, {useState, useRef} from "react";
 import Modal from "../Modal/Modal";
 import "./formemployee.scss"
 import Datepicker from "../Datepicker/Datepicker";
+
 const FormAddEmployee = () => {
     // state 
     const [datasEmployee, setDatasEmployee] = useState({});
@@ -32,8 +33,8 @@ const FormAddEmployee = () => {
         // Vérifie si l'utilisateur a entré une date manuellement
         const enteredDate = new Date(e.target.value);
         if (!isNaN(enteredDate.getTime())) {
-            setSelectedDate(enteredDate);
-            setCurrentMonth(enteredDate);
+            setDatas({ ...datas, dateOfBirth: enteredDate.toLocaleDateString("fr-FR") });
+            setCurrentMonth(enteredDate.getMonth());
         }
         setShowDatePicker(!showDatePicker);
         
@@ -63,7 +64,7 @@ const FormAddEmployee = () => {
         console.log("day", day)
         const selectedDate = `${day.getDate()} / ${day.getMonth() + 1} / ${day.getFullYear()}`;
         setDatas({ ...datas, dateOfBirth: selectedDate });
-        setShowDatePicker(!showDatePicker);
+        setShowDatePicker(false);
       };
       
     // submit the form with datas
@@ -79,6 +80,8 @@ const FormAddEmployee = () => {
         }
        
     }
+
+    console.log("selected date", selectedDate)
     return (
         <div className="formaddemployee">
             <h2 className="form-title">
@@ -118,23 +121,10 @@ const FormAddEmployee = () => {
                             onChange={handleChangeInput}
                             required
                         />
-                        {/*showDatePicker && (
-                            <Datepicker 
-                                handleDateClick={handleDateClick} 
-                                selectedDate = {selectedDate} 
-                                setSelectedDate={setSelectedDate}
-                                showDatePicker = {showDatePicker} 
-                                setShowDatePicker={setShowDatePicker}/>
-                        )*/}
+
                         {showDatePicker || document.activeElement === document.getElementById('date-of-birth') ? (
                         <Datepicker 
-                            handleDateClick={handleDateClick} 
-                            selectedDate={selectedDate} 
-                            setSelectedDate={setSelectedDate}
-                            showDatePicker={showDatePicker} 
-                            setShowDatePicker={setShowDatePicker}
-                            displayedMonth={currentMonth} 
-                            setDisplayedMonth={setCurrentMonth}
+                            onSelect = {selectedDate}
                         />
                         ) : null}
 

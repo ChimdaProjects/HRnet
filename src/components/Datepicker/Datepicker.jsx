@@ -3,13 +3,13 @@ import { useState } from "react";
 
 import "./datepicker.scss"
 
-const Datepicker = ({displayedMonth, setDisplayedMonth
-,showDatePicker, setShowDatePicker, onSelect,  handleDateClick, selectedDate, setSelectedDate }) => {
+const Datepicker = ({onSelect }) => {
   // state
-    //const [selectedDate, setSelectedDate] = useState(null);
-    //const [displayedMonth, setDisplayedMonth] = useState(new Date());
-  
-  handleDateClick = (date) => {
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [displayedMonth, setDisplayedMonth] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(true);
+
+  const handleDateClick = (date) => {
       setSelectedDate(date);
       if (onSelect) {
         onSelect(date);
@@ -82,44 +82,47 @@ const Datepicker = ({displayedMonth, setDisplayedMonth
     const closeDatePicker = () => {
       setShowDatePicker(!showDatePicker)
     }
+
     return (
 
-   
+        showDatePicker && (
           <div className="calendar">
-
-          <span className="calendar-close" onClick={closeDatePicker}>X</span>
-        <div className="calendar-header">
-          <button onClick={handlePrevMonthClick}>&lt;</button>
-          <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
-          <button onClick={handleNextMonthClick}>&gt;</button>
-        </div>
-        <table className="calendar-table">
-          <thead>
-            <tr>
-              {getWeekdayNames().map((weekday) => (
-                <th key={weekday}>{weekday}</th>
+          <p>{selectedDate? selectedDate.toLocaleDateString("fr-FR") : ""}</p>
+        <span className="calendar-close" onClick={closeDatePicker}>X</span>
+      <div className="calendar-header">
+        <button onClick={handlePrevMonthClick}>&lt;</button>
+        <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
+        <button onClick={handleNextMonthClick}>&gt;</button>
+      </div>
+      <table className="calendar-table">
+        <thead>
+          <tr>
+            {getWeekdayNames().map((weekday) => (
+              <th key={weekday}>{weekday}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {getCalendarDays().reduce((rows, day, index) => {
+            if (index % 7 === 0) {
+              rows.push([]);
+            }
+            rows[rows.length - 1].push(day);
+            return rows;
+          }, []).map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((day, dayIndex) => (
+                <td key={dayIndex} onClick={() => handleDateClick(day)}>
+                  {day && day.getDate()}
+                </td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {getCalendarDays().reduce((rows, day, index) => {
-              if (index % 7 === 0) {
-                rows.push([]);
-              }
-              rows[rows.length - 1].push(day);
-              return rows;
-            }, []).map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((day, dayIndex) => (
-                  <td key={dayIndex} onClick={() => handleDateClick(day)}>
-                    {day && day.getDate()}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-    </div>
+          ))}
+        </tbody>
+      </table>
+  </div>
+        )
+        
          )
           
     
