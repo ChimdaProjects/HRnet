@@ -197,7 +197,7 @@ const FormAddEmployee = () => {
                             type="number" 
                             name="code"
                             value={datas.adress.code}
-                            onChange={handleChangeInput}
+                            onChange={handleChangeAdress}
                             
                             />
                     </fieldset>
