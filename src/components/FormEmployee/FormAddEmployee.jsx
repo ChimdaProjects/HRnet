@@ -38,7 +38,7 @@ const FormAddEmployee = () => {
         ...prevState,
         [name] : value
        }))
-         
+        setIsSubmitted(false);
     };
     console.log("firstname", datas.firstname);
     console.log("lastname", datas.lastname);
@@ -58,6 +58,7 @@ const FormAddEmployee = () => {
             [name]: value
           }
         }));
+        setIsSubmitted(false);
     };
 
     // handle change department and store value in state
@@ -67,6 +68,7 @@ const FormAddEmployee = () => {
             ...prevState,
             department: selectedDepartment
         }));
+        setIsSubmitted(false);
     }
     console.log("datas",datas);
 
@@ -81,27 +83,34 @@ const FormAddEmployee = () => {
     const saveEmployee = (e) => {
         e.preventDefault();
         if (datas) {
-          setDatasEmployee(datas);
-          setIsSubmitted(!isSubmitted);
-          setDatas({
-            firstname: "",
-            lastname: "",
-            dateOfBirth: "",
-            startDate: "",
-            adress: {
-              street: "",
-              city: "",
-              state: "",
-              code: ""
-            },
-            department: ""
-          });
+            setDatasEmployee(prevEmployeeData => ({
+                ...prevEmployeeData ? prevEmployeeData : {},
+                datas: [...(prevEmployeeData?.datas || []), datas],
+              }));
+              
+                setDatas({
+                firstname: "",
+                lastname: "",
+                dateOfBirth: "",
+                startDate: "",
+                adress: {
+                    street: "",
+                    city: "",
+                    state: "",
+                    code: ""
+                },
+                department: ""
+            });
+            setIsSubmitted(!isSubmitted);
         } else {
-          alert("form not completed !");
+            alert("Form not completed !");
         }
-      };
-    
-    console.log("selected date", selectedDate)
+    };
+
+
+    console.log("selected date", selectedDate);
+    console.log("employee datas",datasEmployee);
+
     return (
         <div className="formaddemployee">
             <h2 className="form-title">

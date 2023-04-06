@@ -10,17 +10,17 @@ export const StateProvider = ({ children }) => {
     const [currentMonth, setCurrentMonth] = useState("");
     const [datas, setDatas] = useState(
         {
-        firstname: "",
-        lastname: "",
-        dateOfBirth:"",
-        startDate:"",
-        adress: {
-            street:"",
-            city:"",
-            state:"",
-            code:""
+        "firstname": "",
+        "lastname": "",
+        "dateOfBirth":"",
+        "startDate":"",
+        "adress": {
+            "street":"",
+            "city":"",
+            "state":"",
+            "code":""
         },
-        department:""
+        "department":""
         }
     );
     const state = {

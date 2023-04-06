@@ -112,7 +112,7 @@ const Datepicker = ({onSelect }) => {
           }, []).map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((day, dayIndex) => (
-                <td key={dayIndex} onClick={() => handleDateClick(day)}>
+                <td key={dayIndex} className="calendar-td" onClick={() => handleDateClick(day)}>
                   {day && day.getDate()}
                 </td>
               ))}
