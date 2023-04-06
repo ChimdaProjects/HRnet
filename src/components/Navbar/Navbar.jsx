@@ -1,6 +1,6 @@
 import React from "react";
 // router
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, } from 'react-router-dom';
 // img
 import logo from "../../assets/logo_wealth_health.jpg"
 // style
@@ -25,17 +25,12 @@ const Navbar = () => {
       <ul className="navbar-content">
         <li className="navbar-content-path">
             <NavLink to="/" exact style={linkStyle} >
-                Accueil
+                Create employee
             </NavLink>
         </li>
         <li className="navbar-content-path">
-            <NavLink to="/view-employees" exact style={linkStyle} >
-                Liste des employés
-            </NavLink>
-        </li>
-        <li className="navbar-content-path button-path">
-            <NavLink to="/create-employee" exact style={linkStyle} >
-                Ajouter un employé
+            <NavLink to="/current-employee" exact style={linkStyle} >
+                Current employees
             </NavLink>
         </li>
       </ul>
