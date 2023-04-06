@@ -6,9 +6,14 @@ import "./select.scss";
 
 const Select = ({data, id, name, value, onChange }) => {
     return (
-        <select id ={id} name={name} value={value} onChange={onChange}>
+        <select 
+            id ={id} 
+            name={name} 
+            value={value} 
+            onChange={onChange}
+        >
         {data.map((item, index) => (
-            <option 
+            <option
                 key={`${index}-${item}`} 
                 value={item.name}>
                     {item.name}

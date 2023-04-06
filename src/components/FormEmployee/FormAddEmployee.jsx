@@ -9,6 +9,7 @@ import Select from "../Select/Select";
 import {StateContext} from "../../utils/context/index"
 // datas
 import states from "../../datas/states"
+import departments from "../../datas/departments"
 /**
  * This function displays the form to add an employee
  * @returns {JSX} component react
@@ -201,20 +202,15 @@ const FormAddEmployee = () => {
                             />
                     </fieldset>
                     <div className="form-department">
-                    <label htmlFor="department">Department</label>
-                    <select 
-                        name="department" 
-                        id="department"
-                        value={datas.department}
-                        onChange={handleChangeDepartment}
-                        
-                    >
-                        <option>Sales</option>
-                        <option>Marketing</option>
-                        <option>Engineering</option>
-                        <option>Human Resources</option>
-                        <option>Legal</option>
-                    </select>
+                        <label htmlFor="department">Department</label>
+                        <Select 
+                                name="department" 
+                                id="department"
+                                value={datas.department}
+                                onChange={handleChangeDepartment}
+                                data={departments}
+                        />
+
                     </div>
                     
                 </div>
