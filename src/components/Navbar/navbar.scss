@@ -45,7 +45,15 @@
         color:white;
     }
 }
+.navbar-content-path a.active {
+    text-decoration: underline;
+    color: #6D8519;
+}
+.navbar-content-path a {
+    color: black;
+}
 .navbar-content-path:hover {
     scale: 1.1;
     color: rgb(3, 65, 3)
 }
+

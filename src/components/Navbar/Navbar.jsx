@@ -9,9 +9,8 @@ import "./navbar.scss"
 const Navbar = () => {
     const linkStyle = {
         textDecoration: 'none', 
-        color:'black'
       };
-   
+
   return (
     <nav className="navbar">
         <div className="navbar-logo">
@@ -24,12 +23,12 @@ const Navbar = () => {
         </div>
       <ul className="navbar-content">
         <li className="navbar-content-path">
-            <NavLink to="/" exact style={linkStyle} >
+            <NavLink to="/" exact="true" style={linkStyle} >
                 Create employee
             </NavLink>
         </li>
         <li className="navbar-content-path">
-            <NavLink to="/current-employee" exact style={linkStyle} >
+            <NavLink to="/current-employee" exact="true" style={linkStyle} >
                 Current employees
             </NavLink>
         </li>
