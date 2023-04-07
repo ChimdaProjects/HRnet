@@ -85,7 +85,6 @@ const Datepicker = ({onSelect }) => {
     return (
         showDatePicker && (
             <div className="calendar">
-                <p>Date selectionnée: {selectedDate? selectedDate.toLocaleDateString("en-US") : ""}</p>
                 <span className="calendar-close" onClick={closeDatePicker}>X</span>
                 <div className="calendar-header">
                     <button onClick={handlePrevMonthClick}>&lt;</button>

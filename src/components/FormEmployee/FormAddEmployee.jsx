@@ -50,20 +50,22 @@ const FormAddEmployee = () => {
         console.log("date formatée", formattedDate)
         setDatas({...datas, dateOfBirth: formattedDate});
     };
+    // formatting the start date
     const handleBlurStartDate = (event) => {
         const value = event.target.value;
         const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
         console.log("date formatée", formattedDate)
-        setDatas({...datas, startDate: formattedDate});
+        setDatas({...datas, startDate: formattedDate?formattedDate:value});
     };
-    
-    const now = new Date();
-    const day = now.getDate().toString().padStart(2, "0");
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-    const year = now.getFullYear().toString();
-    const formattedDateNow = `${month}/${day}/${year}`;
-
-console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
+    // function to format the date
+    const formattedDateNow = () => {
+        const now = new Date();
+        const day = now.getDate().toString().padStart(2, "0");
+        const month = (now.getMonth() + 1).toString().padStart(2, "0");
+        const year = now.getFullYear().toString();
+        const formattedDateNow = `${month}/${day}/${year}`;
+        return formattedDateNow;
+    }
 
     // get value of adress 
     const handleChangeAdress = (event) => {
@@ -78,13 +80,16 @@ console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
         const { value } = event.target;
         setDatas({ ...datas, department: value });
     };
-    const handleDateClick = (day) => {
-        console.log("day", day)
-        const date = day?day.toLocaleDateString("en-US"):"";
-        setDatas({ ...datas, dateOfBirth: date });
+    // get date selected by date picker
+    const handleDateSelect = (date) => {
+        const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
+        setSelectedDate(formattedDate);
+        setDatas({
+            ...datas,
+            dateOfBirth : formattedDate
+        })
         setShowDatePicker(false);
     };
-
     // submit the form with datas
     const saveEmployee = (e) => {
         e.preventDefault();
@@ -93,20 +98,27 @@ console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
                 ...prevEmployeeData ? prevEmployeeData : {},
                 datas: [...(prevEmployeeData?.datas || []), datas],
             }));
+            
             setIsSubmitted(!isSubmitted);
+            // clear values from form
+            resetForm();
+            // clear value of selectedDate
+            setSelectedDate("");
         } else {
             alert("Form not completed !");
         }
     };
-
-    function resetForm() {
+    // reset values from form
+    const resetForm = () => {
         setDatas({
           lastname: "",
           firstname: "",
           dateOfBirth: "",
+          startDate:"",
           adress: { street: "", city: "", code: "" },
           department: "",
         });
+        setSelectedDate("");
         setIsSubmitted(false);
     };
 
@@ -114,9 +126,6 @@ console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
         resetForm();
       }, []);
       
-      
-    //console.log("selected date", selectedDate);
-    //console.log("employee datas",datasEmployee);
 
     return (
         <div className="formaddemployee">
@@ -153,30 +162,31 @@ console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
                             type="text" 
                             name="dateOfBirth"
                             placeholder="MM/JJ/AAAA"
-                            value={datas.dateOfBirth}
+                            value={selectedDate? selectedDate : datas.dateOfBirth}
                             onBlur={handleBlur}
                             /*onFocus={() => setShowDatePicker(true)}*/ 
                             onChange={handleChangeDate}
-                           
+                        />
+                            <span onClick={()=> {setShowDatePicker(!showDatePicker)}}>
+                            <i className="fa-regular fa-calendar" ></i>
+                            </span>
                           
-                        />
-
-                        {/*showDatePicker || document.activeElement === document.getElementById('date-of-birth') ? (
-                        <Datepicker 
-                            onSelect = {handleChangeInputDate}
-                        />
-                        ) : null*/}
+                            { showDatePicker &&
+                                <Datepicker 
+                                    onSelect = {handleDateSelect}
+                                 />
+                            }
 
                         <label htmlFor="start-date">Start Date</label>
                         <input 
                             id="start-date" 
                             type="text"
                             name="startDate" 
-                            value={datas.startDate? datas.startDate : formattedDateNow}
+                            value={datas.startDate? datas.startDate : formattedDateNow()}
                             onBlur={handleBlurStartDate}
                             onChange={handleChangeDate}
-                            
                         />
+                         
                     </div>
                     <fieldset className="address">
                         <legend>Address</legend>

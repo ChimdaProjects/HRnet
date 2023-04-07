@@ -13,20 +13,19 @@ const Navbar = () => {
     <nav className="navbar">
         <div className="navbar-logo">
             <Link 
-                    to="/" 
-                    exact
-                >
-                    <img src={ logo } alt="logo of hrnet" className="navbar-logo-img" />
+                  to="/" 
+            >
+                  <img src={ logo } alt="logo of hrnet" className="navbar-logo-img" />
             </Link>
         </div>
       <ul className="navbar-content">
         <li className="navbar-content-path">
-            <NavLink to="/" exact="true" >
+            <NavLink to="/">
                 Create employee
             </NavLink>
         </li>
         <li className="navbar-content-path">
-            <NavLink to="/current-employee" exact="true" >
+            <NavLink to="/current-employee">
                 Current employees
             </NavLink>
         </li>
