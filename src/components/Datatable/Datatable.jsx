@@ -17,11 +17,11 @@ const Datatable = ({columnTitle, data}) => {
     
     let iconElement;
     if (clickCount === 0) {
-        iconElement = <i class="fa-solid fa-sort" style={{color: '#e1e2e5'}}></i>;
+        iconElement = <i className="fa-solid fa-sort" style={{color: '#e1e2e5'}}></i>;
     } else if (clickCount === 1) {
-        iconElement =  <i class="fa-solid fa-sort-up" style={{color: '#888EE0'}}></i>;
+        iconElement =  <i className="fa-solid fa-sort-up" style={{color: '#888EE0'}}></i>;
     } else {
-        iconElement = <i class="fa-solid fa-sort-down" style={{color: '##888EE0'}}></i>;
+        iconElement = <i className="fa-solid fa-sort-down" style={{color: '##888EE0'}}></i>;
     }
 
     // grey one entry out of 2
@@ -83,20 +83,22 @@ const Datatable = ({columnTitle, data}) => {
                 </tr>
             </thead>
             <tbody className="table-body">
-                {datas && (
-                    Object.keys(datas).map((key, index) => (
-                    <tr key={index} className={getRowClass(index)}>
-                        <td>{datas[key].firstname}</td>
-                        <td>{datas[key].lastname}</td>
-                        <td>{datas[key].startDate}</td>
-                        <td>{datas[key].department}</td>
-                        <td>{datas[key].dateOfBirth}</td>
-                        <td>{datas[key].adress.street}</td>
-                        <td>{datas[key].adress.city}</td>
-                        <td>{datas[key].adress.state}</td>
-                        <td>{datas[key].adress.code}</td>
-                    </tr>
-                )))}
+                {
+                    datas && (
+                        Object.keys(datas).map((key, index) => (
+                        <tr key={index} className={getRowClass(index)}>
+                            <td>{datas[key].firstname}</td>
+                            <td>{datas[key].lastname}</td>
+                            <td>{datas[key].startDate}</td>
+                            <td>{datas[key].department}</td>
+                            <td>{datas[key].dateOfBirth}</td>
+                            <td>{datas[key].adress.street}</td>
+                            <td>{datas[key].adress.city}</td>
+                            <td>{datas[key].adress.state}</td>
+                            <td>{datas[key].adress.code}</td>
+                        </tr>
+                    )))
+                }
             </tbody>
       </table>
         </>

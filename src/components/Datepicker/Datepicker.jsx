@@ -70,8 +70,7 @@ const Datepicker = ({onSelect }) => {
       
         days.push(new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i));
       }
-      
-  
+
       // Remplissez les jours du mois suivant
       for (let i = 0; i < 6 - lastDayOfMonth; i++) {
         days.push(null);
@@ -84,49 +83,52 @@ const Datepicker = ({onSelect }) => {
     }
 
     return (
-
         showDatePicker && (
-          <div className="calendar">
-          <p>{selectedDate? selectedDate.toLocaleDateString("fr-FR") : ""}</p>
-        <span className="calendar-close" onClick={closeDatePicker}>X</span>
-      <div className="calendar-header">
-        <button onClick={handlePrevMonthClick}>&lt;</button>
-        <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
-        <button onClick={handleNextMonthClick}>&gt;</button>
-      </div>
-      <table className="calendar-table">
-        <thead>
-          <tr>
-            {getWeekdayNames().map((weekday) => (
-              <th key={weekday}>{weekday}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {getCalendarDays().reduce((rows, day, index) => {
-            if (index % 7 === 0) {
-              rows.push([]);
-            }
-            rows[rows.length - 1].push(day);
-            return rows;
-          }, []).map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((day, dayIndex) => (
-                <td key={dayIndex} className="calendar-td" onClick={() => handleDateClick(day)}>
-                  {day && day.getDate()}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-  </div>
-        )
-        
-         )
-          
-    
-    
+            <div className="calendar">
+                <p>Date selectionnée: {selectedDate? selectedDate.toLocaleDateString("en-US") : ""}</p>
+                <span className="calendar-close" onClick={closeDatePicker}>X</span>
+                <div className="calendar-header">
+                    <button onClick={handlePrevMonthClick}>&lt;</button>
+                    <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
+                    <button onClick={handleNextMonthClick}>&gt;</button>
+                </div>
+                <table className="calendar-table">
+                    <thead>
+                        <tr>
+                            {
+                                getWeekdayNames().map((weekday) => (
+                                    <th key={weekday}>{weekday}</th>
+                                ))
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            getCalendarDays().reduce((rows, day, index) => {
+                                if (index % 7 === 0) {
+                                    rows.push([]);
+                                }
+                            rows[rows.length - 1].push(day);
+                            return rows;
+                            }, []).map((row, rowIndex) => (
+                                <tr key={rowIndex}> 
+                                {
+                                    row.map((day, dayIndex) => (
+                                        <td key={dayIndex} className="calendar-td" onClick={() => handleDateClick(day)}>
+                                            {
+                                                day && day.getDate()
+                                            }
+                                        </td>
+                                    ))
+                                }
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+          )
+    )   
 }
 
 export default Datepicker;

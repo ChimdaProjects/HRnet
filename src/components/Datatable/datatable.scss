@@ -23,8 +23,14 @@
 .table {
     width: 100%;
     border: 5px solid #6D8519;
+   
     //height: 100vh;
     border-collapse: collapse;
+    &-body {
+        & tr {
+            height: 2.5rem;
+        }
+    }
     &-icon {
         margin-left: 0.5rem;
     }
@@ -48,4 +54,8 @@
 .odd-row {
     border: 1px solid rgb(241, 235, 235);
     background-color: #F9F9F9;
+}
+
+.odd-row, .even-row {
+    height: 2rem;
 }

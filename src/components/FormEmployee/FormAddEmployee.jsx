@@ -1,4 +1,4 @@
-import React, {useState, useRef, useContext} from "react";
+import React, {useContext, useEffect} from "react";
 // style
 import "./formemployee.scss"
 // components
@@ -10,6 +10,8 @@ import {StateContext} from "../../utils/context/index"
 // datas
 import states from "../../datas/states"
 import departments from "../../datas/departments"
+
+import moment from "moment";
 /**
  * This function displays the form to add an employee
  * @returns {JSX} component react
@@ -31,54 +33,58 @@ const FormAddEmployee = () => {
         setDatas 
     } = useContext(StateContext);
 
-    // handle change input (firstname, lastname)
-    const handleChangeInput = (e) => {
-       const { name, value } = e.target;
-       setDatas((prevState) => ({
-        ...prevState,
-        [name] : value
-       }))
-        setIsSubmitted(false);
+    // get value of firstname, lastname 
+    const handleChangeInput = (event) => {
+    const { name, value } = event.target;
+        setDatas({ ...datas, [name]: value });
     };
-    console.log("firstname", datas.firstname);
-    console.log("lastname", datas.lastname);
-
-    // handle change for input's date
-    const handleChangeInputDate = (e) => {
-
-    }
-
-    // handle change adress and store value in state
-    const handleChangeAdress = (e) => {
-        const { name, value } = e.target;
-        setDatas((prevState) => ({
-          ...prevState,
-          adress: {
-            ...prevState.adress,
-            [name]: value
-          }
-        }));
-        setIsSubmitted(false);
+    // get value of date's input
+    const handleChangeDate = (event) => {
+    const { name, value } = event.target;
+    setDatas({ ...datas, [name]: value });
+    };
+    // formatting the date entry
+    const handleBlur = (event) => {
+        const value = event.target.value;
+        const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
+        console.log("date formatée", formattedDate)
+        setDatas({...datas, dateOfBirth: formattedDate});
+    };
+    const handleBlurStartDate = (event) => {
+        const value = event.target.value;
+        const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
+        console.log("date formatée", formattedDate)
+        setDatas({...datas, startDate: formattedDate});
     };
 
-    // handle change department and store value in state
-    const handleChangeDepartment = (e) => {
-        const selectedDepartment = e.target.value;
-        setDatas(prevState => ({
-            ...prevState,
-            department: selectedDepartment
-        }));
-        setIsSubmitted(false);
-    }
-    console.log("datas",datas);
+    const now = new Date();
+    const day = now.getDate().toString().padStart(2, "0");
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    const year = now.getFullYear().toString();
+    const formattedDateNow = `${month}/${day}/${year}`;
 
+console.log(formattedDateNow); // Affiche la date du jour au format "MM/JJ/AAAA"
+
+    // get value of adress 
+    const handleChangeAdress = (event) => {
+        const { name, value } = event.target;
+        setDatas({
+          ...datas,
+          adress: { ...datas.adress, [name]: value }
+        });
+    };
+    // get value of department
+    const handleChangeDepartment = (event) => {
+        const { value } = event.target;
+        setDatas({ ...datas, department: value });
+    };
     const handleDateClick = (day) => {
-    console.log("day", day)
-    const selectedDate = `${day.getDate()} / ${day.getMonth() + 1} / ${day.getFullYear()}`;
-    setDatas({ ...datas, dateOfBirth: selectedDate });
-    setShowDatePicker(false);
+        console.log("day", day)
+        const date = day?day.toLocaleDateString("en-US"):"";
+        setDatas({ ...datas, dateOfBirth: date });
+        setShowDatePicker(false);
     };
-      
+
     // submit the form with datas
     const saveEmployee = (e) => {
         e.preventDefault();
@@ -86,30 +92,31 @@ const FormAddEmployee = () => {
             setDatasEmployee(prevEmployeeData => ({
                 ...prevEmployeeData ? prevEmployeeData : {},
                 datas: [...(prevEmployeeData?.datas || []), datas],
-              }));
-              
-                setDatas({
-                firstname: "",
-                lastname: "",
-                dateOfBirth: "",
-                startDate: "",
-                adress: {
-                    street: "",
-                    city: "",
-                    state: "",
-                    code: ""
-                },
-                department: ""
-            });
+            }));
             setIsSubmitted(!isSubmitted);
         } else {
             alert("Form not completed !");
         }
     };
 
+    function resetForm() {
+        setDatas({
+          lastname: "",
+          firstname: "",
+          dateOfBirth: "",
+          adress: { street: "", city: "", code: "" },
+          department: "",
+        });
+        setIsSubmitted(false);
+    };
 
-    console.log("selected date", selectedDate);
-    console.log("employee datas",datasEmployee);
+    useEffect(() => {
+        resetForm();
+      }, []);
+      
+      
+    //console.log("selected date", selectedDate);
+    //console.log("employee datas",datasEmployee);
 
     return (
         <div className="formaddemployee">
@@ -119,7 +126,7 @@ const FormAddEmployee = () => {
             <form action="#" id="create-employee" onSubmit={saveEmployee} >
                 <div className="form-content">
                     <div className="form-left">
-                    
+        
                         <label htmlFor="first-name">First Name</label>
                         <input 
                             type="text" 
@@ -128,7 +135,7 @@ const FormAddEmployee = () => {
                             value={datas.firstname}
                             onChange={handleChangeInput}
                             required
-                            />
+                        />
 
                         <label htmlFor="last-name">Last Name</label>
                         <input 
@@ -137,35 +144,39 @@ const FormAddEmployee = () => {
                             name="lastname" 
                             value={datas.lastname}
                             onChange={handleChangeInput}
-                      
-                            />
+                        />
                         
                         
                         <label htmlFor="date-of-birth">Date of Birth</label>
                         <input 
                             id="date-of-birth" 
                             type="text" 
-                            name="dateOfbirth"
-                            value={selectedDate?selectedDate.toLocaleDateString("fr-FR"):""}
-                            onChange={handleChangeInputDate}
+                            name="dateOfBirth"
+                            placeholder="MM/JJ/AAAA"
+                            value={datas.dateOfBirth}
+                            onBlur={handleBlur}
+                            /*onFocus={() => setShowDatePicker(true)}*/ 
+                            onChange={handleChangeDate}
+                           
                           
                         />
 
-                        {showDatePicker || document.activeElement === document.getElementById('date-of-birth') ? (
+                        {/*showDatePicker || document.activeElement === document.getElementById('date-of-birth') ? (
                         <Datepicker 
-                            onSelect = {selectedDate}
+                            onSelect = {handleChangeInputDate}
                         />
-                        ) : null}
+                        ) : null*/}
 
                         <label htmlFor="start-date">Start Date</label>
                         <input 
                             id="start-date" 
                             type="text"
                             name="startDate" 
-                            value={datas.startDate}
-                            onChange={handleChangeInputDate}
+                            value={datas.startDate? datas.startDate : formattedDateNow}
+                            onBlur={handleBlurStartDate}
+                            onChange={handleChangeDate}
                             
-                            />
+                        />
                     </div>
                     <fieldset className="address">
                         <legend>Address</legend>
@@ -178,7 +189,7 @@ const FormAddEmployee = () => {
                             value={datas.adress.street}
                             onChange={handleChangeAdress}
                            
-                            />
+                        />
 
                         <label htmlFor="city">City</label>
                         <input 
@@ -188,7 +199,7 @@ const FormAddEmployee = () => {
                             value={datas.adress.city}
                             onChange={handleChangeAdress}
                             
-                            />
+                        />
 
                         <label htmlFor="state">State</label>
                         <Select 
@@ -199,7 +210,6 @@ const FormAddEmployee = () => {
                             data={states}
                         />
 
-
                         <label htmlFor="zip-code">Zip Code</label>
                         <input 
                             id="zip-code" 
@@ -208,8 +218,9 @@ const FormAddEmployee = () => {
                             value={datas.adress.code}
                             onChange={handleChangeAdress}
                             
-                            />
+                        />
                     </fieldset>
+
                     <div className="form-department">
                         <label htmlFor="department">Department</label>
                         <Select 
