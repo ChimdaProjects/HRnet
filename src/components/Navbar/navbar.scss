@@ -46,11 +46,13 @@
     }
 }
 .navbar-content-path a.active {
-    text-decoration: underline;
+    border-bottom: 2px solid #6D8519;
+    padding-bottom: 0.2rem;
     color: #6D8519;
 }
 .navbar-content-path a {
     color: black;
+    text-decoration: none;
 }
 .navbar-content-path:hover {
     scale: 1.1;

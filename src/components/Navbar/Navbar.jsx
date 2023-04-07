@@ -7,9 +7,7 @@ import logo from "../../assets/logo_wealth_health.jpg"
 import "./navbar.scss"
 
 const Navbar = () => {
-    const linkStyle = {
-        textDecoration: 'none', 
-      };
+    
 
   return (
     <nav className="navbar">
@@ -23,12 +21,12 @@ const Navbar = () => {
         </div>
       <ul className="navbar-content">
         <li className="navbar-content-path">
-            <NavLink to="/" exact="true" style={linkStyle} >
+            <NavLink to="/" exact="true" >
                 Create employee
             </NavLink>
         </li>
         <li className="navbar-content-path">
-            <NavLink to="/current-employee" exact="true" style={linkStyle} >
+            <NavLink to="/current-employee" exact="true" >
                 Current employees
             </NavLink>
         </li>
