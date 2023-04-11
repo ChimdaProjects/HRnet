@@ -10,6 +10,7 @@ const Datepicker = ({onSelect }) => {
     const [showDatePicker, setShowDatePicker] = useState(true);
     const [monthSelected, setMonthSelected] = useState(new Date().getMonth());
     const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
+    const [showSelectionDate, setShowSelectionDate] = useState(false);
   const handleDateClick = (date) => {
       setSelectedDate(date);
       if (onSelect) {
@@ -21,12 +22,23 @@ const Datepicker = ({onSelect }) => {
       setDisplayedMonth(
         new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1)
       );
+      setMonthSelected(monthSelected - 1);
+      // si le mois est égal à Janvier
+      if (monthSelected === 0) {
+        setYearSelected(yearSelected-1);
+        setMonthSelected(monthSelected+11);
+      }
     };
     // when the user clicks to display the next month
     const handleNextMonthClick = () => {
       setDisplayedMonth(
         new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1)
       );
+      setMonthSelected(monthSelected + 1);
+      if (monthSelected === 11) {
+        setYearSelected(yearSelected+1);
+         setMonthSelected(monthSelected-11);
+      }
     };
     // number days of current month
     const getDaysInMonth = (date) => {
@@ -111,33 +123,43 @@ const Datepicker = ({onSelect }) => {
       setDisplayedMonth(new Date(yearSelected, monthSelected));
       
     }
-
+    const handleSelectionDate = () => {
+      setShowSelectionDate(!showSelectionDate);
+      const date = document.querySelector(".calendar-title");
+      date.style.display="none";
+    }
 
     return (
         showDatePicker && (
             <div className="calendar">
-                <span className="calendar-close" onClick={closeDatePicker}>X</span>
+                <span className="calendar-close" onClick={closeDatePicker}><i class="fa-solid fa-xmark"></i></span>
                 <div className="calendar-header">
-                    <button onClick={handlePrevMonthClick}>&lt;</button>
-                    <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
-
-                    <select value= {monthSelected} onChange={handleMonthSelected}>
-                      {getMonthNames().map((month, index)=> {
-                        return (
-                          <option key={month} value={index} >
-                            {month}
-                          </option>
+                    <button className="calendar-header-left" onClick={handlePrevMonthClick}>&lt;</button>
+                    <h2 className="calendar-title" onClick={handleSelectionDate}>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
+                      {
+                        showSelectionDate && (
+                          <>
+                            <select className="calendar-month" value={monthSelected} onChange={handleMonthSelected}>
+                         
+                              { getMonthNames().map((month, index) => {
+                                return (
+                                  <option key={month} value={index}>
+                                  {month}
+                                </option>  
+                                );
+                              })}
+                            </select>
+                            <select className="calendar-year"value={yearSelected} onChange={handleYearSelected}>
+                                {years.map((year) => {
+                                  return (
+                                    <option key={year} value={year}>{year}</option>
+                                  );
+                                })}
+                              </select>
+                            </>
                         )
-                      })}
-                    </select>
-                    <select value= {yearSelected} onChange={handleYearSelected}>
-                        {years.map((year)=> {
-                          return (
-                            <option key={year} value={year}>{year}</option>
-                          )
-                        })}
-                    </select>
-                    <button onClick={handleNextMonthClick}>&gt;</button>
+                      }
+                    <button className="calendar-header-right" onClick={handleNextMonthClick}>&gt;</button>
                 </div>
                 <table className="calendar-table">
                     <thead>

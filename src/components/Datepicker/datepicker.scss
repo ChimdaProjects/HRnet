@@ -9,12 +9,12 @@
     &-close {
         display: flex;
         justify-content: right;
-        padding: 1rem;
+        padding: 1rem 1rem 0 0;
     }
     
     &-header {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
         color: green;
         padding: 0 2rem;
 
@@ -27,7 +27,45 @@
                 color: green;
             }
         }
+
+        &-left {
+           margin-left: 3rem; 
+        }
+        &-right {
+            margin-right:3rem;
+        }
     }
+    &-title {
+        cursor: pointer;
+        margin: 1rem auto;
+        &:hover {
+            color: rgb(118, 118, 250)
+        }
+    }
+    &-month, &-year {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        border: 1px solid rgb(236, 235, 235);
+        padding: 0.5rem;
+        border-radius: 10px;
+        margin: 0 auto;
+        font-family: 'roboto';
+        margin-bottom: 1rem;
+        cursor: pointer;
+        
+        &:hover {
+            border: 1px solid green;
+        }
+    }
+    &-month {
+        width: 8.5rem;
+        & option {
+            padding:1rem;
+            height:10rem;
+        }
+    }
+   
 
     &-table {
         padding: 0 1rem;
