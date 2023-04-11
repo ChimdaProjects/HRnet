@@ -8,14 +8,14 @@ const Datepicker = ({onSelect }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [displayedMonth, setDisplayedMonth] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(true);
-
+    const [monthSelected, setMonthSelected] = useState(new Date().getMonth());
+    const [yearSelected, setYearSelected] = useState(new Date().getFullYear());
   const handleDateClick = (date) => {
       setSelectedDate(date);
       if (onSelect) {
         onSelect(date);
       }
     };
-    console.log("selected date", selectedDate)
     // when the user clicks to display the previous month
     const handlePrevMonthClick = () => {
       setDisplayedMonth(
@@ -39,7 +39,18 @@ const Datepicker = ({onSelect }) => {
     const getWeekdayNames = () => {
       return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     };
-    
+
+    // names of month on 1 year
+    const getMonthNames = () => {
+      return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    };
+    // years on dropdown menu for year selection 
+    const years = [];
+    for (let i = 1949; i <= new Date().getFullYear(); i++) {
+      years.push(i);
+    }
+    years.sort((a,b) => b-a);
+
     const getCalendarDays = () => {
       //  nombre de jours dans le mois 
       const daysInMonth = getDaysInMonth(displayedMonth);
@@ -66,7 +77,7 @@ const Datepicker = ({onSelect }) => {
   
       // Remplir les jours du mois en cours
       for (let i = 1; i <= daysInMonth; i++) {
-        const calendrier =new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i) 
+        const calendrier = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i) 
       
         days.push(new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i));
       }
@@ -81,6 +92,26 @@ const Datepicker = ({onSelect }) => {
     const closeDatePicker = () => {
       setShowDatePicker(!showDatePicker)
     }
+    
+    // get month by select and display the calendar of this selection
+    const handleMonthSelected = (e) => {
+      const month = e.target.value;
+      console.log("month", month);
+      setMonthSelected(month);
+      setDisplayedMonth(
+        new Date(yearSelected, month)
+      );
+    } 
+
+    // get year
+    const handleYearSelected = (e) => {
+      const yearSelected = e.target.value;
+      console.log("year selected", yearSelected)
+      setYearSelected(yearSelected);
+      setDisplayedMonth(new Date(yearSelected, monthSelected));
+      
+    }
+
 
     return (
         showDatePicker && (
@@ -89,6 +120,23 @@ const Datepicker = ({onSelect }) => {
                 <div className="calendar-header">
                     <button onClick={handlePrevMonthClick}>&lt;</button>
                     <h2>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>
+
+                    <select value= {monthSelected} onChange={handleMonthSelected}>
+                      {getMonthNames().map((month, index)=> {
+                        return (
+                          <option key={month} value={index} >
+                            {month}
+                          </option>
+                        )
+                      })}
+                    </select>
+                    <select value= {yearSelected} onChange={handleYearSelected}>
+                        {years.map((year)=> {
+                          return (
+                            <option key={year} value={year}>{year}</option>
+                          )
+                        })}
+                    </select>
                     <button onClick={handleNextMonthClick}>&gt;</button>
                 </div>
                 <table className="calendar-table">
@@ -103,13 +151,17 @@ const Datepicker = ({onSelect }) => {
                     </thead>
                     <tbody>
                         {
-                            getCalendarDays().reduce((rows, day, index) => {
+                            getCalendarDays()
+                            .reduce(
+                              (rows, day, index) => {
                                 if (index % 7 === 0) {
                                     rows.push([]);
                                 }
-                            rows[rows.length - 1].push(day);
-                            return rows;
-                            }, []).map((row, rowIndex) => (
+                                rows[rows.length - 1].push(day);
+                                return rows;
+                              }, []
+                            )
+                            .map((row, rowIndex) => (
                                 <tr key={rowIndex}> 
                                 {
                                     row.map((day, dayIndex) => (
