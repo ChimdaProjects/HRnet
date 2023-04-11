@@ -19,14 +19,13 @@ import moment from "moment";
 const FormAddEmployee = () => {
     // import state from Context
     const { 
-        datasEmployee, 
         setDatasEmployee, 
         isSubmitted, 
-        setIsSubmitted, 
-        selectedDate, 
-        setSelectedDate, 
-        showDatePicker, 
-        setShowDatePicker, 
+        setIsSubmitted,  
+        showDatePickerBirth, 
+        setShowDatePickerBirth, 
+        showDatePickerStart,
+        setShowDatePickerStart,
         currentMonth, 
         setCurrentMonth,
         datas,
@@ -80,16 +79,25 @@ const FormAddEmployee = () => {
         const { value } = event.target;
         setDatas({ ...datas, department: value });
     };
-    // get date selected by date picker
+    // get selected date by date picker
     const handleDateSelect = (date) => {
         const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
-        setSelectedDate(formattedDate);
         setDatas({
             ...datas,
             dateOfBirth : formattedDate
         })
-        setShowDatePicker(false);
+        setShowDatePickerBirth(false);
     };
+
+    // get selected date by date picker
+    const handleDateSelectStart = (date) => {
+        const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
+        setDatas({
+            ...datas,
+            startDate: formattedDate
+        })
+        setShowDatePickerBirth(false);
+    }
     // submit the form with datas
     const saveEmployee = (e) => {
         e.preventDefault();
@@ -102,8 +110,7 @@ const FormAddEmployee = () => {
             setIsSubmitted(!isSubmitted);
             // clear values from form
             resetForm();
-            // clear value of selectedDate
-            setSelectedDate("");
+           
         } else {
             alert("Form not completed !");
         }
@@ -118,7 +125,6 @@ const FormAddEmployee = () => {
           adress: { street: "", city: "", code: "" },
           department: "",
         });
-        setSelectedDate("");
         setIsSubmitted(false);
     };
 
@@ -162,16 +168,16 @@ const FormAddEmployee = () => {
                             type="text" 
                             name="dateOfBirth"
                             placeholder="MM/JJ/AAAA"
-                            value={selectedDate? selectedDate : datas.dateOfBirth}
+                            value={datas.dateOfBirth}
                             onBlur={handleBlur}
                             /*onFocus={() => setShowDatePicker(true)}*/ 
                             onChange={handleChangeDate}
                         />
-                            <span onClick={()=> {setShowDatePicker(!showDatePicker)}}>
+                            <span onClick={()=> {setShowDatePickerBirth(!showDatePickerBirth)}}>
                             <i className="fa-regular fa-calendar" ></i>
                             </span>
                           
-                            { showDatePicker &&
+                            { showDatePickerBirth &&
                                 <Datepicker 
                                     onSelect = {handleDateSelect}
                                  />
@@ -186,6 +192,16 @@ const FormAddEmployee = () => {
                             onBlur={handleBlurStartDate}
                             onChange={handleChangeDate}
                         />
+                        <span onClick={()=> {setShowDatePickerStart(!showDatePickerStart)}}>
+                            <i className="fa-regular fa-calendar" ></i>
+                            </span>
+                          
+                        { showDatePickerStart &&
+                            <Datepicker 
+                                onSelect = {handleDateSelectStart}
+                                />
+                        }
+                        
                          
                     </div>
                     <fieldset className="address">
