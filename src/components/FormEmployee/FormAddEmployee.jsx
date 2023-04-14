@@ -147,7 +147,7 @@ const FormAddEmployee = () => {
                 if (value === "") {
                     setDepartmentError("Vous devez sélectionner un department.")
                 } else {
-                    setStateError("")
+                    setDepartmentError("")
                 }
                 break;
             
@@ -195,7 +195,8 @@ const FormAddEmployee = () => {
     };
     // get value of department
     const handleChangeDepartment = (event) => {
-        const { value } = event.target;
+        const { name, value } = event.target;
+        errorMsg(name, value);
         setDatas({ ...datas, department: value });
     };
     // get selected date by date picker
@@ -223,10 +224,40 @@ const FormAddEmployee = () => {
     // submit the form with datas
     const saveEmployee = (e) => {
         e.preventDefault();
-        if (lastnameError || firstnameError || dateError || startDateError || cityError || streetError || codeError || stateError || departmentError || datas.length < 10 ) {
+        if (lastnameError || firstnameError || dateError || startDateError || cityError || streetError || codeError || stateError || departmentError  ) {
             alert("Form not completed !");
-        } else {
-            setDatasEmployee(prevEmployeeData => ({
+            setIsSubmitted(false);
+        } else if (!datas.firstname || !datas.lastname || !datas.dateOfBirth || !datas.startDate || !datas.adress.street || !datas.adress.city || !datas.adress.state || !datas.adress.code || !datas.department) {
+            alert("Form not completed !");
+            setIsSubmitted(false);
+        if (!datas.firstname) {
+            setFirstnameError("Please enter your first name");
+        }
+        if (!datas.lastname) {
+            setLastnameError("Please enter your last name");
+        }
+        if (!datas.dateOfBirth) {
+            setdateError("Please enter your date of birth");
+        }
+        if (!datas.startDate) {
+            setStartDateError("Please enter your start date");
+        }
+        if (!datas.adress.street) {
+            setStreetError("Please enter your street");
+        }
+        if (!datas.adress.city) {
+            setCityError("Please enter your city");
+        }
+        if (!datas.adress.state) {
+            setStateError("Please enter your state");
+        }
+        if (!datas.adress.code) {
+            setCodeError("Please enter your code");
+        }
+        if (!datas.department) {
+            setDepartmentError("Please enter your department");
+        }
+        } else { setDatasEmployee(prevEmployeeData => ({
                 ...prevEmployeeData ? prevEmployeeData : {},
                 datas: [...(prevEmployeeData?.datas || []), datas],
             }));
