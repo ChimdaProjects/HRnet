@@ -47,6 +47,14 @@
     justify-content: space-between;
     width: 100%;
 }
+.form-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+}
+.error {
+    border :3px solid red;
+}
 
 label, option {
     margin: 0.5rem 0 0.2rem 0;

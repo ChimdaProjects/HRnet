@@ -149,7 +149,7 @@ const Datepicker = ({onSelect }) => {
                                 );
                               })}
                             </select>
-                            <select className="calendar-year"value={yearSelected} onChange={handleYearSelected}>
+                            <select className="calendar-year"value={yearSelected} onChange={handleYearSelected} >
                                 {years.map((year) => {
                                   return (
                                     <option key={year} value={year}>{year}</option>

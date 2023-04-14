@@ -4,13 +4,14 @@ import React from "react";
 import "./select.scss";
 
 
-const Select = ({data, id, name, value, onChange }) => {
+const Select = ({data, id, name, value, onChange, className }) => {
     return (
         <select 
             id ={id} 
             name={name} 
             value={value} 
             onChange={onChange}
+            className={className}
         >
         {data.map((item, index) => (
             <option

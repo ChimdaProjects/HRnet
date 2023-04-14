@@ -26,34 +26,152 @@ const FormAddEmployee = () => {
         setShowDatePickerBirth, 
         showDatePickerStart,
         setShowDatePickerStart,
-        currentMonth, 
-        setCurrentMonth,
         datas,
-        setDatas 
+        setDatas, 
+        setFirstnameError,
+        setLastnameError,
+        setdateError,
+        setStartDateError,
+        setStreetError,
+        setCityError,
+        setStateError,
+        setCodeError,
+        setDepartmentError,
+        firstnameError,
+        lastnameError,
+        dateError,
+        startDateError,
+        streetError,
+        stateError,
+        cityError,
+        codeError,
+        departmentError
+       
+       
     } = useContext(StateContext);
 
     // get value of firstname, lastname 
     const handleChangeInput = (event) => {
-    const { name, value } = event.target;
-        setDatas({ ...datas, [name]: value });
+        const { name, value } = event.target;
+        errorMsg(name, value);
+        setDatas({ ...datas, [name]: value }); 
+            
     };
+    // control validation format input  and select form 
+    const errorMsg = (name, value) => {
+        switch(name) {
+            case "firstname" :
+                if (value === "" || value.length < 2) {
+                    setFirstnameError(`Le champ ${name} ne peut être vide et doit contenir au min 2 caractères.`)
+                } else {
+                    const regex = /^[a-zA-ZÀ-ÿ\s'’.\-]*$/;
+                    if (!regex.test(value)) {
+                      
+                        setFirstnameError(`Le champ ${name} doit contenir uniquement des lettres`);
+                    }    
+                    else {
+                        setFirstnameError("")
+                    }
+                }
+                break;
+
+            case "lastname" :
+                if (value === "" || value.length < 2) {
+                    setLastnameError(`Le champ ${name} ne peut être vide et doit contenir au min 2 caractères.`)
+                } else {
+                    const regex = /^[a-zA-ZÀ-ÿ\s'’.\-]*$/;
+                    if (!regex.test(value)) {
+                      
+                        setLastnameError(`Le champ ${name} doit contenir uniquement des lettres`);
+                    }
+                    else {
+                        setLastnameError("")
+                    }
+                }
+            
+            case "dateOfBirth" :
+                if (value === "" || value.length<1) {
+                
+                    setdateError(`Le champ ${name} est requis.`)
+                } else {
+                   setdateError("");
+                  
+                }
+                break; 
+            
+            case "startDate" :
+                if (value === "" || value.length<1) {
+                    setStartDateError(`Le champ ${name} est requis.`)
+                } else {
+                    setStartDateError("");
+                  
+                }
+                break; 
+            case "street" :
+                if (value === "" || value.length < 2) {
+                    setStreetError(`Le champ ${name} ne peut être vide.`)
+                } else {
+                    setStreetError("")
+                }
+            case "city":
+                if (value === "" || value.length < 2) {
+                    setCityError(`Le champ ${name} ne peut être vide.`)
+                } else {
+                    setCityError("")
+                 
+                }
+                break;
+            case "state":
+                if (value === "") {
+                    setStateError("Vous devez choisir un état.")
+                } else {
+                    setStateError("")
+                }
+                break;
+            case "code":
+                if (value === "" ) {
+                    setCodeError(`Le champ ${name} ne peut être vide et doit contenir que des chiffres.`)
+                } else {
+                    const regex = /^[0-9]{1,5}$/;
+                    ;
+                    if (!regex.test(value)) {
+                      
+                        setCodeError(`Le champ ${name} doit contenir uniquement des chiffres et 5 caractères au max.`);
+                    }
+                    else {
+                        setCodeError("")
+                    }
+                }
+                break;
+            case "department":
+                if (value === "") {
+                    setDepartmentError("Vous devez sélectionner un department.")
+                } else {
+                    setStateError("")
+                }
+                break;
+            
+            default:
+                console.log(`Sorry, we are out of ${name}.`) 
+        }
+    }
     // get value of date's input
     const handleChangeDate = (event) => {
     const { name, value } = event.target;
+    errorMsg(name, value);
     setDatas({ ...datas, [name]: value });
     };
-    // formatting the date entry
+    // format the date of birth entered when there is no more focus in the input field 
     const handleBlur = (event) => {
         const value = event.target.value;
         const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
-        console.log("date formatée", formattedDate)
+    
         setDatas({...datas, dateOfBirth: formattedDate});
     };
-    // formatting the start date
+    // format the date of start entered when there is no more focus in the input field 
     const handleBlurStartDate = (event) => {
         const value = event.target.value;
         const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
-        console.log("date formatée", formattedDate)
         setDatas({...datas, startDate: formattedDate?formattedDate:value});
     };
     // function to format the date
@@ -66,9 +184,10 @@ const FormAddEmployee = () => {
         return formattedDateNow;
     }
 
-    // get value of adress 
+    // get value of adress fieldset
     const handleChangeAdress = (event) => {
         const { name, value } = event.target;
+        errorMsg(name, value);
         setDatas({
           ...datas,
           adress: { ...datas.adress, [name]: value }
@@ -86,6 +205,9 @@ const FormAddEmployee = () => {
             ...datas,
             dateOfBirth : formattedDate
         })
+   
+        setdateError("");
+        setStartDateError("");
         setShowDatePickerBirth(false);
     };
 
@@ -101,7 +223,9 @@ const FormAddEmployee = () => {
     // submit the form with datas
     const saveEmployee = (e) => {
         e.preventDefault();
-        if (datas) {
+        if (lastnameError || firstnameError || dateError || startDateError || cityError || streetError || codeError || stateError || departmentError || datas.length < 10 ) {
+            alert("Form not completed !");
+        } else {
             setDatasEmployee(prevEmployeeData => ({
                 ...prevEmployeeData ? prevEmployeeData : {},
                 datas: [...(prevEmployeeData?.datas || []), datas],
@@ -110,11 +234,10 @@ const FormAddEmployee = () => {
             setIsSubmitted(!isSubmitted);
             // clear values from form
             resetForm();
-           
-        } else {
-            alert("Form not completed !");
+            
         }
     };
+
     // reset values from form
     const resetForm = () => {
         setDatas({
@@ -126,6 +249,16 @@ const FormAddEmployee = () => {
           department: "",
         });
         setIsSubmitted(false);
+        // reset error message
+        setFirstnameError("");
+        setLastnameError("");
+        setdateError("");
+        setStartDateError("");
+        setStreetError("");
+        setCityError("");
+        setStateError("");
+        setCodeError("");
+        setDepartmentError("");
     };
 
     useEffect(() => {
@@ -150,7 +283,11 @@ const FormAddEmployee = () => {
                             value={datas.firstname}
                             onChange={handleChangeInput}
                             required
+                            className={firstnameError? "error" : ""}
                         />
+                        {firstnameError  && (
+                            <p className="form-error">{firstnameError}</p>
+                        )}
 
                         <label htmlFor="last-name">Last Name</label>
                         <input 
@@ -159,8 +296,11 @@ const FormAddEmployee = () => {
                             name="lastname" 
                             value={datas.lastname}
                             onChange={handleChangeInput}
+                            className={lastnameError? "error" : ""}
                         />
-                        
+                        {lastnameError && (
+                            <p className="form-error">{lastnameError}</p>
+                        )}
                         
                         <label htmlFor="date-of-birth">Date of Birth</label>
                         <input 
@@ -170,9 +310,13 @@ const FormAddEmployee = () => {
                             placeholder="MM/JJ/AAAA"
                             value={datas.dateOfBirth}
                             onBlur={handleBlur}
-                            /*onFocus={() => setShowDatePicker(true)}*/ 
                             onChange={handleChangeDate}
+                            className={dateError? "error" : ""}
                         />
+                        {dateError && (
+                            <p className="form-error">{dateError}</p>
+                        )}
+                       
                             <span onClick={()=> {setShowDatePickerBirth(!showDatePickerBirth)}}>
                             <i className="fa-regular fa-calendar" ></i>
                             </span>
@@ -188,10 +332,15 @@ const FormAddEmployee = () => {
                             id="start-date" 
                             type="text"
                             name="startDate" 
-                            value={datas.startDate? datas.startDate : formattedDateNow()}
+                            placeholder="MM/JJ/AAAA"
                             onBlur={handleBlurStartDate}
                             onChange={handleChangeDate}
+                            value={datas.startDate? datas.startDate : formattedDateNow()}
+                            className={startDateError? "error" : ""}
                         />
+                        {startDateError && (
+                            <p className="form-error">{startDateError}</p>
+                        )}
                         <span onClick={()=> {setShowDatePickerStart(!showDatePickerStart)}}>
                             <i className="fa-regular fa-calendar" ></i>
                             </span>
@@ -214,8 +363,11 @@ const FormAddEmployee = () => {
                             name="street"
                             value={datas.adress.street}
                             onChange={handleChangeAdress}
-                           
+                            className={streetError? "error" : ""} 
                         />
+                        {streetError && (
+                            <p className="form-error">{streetError}</p>
+                        )}
 
                         <label htmlFor="city">City</label>
                         <input 
@@ -224,8 +376,11 @@ const FormAddEmployee = () => {
                             name="city" 
                             value={datas.adress.city}
                             onChange={handleChangeAdress}
-                            
+                            className={cityError? "error" : ""} 
                         />
+                        {cityError && (
+                            <p className="form-error">{cityError}</p>
+                        )}
 
                         <label htmlFor="state">State</label>
                         <Select 
@@ -234,7 +389,11 @@ const FormAddEmployee = () => {
                             value={datas.adress.state}
                             onChange={handleChangeAdress}
                             data={states}
+                            className={stateError? "error":""}
                         />
+                         {stateError && (
+                            <p className="form-error">{stateError}</p>
+                        )}
 
                         <label htmlFor="zip-code">Zip Code</label>
                         <input 
@@ -243,8 +402,12 @@ const FormAddEmployee = () => {
                             name="code"
                             value={datas.adress.code}
                             onChange={handleChangeAdress}
-                            
+                            className={codeError? "error":""}
                         />
+                        {codeError && (
+                            <p className="form-error">{codeError}</p>
+                        )}
+
                     </fieldset>
 
                     <div className="form-department">
@@ -255,8 +418,11 @@ const FormAddEmployee = () => {
                                 value={datas.department}
                                 onChange={handleChangeDepartment}
                                 data={departments}
+                                className={departmentError? "error":""}
                         />
-
+                        {departmentError && (
+                            <p className="form-error">{departmentError}</p>
+                        )}
                     </div>
                     
                 </div>
