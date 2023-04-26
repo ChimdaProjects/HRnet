@@ -4,15 +4,21 @@ import './index.css';
 import App from '../src/components/App/App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { StateProvider } from './utils/context';
+import { FormProvider } from "./utils/context/formContext";
+import { ErrorProvider } from './utils/context/errorContext';
+import { DateProvider } from './utils/context/dateContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
-      <StateProvider>
-          <React.StrictMode>
-              <App />
-          </React.StrictMode>  
-      </StateProvider>
+      <FormProvider>
+        <DateProvider>
+            <ErrorProvider>
+                <React.StrictMode>
+                    <App />
+                </React.StrictMode>  
+            </ErrorProvider>
+        </DateProvider>
+      </FormProvider>
     </Router>
 );
 

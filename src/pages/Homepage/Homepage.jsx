@@ -18,7 +18,7 @@ const Homepage = () => {
             <main >
                 <div className="container">
                     <FormAddEmployee />
-                    {/*<Modal />*/}
+                    <Modal />
                   
                 </div>
             </main>

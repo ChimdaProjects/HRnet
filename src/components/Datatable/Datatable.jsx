@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import "./datatable.scss";
+
 const Datatable = ({columnTitle, data}) => {
     const datas = data.datas;
     console.log("datas", data);
@@ -7,14 +8,19 @@ const Datatable = ({columnTitle, data}) => {
     // state
     const [clickCount, setClickCount] = useState(0);
     const [clickedColumnIndex, setClickedColumnIndex] = useState(null);
-
+    const [datasTable, setDatasTable] = useState(data.datas);
+    
+    console.log("datatable", datasTable);
+    console.log("click count", clickCount)
     // grey one entry out of 2
      const getRowClass = (index) => {
         return index % 2 === 0 ? 'even-row' : 'odd-row';
     };
-
+    let sortedDatas = null;
     // when the user clicks on filter's icon
-    const handleClickIcon = (index) => {
+    const handleClickIcon = (index, e) => {
+        const id = e.target.id;
+        console.log("value", id);
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
             // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
@@ -23,7 +29,33 @@ const Datatable = ({columnTitle, data}) => {
             setClickCount(1);
             setClickedColumnIndex(index);
         }
-    };
+        console.log("index", index);
+        if (index === 0) {
+            console.log("je suis là!")
+            // filter by ascending order ( A - Z);
+            if (clickCount === 1) {
+                
+            sortedDatas = 
+            datasTable.sort((a, b) => (a.firstname < b.firstname) ? -1 : 1 );
+            console.log("sortedDatas A-Z", sortedDatas)
+    
+            setDatasTable(sortedDatas);
+            } else if 
+            
+            (clickCount === 2) {
+                sortedDatas = 
+                datasTable.sort((a, b) => (a.firstname > b.firstname) ? -1 : 1 );
+                console.log("sortedDatas Z-A", sortedDatas)
+        
+                setDatasTable(sortedDatas); 
+            } else {
+                setDatasTable(data.datas);
+            }
+            
+        }
+            
+        }   
+
 
    
     // searching term (not working)
@@ -77,6 +109,8 @@ const Datatable = ({columnTitle, data}) => {
                                         <i
                                             className="fa-solid fa-sort"
                                             style={{ color: "#e1e2e5" }}
+                                            id = {index}
+                                            
                                         ></i>
                                     );
                                 } else if (clickCount === 1) {
@@ -84,6 +118,7 @@ const Datatable = ({columnTitle, data}) => {
                                         <i
                                             className="fa-solid fa-sort-up"
                                             style={{ color: "#888EE0" }}
+                                            id = {index}
                                         ></i>
                                     );
                                 } else if (clickCount === 2) {
@@ -91,6 +126,7 @@ const Datatable = ({columnTitle, data}) => {
                                         <i
                                             className="fa-solid fa-sort-down"
                                             style={{ color: "##888EE0" }}
+                                            id = {index}
                                         ></i>
                                     );
                                 }
@@ -101,7 +137,7 @@ const Datatable = ({columnTitle, data}) => {
                                             className="table-icon"
                                             id={index}
                                             value={elt}
-                                            onClick={() => handleClickIcon(index)}
+                                            onClick={(e) => handleClickIcon(index, e)}
                                         >
                                             {iconElement}
                                         </span>
@@ -113,7 +149,7 @@ const Datatable = ({columnTitle, data}) => {
                 </thead>
                 <tbody className="table-body">
                     {
-                        datas && (
+                        datasTable && (
                             Object.keys(datas).map((key, index) => (
                             <tr key={index} className={getRowClass(index)}>
                                 <td>{datas[key].firstname}</td>
