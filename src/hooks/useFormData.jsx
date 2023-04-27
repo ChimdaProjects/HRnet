@@ -6,7 +6,6 @@ import { DateContext } from "../utils/context/dateContext";
 import useErrorMsg from "./useErrorMsg";
 // npm
 import moment from "moment";
-import { ErrorContext } from "../utils/context/errorContext";
 
 const useFormData = () => {
     const { datas, setDatasEmployee, setIsSubmitted, isSubmitted } = useContext(FormContext);

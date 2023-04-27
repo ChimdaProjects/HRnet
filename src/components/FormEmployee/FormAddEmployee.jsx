@@ -6,7 +6,6 @@ import Datepicker from "../Datepicker/Datepicker";
 import Modal from "../Modal/Modal";
 import Select from "../Select/Select";
 // context
-import { ErrorContext } from "../../utils/context/errorContext";
 import { DateContext } from "../../utils/context/dateContext";
 import { FormContext } from "../../utils/context/formContext";
 // datas
@@ -23,21 +22,16 @@ import { formattedDateNow } from "../../utils/services/date";
  */
 const FormAddEmployee = () => {
     // import state from Context
-    const { setDatasEmployee, isSubmitted, setIsSubmitted} = useContext(FormContext);
+    const { isSubmitted } = useContext(FormContext);
     const { showDatePickerBirth, setShowDatePickerBirth, showDatePickerStart, setShowDatePickerStart } = useContext(DateContext);
-    const {setErrorsMsg } = useContext(ErrorContext);
 
     // custom hook 
     const { datas, handleChange, resetForm, handleBlur, handleDateSelect, handleDateSelectStart, errorsMsg, saveEmployee } = useFormData();
     
-    // submit the form with datas
-   
-
     useEffect(() => {
         resetForm();
-      }, []);
+    }, []);
       
-
     return (
         <div className="formaddemployee">
             <h2 className="form-title">
@@ -46,7 +40,7 @@ const FormAddEmployee = () => {
             <form action="#" id="create-employee" onSubmit={saveEmployee} >
                 <div className="form-content">
                     <div className="form-left">
-        
+                        {/* firstname input */}
                         <label htmlFor="first-name">First Name</label>
                         <input 
                             type="text" 
@@ -60,7 +54,7 @@ const FormAddEmployee = () => {
                         {errorsMsg.firstname  && (
                             <p className="form-error">{errorsMsg.firstname}</p>
                         )}
-
+                        {/* lastname input */}
                         <label htmlFor="last-name">Last Name</label>
                         <input 
                             type="text" 
@@ -73,7 +67,7 @@ const FormAddEmployee = () => {
                         {errorsMsg.lastname && (
                             <p className="form-error">{errorsMsg.lastname}</p>
                         )}
-                        
+                        {/* date of birth input */}
                         <label htmlFor="date-of-birth">Date of Birth</label>
                         <input 
                             id="date-of-birth" 
@@ -98,7 +92,7 @@ const FormAddEmployee = () => {
                                     onSelect = {handleDateSelect}
                                  />
                             }
-
+                        {/* start date input */}
                         <label htmlFor="start-date">Start Date</label>
                         <input 
                             id="start-date" 
@@ -122,12 +116,11 @@ const FormAddEmployee = () => {
                                 onSelect = {handleDateSelectStart}
                             />
                         }
-                        
-                         
                     </div>
+
                     <fieldset className="address">
                         <legend>Address</legend>
-
+                        {/* street input */}
                         <label htmlFor="street">Street</label>
                         <input 
                             id="street" 
@@ -140,7 +133,7 @@ const FormAddEmployee = () => {
                         {errorsMsg.street && (
                             <p className="form-error">{errorsMsg.street}</p>
                         )}
-
+                        {/* city input */}
                         <label htmlFor="city">City</label>
                         <input 
                             id="city" 
@@ -153,7 +146,7 @@ const FormAddEmployee = () => {
                         {errorsMsg.city && (
                             <p className="form-error">{errorsMsg.city}</p>
                         )}
-
+                        {/* state input */}
                         <label htmlFor="state">State</label>
                         <Select 
                             name="state" 
@@ -166,7 +159,7 @@ const FormAddEmployee = () => {
                          {errorsMsg.state && (
                             <p className="form-error">{errorsMsg.state}</p>
                         )}
-
+                        {/* zip code input */}
                         <label htmlFor="zip-code">Zip Code</label>
                         <input 
                             id="zip-code" 
@@ -181,7 +174,7 @@ const FormAddEmployee = () => {
                         )}
 
                     </fieldset>
-
+                    {/* department input */}
                     <div className="form-department">
                         <label htmlFor="department">Department</label>
                         <Select 

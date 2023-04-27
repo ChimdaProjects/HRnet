@@ -32,6 +32,6 @@ module.exports = {
      'no-console': 'warn',
      // pas de variables inutilisées
      'no-unused-vars': 'warn',
-     "linebreak-style": 0
+     "linebreak-style": ["error", "windows"]
   },
 };
