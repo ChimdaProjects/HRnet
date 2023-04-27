@@ -132,7 +132,7 @@ const Datepicker = ({onSelect }) => {
     return (
         showDatePicker && (
             <div className="calendar">
-                <span className="calendar-close" onClick={closeDatePicker}><i class="fa-solid fa-xmark"></i></span>
+                <span className="calendar-close" onClick={closeDatePicker}><i className="fa-solid fa-xmark"></i></span>
                 <div className="calendar-header">
                     <button className="calendar-header-left" onClick={handlePrevMonthClick}>&lt;</button>
                     <h2 className="calendar-title" onClick={handleSelectionDate}>{displayedMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</h2>

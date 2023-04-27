@@ -17,9 +17,7 @@ const Homepage = () => {
             </header>
             <main >
                 <div className="container">
-                    <FormAddEmployee />
-                    <Modal />
-                  
+                    <FormAddEmployee />  
                 </div>
             </main>
             <footer>

@@ -1,7 +1,6 @@
-import React, {useContext, useEffect} from "react";
-
+import React, { useContext, useEffect } from "react";
 // style
-import "./formemployee.scss"
+import "./formemployee.scss";
 // components
 import Datepicker from "../Datepicker/Datepicker";
 import Modal from "../Modal/Modal";
@@ -11,12 +10,10 @@ import { ErrorContext } from "../../utils/context/errorContext";
 import { DateContext } from "../../utils/context/dateContext";
 import { FormContext } from "../../utils/context/formContext";
 // datas
-import states from "../../datas/states"
-import departments from "../../datas/departments"
-
-//custom hooks
+import states from "../../datas/states";
+import departments from "../../datas/departments";
+// custom hooks
 import useFormData from "../../hooks/useFormData";
-
 // utils
 import { formattedDateNow } from "../../utils/services/date";
 
@@ -26,73 +23,15 @@ import { formattedDateNow } from "../../utils/services/date";
  */
 const FormAddEmployee = () => {
     // import state from Context
-    const { datas, setDatasEmployee, isSubmitted, setIsSubmitted, setDatas} = useContext(FormContext);
+    const { setDatasEmployee, isSubmitted, setIsSubmitted} = useContext(FormContext);
     const { showDatePickerBirth, setShowDatePickerBirth, showDatePickerStart, setShowDatePickerStart } = useContext(DateContext);
-    const { errorsMsg, setErrorsMsg } = useContext(ErrorContext);
+    const {setErrorsMsg } = useContext(ErrorContext);
+
     // custom hook 
-    const { handleChange, resetForm, handleBlur, handleBlurStartDate, handleDateSelect, handleDateSelectStart } = useFormData();
+    const { datas, handleChange, resetForm, handleBlur, handleDateSelect, handleDateSelectStart, errorsMsg, saveEmployee } = useFormData();
     
-   
     // submit the form with datas
-    const saveEmployee = (e) => {
-        e.preventDefault();
-        if (errorsMsg) {
-            alert("Form not completed !");
-            setIsSubmitted(false);
-        } else if (!datas.firstname || !datas.lastname || !datas.dateOfBirth || !datas.startDate || !datas.adress.street || !datas.adress.city || !datas.adress.state || !datas.adress.code || !datas.department) {
-            alert("Form not completed !");
-            setIsSubmitted(false);
-        if (!datas.firstname) {
-            setErrorsMsg.firstname("Please enter your first name");
-        }
-        if (!datas.lastname) {
-            setErrorsMsg.lastname("Please enter your last name");
-        }
-        if (!datas.dateOfBirth) {
-            setErrorsMsg.dateOfBirth("Please enter your date of birth");
-        }
-        if (!datas.startDate) {
-            setErrorsMsg.startDate("Please enter your start date");
-        }
-        if (!datas.adress.street) {
-            setErrorsMsg.street("Please enter your street");
-        }
-        if (!datas.adress.city) {
-            setErrorsMsg.city("Please enter your city");
-        }
-        if (!datas.adress.state) {
-            setErrorsMsg.state("Please enter your state");
-        }
-        if (!datas.adress.code) {
-            setErrorsMsg.code("Please enter your code");
-        }
-        if (!datas.department) {
-            setErrorsMsg.department("Please enter your department");
-        }
-        } else { setDatasEmployee(prevEmployeeData => ({
-                ...prevEmployeeData ? prevEmployeeData : {},
-                datas: [...(prevEmployeeData?.datas || []), datas],
-            }));
-            
-            setIsSubmitted(!isSubmitted);
-            // clear values from form
-            resetForm();
-            
-        }
-    
-        setIsSubmitted(false);
-        // reset error message
-        setErrorsMsg.firstname("")
-        setErrorsMsg.lastname("");
-        setErrorsMsg.dateOfBirth("");
-        setErrorsMsg.startDate("");
-        setErrorsMsg.street("");
-        setErrorsMsg.city("");
-        setErrorsMsg.state("");
-        setErrorsMsg.code("");
-        setErrorsMsg.department("");
-                       
-    };
+   
 
     useEffect(() => {
         resetForm();
@@ -166,7 +105,7 @@ const FormAddEmployee = () => {
                             type="text"
                             name="startDate" 
                             placeholder="MM/JJ/AAAA"
-                            onBlur={handleBlurStartDate}
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             value={datas.startDate? datas.startDate : formattedDateNow()}
                             className={errorsMsg.startDate? "error" : ""}
