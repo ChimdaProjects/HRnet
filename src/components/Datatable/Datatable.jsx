@@ -11,6 +11,8 @@ const Datatable = ({columnTitle, data}) => {
     const [ dataList, setDataList ] = useState(initialDatas);
     const [displayedEntriesCount, setDisplayedEntriesCount] = useState(0);
     const [selectedEntries, setSelectedEntries] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
     // grey one entry out of 2
      const getRowClass = (index) => {
@@ -42,24 +44,20 @@ const Datatable = ({columnTitle, data}) => {
       };
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
-        console.log("je suis dans handleClickIcon")
-        console.log("clickcount", clickCount)
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
             // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
             const newClickCount = clickCount === 2 ? 0 : clickCount + 1;
             setClickCount(newClickCount);
-            console.log("clickcount if", newClickCount)
             filterData(index, newClickCount) 
         } else {
             setClickCount(1);
             setClickedColumnIndex(index);
-            console.log("clickcount else", clickCount)
             filterData(index, 1);
         }
     }    
     console.log("datalist", dataList)
-    console.log("_____________________");
+  
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
@@ -72,21 +70,34 @@ const Datatable = ({columnTitle, data}) => {
   
     const displayedData = dataList.slice(0, displayedEntriesCount)
     console.log("displayedData", displayedData);
-    
-    // searching term (not working)
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
 
+    // search term
     const handleChange = event => {
-    setSearchTerm(event.target.value);
+        const value = event.target.value;
+        setSearchTerm(event.target.value);
+        console.log("value search", value);
+        filterDataList();
     };
+    const filterDataList = () => {
+        const results = dataList.filter(data => {
+          // Filter the dataList based on the searchTerm
+          return Object.values(data).some(value =>
+            value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        });
+        // Store the filtered results in searchResults
+        setSearchResults(results);
+      };
+      
+    console.log("search term", searchTerm);
+    console.log("searchResults", searchResults);
     /*useEffect(() => {
-        const results = datas.filter(elt =>
-          datas.toLowerCase().includes(searchTerm)
+        const results = dataList.filter(elt =>
+          elt.toLowerCase().includes(searchTerm)
         );
         setSearchResults(results);
-      }, [searchTerm]);*/
-    
+      }, [searchTerm]);
+*/
     
     return (
         <>
@@ -167,6 +178,7 @@ const Datatable = ({columnTitle, data}) => {
                     </tr>
                 </thead>
                 <tbody className="table-body">
+                    
                 {
                     selectedEntries && displayedData ? (
                         displayedData.map((data, index) => (
@@ -183,20 +195,35 @@ const Datatable = ({columnTitle, data}) => {
                         </tr>
                         ))
                     ) : (
-                        dataList.map((data, index) => (
-                            <tr key={index} className={getRowClass(index)}>
-                                <td>{data.firstname}</td>
-                                <td>{data.lastname}</td>
-                                <td>{data.startDate}</td>
-                                <td>{data.department}</td>
-                                <td>{data.dateOfBirth}</td>
-                                <td>{data.street}</td>
-                                <td>{data.city}</td>
-                                <td>{data.state}</td>
-                                <td>{data.code}</td>
-                            </tr>
-                        ))
-                    )
+                            (searchTerm && searchResults.length > 0) ? (
+                              searchResults.map((data, index) => (
+                                <tr key={index} className={getRowClass(index)}>
+                                  <td>{data.firstname}</td>
+                                  <td>{data.lastname}</td>
+                                  <td>{data.startDate}</td>
+                                  <td>{data.department}</td>
+                                  <td>{data.dateOfBirth}</td>
+                                  <td>{data.street}</td>
+                                  <td>{data.city}</td>
+                                  <td>{data.state}</td>
+                                  <td>{data.code}</td>
+                                </tr>
+                              )))
+                            : 
+                            dataList.map((data, index) => (
+                                <tr key={index} className={getRowClass(index)}>
+                                    <td>{data.firstname}</td>
+                                    <td>{data.lastname}</td>
+                                    <td>{data.startDate}</td>
+                                    <td>{data.department}</td>
+                                    <td>{data.dateOfBirth}</td>
+                                    <td>{data.street}</td>
+                                    <td>{data.city}</td>
+                                    <td>{data.state}</td>
+                                    <td>{data.code}</td>
+                                </tr>
+                            )))
+                        
                 }
                 </tbody>
             </table>
