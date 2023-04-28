@@ -29,7 +29,7 @@ const Datatable = ({columnTitle, data}) => {
     const filterData = (indexClicked, clickCount) => {
         const column = columnName[indexClicked];
         let sortedDatas;
-        selectedEntries ? sortedDatas = [...displayedData] : sortedDatas = [...dataList] ; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
+        selectedEntries ? sortedDatas = [...displayedData] : (searchTerm && searchResults.length > 0) ? sortedDatas = searchResults : sortedDatas = [...dataList] ; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
         switch (clickCount) {
           case 1:
             sortedDatas.sort((a, b) => (a[column] < b[column] ? -1 : 1));
@@ -92,13 +92,10 @@ const Datatable = ({columnTitle, data}) => {
     console.log("search term", searchTerm);
     console.log("searchResults", searchResults);
     /*useEffect(() => {
-        const results = dataList.filter(elt =>
-          elt.toLowerCase().includes(searchTerm)
-        );
+        const results = filterDataList()
         setSearchResults(results);
-      }, [searchTerm]);
-*/
-    
+      }, [searchTerm]);*/
+
     return (
         <>
             <h2 className="datatable-title">Current Employee</h2>
@@ -178,7 +175,6 @@ const Datatable = ({columnTitle, data}) => {
                     </tr>
                 </thead>
                 <tbody className="table-body">
-                    
                 {
                     selectedEntries && displayedData ? (
                         displayedData.map((data, index) => (
