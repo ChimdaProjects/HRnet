@@ -1,63 +1,86 @@
 import React, {useState, useEffect} from "react";
 import "./datatable.scss";
+import employees from "../../datas/employees"
 
 const Datatable = ({columnTitle, data}) => {
-    const datas = data.datas;
-    console.log("datas", data);
+    const initialDatas = employees;
  
     // state
     const [clickCount, setClickCount] = useState(0);
     const [clickedColumnIndex, setClickedColumnIndex] = useState(null);
-    const [datasTable, setDatasTable] = useState(data.datas);
-    
-    console.log("datatable", datasTable);
-    console.log("click count", clickCount)
+    const [ dataList, setDataList ] = useState(initialDatas);
+    //console.log("datalist", dataList);
+    //console.log("click count usestate", clickCount)
+
     // grey one entry out of 2
      const getRowClass = (index) => {
         return index % 2 === 0 ? 'even-row' : 'odd-row';
     };
-    let sortedDatas = null;
+    
+    /*const filterData = (index, click) => {
+        if (index === 0) {
+            console.log("je suis dans filterData!")
+            let sortedDatas;
+            switch(click) {
+                case 0: 
+                    setDataList(initialDatas);
+                    console.log("0", dataList)
+                case 1:
+                    sortedDatas = dataList.sort((a, b) => (a.firstname < b.firstname) ? -1 : 1 );
+                    console.log("sortedDatas A-Z", sortedDatas);
+                    setDataList(sortedDatas)
+                    break;
+                case 2:
+                    sortedDatas= dataList.sort((a, b) => (a.firstname > b.firstname) ? -1 : 1 );
+                    console.log("sortedDatas Z-A", sortedDatas);
+                    setDataList(sortedDatas);
+                    break;
+                default: 
+                    setDataList(initialDatas);
+                
+            }
+        }
+    }*/
+    const columnName = ["firstname", "lastname", "startDate", "department", "dateOfBirth","street","city","state","code"]
+    const filterData = (indexClicked, clickCount) => {
+        const column = columnName[indexClicked];
+        console.log("column", column)
+   
+        let sortedDatas = [...initialDatas]; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
+        switch (clickCount) {
+          case 1:
+            sortedDatas.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+            break;
+          case 2:
+            sortedDatas.sort((a, b) => (a[column] > b[column] ? -1 : 1));
+            break;
+          default:
+            break;
+        }
+        setDataList(sortedDatas);
+      };
     // when the user clicks on filter's icon
-    const handleClickIcon = (index, e) => {
-        const id = e.target.id;
-        console.log("value", id);
+    const handleClickIcon = (index) => {
+        console.log("je suis dans handleClickIcon")
+        console.log("clickcount", clickCount)
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
             // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
-            setClickCount(clickCount === 2 ? 0 : clickCount + 1); 
+            const newClickCount = clickCount === 2 ? 0 : clickCount + 1;
+            setClickCount(newClickCount);
+            console.log("clickcount if", newClickCount)
+            filterData(index, newClickCount);
         } else {
             setClickCount(1);
             setClickedColumnIndex(index);
+            console.log("clickcount else", clickCount)
+            filterData(index, 1);
         }
-        console.log("index", index);
-        if (index === 0) {
-            console.log("je suis là!")
-            // filter by ascending order ( A - Z);
-            if (clickCount === 1) {
-                
-            sortedDatas = 
-            datasTable.sort((a, b) => (a.firstname < b.firstname) ? -1 : 1 );
-            console.log("sortedDatas A-Z", sortedDatas)
-    
-            setDatasTable(sortedDatas);
-            } else if 
-            
-            (clickCount === 2) {
-                sortedDatas = 
-                datasTable.sort((a, b) => (a.firstname > b.firstname) ? -1 : 1 );
-                console.log("sortedDatas Z-A", sortedDatas)
         
-                setDatasTable(sortedDatas); 
-            } else {
-                setDatasTable(data.datas);
-            }
-            
-        }
-            
-        }   
-
-
+    }    
    
+    console.log("datalist", dataList)
+    console.log("_____________________")
     // searching term (not working)
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -110,7 +133,6 @@ const Datatable = ({columnTitle, data}) => {
                                             className="fa-solid fa-sort"
                                             style={{ color: "#e1e2e5" }}
                                             id = {index}
-                                            
                                         ></i>
                                     );
                                 } else if (clickCount === 1) {
@@ -119,6 +141,8 @@ const Datatable = ({columnTitle, data}) => {
                                             className="fa-solid fa-sort-up"
                                             style={{ color: "#888EE0" }}
                                             id = {index}
+                                           
+                                      
                                         ></i>
                                     );
                                 } else if (clickCount === 2) {
@@ -127,17 +151,18 @@ const Datatable = ({columnTitle, data}) => {
                                             className="fa-solid fa-sort-down"
                                             style={{ color: "##888EE0" }}
                                             id = {index}
+                                           
                                         ></i>
                                     );
                                 }
                                 return (
-                                    <th className="table-head-row-title" key={index}>
+                                    <th className="table-head-row-title" key={`${index}-${elt}`}>
                                         {elt}
                                         <span
                                             className="table-icon"
                                             id={index}
                                             value={elt}
-                                            onClick={(e) => handleClickIcon(index, e)}
+                                            onClick={() => handleClickIcon(index)}
                                         >
                                             {iconElement}
                                         </span>
@@ -149,18 +174,18 @@ const Datatable = ({columnTitle, data}) => {
                 </thead>
                 <tbody className="table-body">
                     {
-                        datasTable && (
-                            Object.keys(datas).map((key, index) => (
+                       dataList && (
+                            Object.keys(initialDatas).map((key, index) => (
                             <tr key={index} className={getRowClass(index)}>
-                                <td>{datas[key].firstname}</td>
-                                <td>{datas[key].lastname}</td>
-                                <td>{datas[key].startDate}</td>
-                                <td>{datas[key].department}</td>
-                                <td>{datas[key].dateOfBirth}</td>
-                                <td>{datas[key].adress.street}</td>
-                                <td>{datas[key].adress.city}</td>
-                                <td>{datas[key].adress.state}</td>
-                                <td>{datas[key].adress.code}</td>
+                                <td>{initialDatas[key].firstname}</td>
+                                <td>{initialDatas[key].lastname}</td>
+                                <td>{initialDatas[key].startDate}</td>
+                                <td>{initialDatas[key].department}</td>
+                                <td>{initialDatas[key].dateOfBirth}</td>
+                                <td>{initialDatas[key].street}</td>
+                                <td>{initialDatas[key].city}</td>
+                                <td>{initialDatas[key].state}</td>
+                                <td>{initialDatas[key].code}</td>
                             </tr>
                         )))
                     }
