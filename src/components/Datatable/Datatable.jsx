@@ -9,44 +9,25 @@ const Datatable = ({columnTitle, data}) => {
     const [clickCount, setClickCount] = useState(0);
     const [clickedColumnIndex, setClickedColumnIndex] = useState(null);
     const [ dataList, setDataList ] = useState(initialDatas);
-    //console.log("datalist", dataList);
-    //console.log("click count usestate", clickCount)
+    const [displayedEntriesCount, setDisplayedEntriesCount] = useState(0);
+    const [selectedEntries, setSelectedEntries] = useState(false);
 
     // grey one entry out of 2
      const getRowClass = (index) => {
         return index % 2 === 0 ? 'even-row' : 'odd-row';
+
     };
-    
-    /*const filterData = (index, click) => {
-        if (index === 0) {
-            console.log("je suis dans filterData!")
-            let sortedDatas;
-            switch(click) {
-                case 0: 
-                    setDataList(initialDatas);
-                    console.log("0", dataList)
-                case 1:
-                    sortedDatas = dataList.sort((a, b) => (a.firstname < b.firstname) ? -1 : 1 );
-                    console.log("sortedDatas A-Z", sortedDatas);
-                    setDataList(sortedDatas)
-                    break;
-                case 2:
-                    sortedDatas= dataList.sort((a, b) => (a.firstname > b.firstname) ? -1 : 1 );
-                    console.log("sortedDatas Z-A", sortedDatas);
-                    setDataList(sortedDatas);
-                    break;
-                default: 
-                    setDataList(initialDatas);
-                
-            }
-        }
-    }*/
+
     const columnName = ["firstname", "lastname", "startDate", "department", "dateOfBirth","street","city","state","code"]
+    /**
+     * Filter datas by column when the users clicks to the filter icon.
+     * @param {number} indexClicked - index of column clicked
+     * @param {number} clickCount - counter of click (useState)
+     */
     const filterData = (indexClicked, clickCount) => {
         const column = columnName[indexClicked];
-        console.log("column", column)
-   
-        let sortedDatas = [...initialDatas]; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
+        let sortedDatas;
+        selectedEntries ? sortedDatas = [...displayedData] : sortedDatas = [...dataList] ; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
         switch (clickCount) {
           case 1:
             sortedDatas.sort((a, b) => (a[column] < b[column] ? -1 : 1));
@@ -69,18 +50,29 @@ const Datatable = ({columnTitle, data}) => {
             const newClickCount = clickCount === 2 ? 0 : clickCount + 1;
             setClickCount(newClickCount);
             console.log("clickcount if", newClickCount)
-            filterData(index, newClickCount);
+            filterData(index, newClickCount) 
         } else {
             setClickCount(1);
             setClickedColumnIndex(index);
             console.log("clickcount else", clickCount)
             filterData(index, 1);
         }
-        
     }    
-   
     console.log("datalist", dataList)
-    console.log("_____________________")
+    console.log("_____________________");
+    // Sort datas by entries selected
+    const handleClickSelect = (e) => {
+        const value = e.target.value;
+        console.log("value", value);
+        setDisplayedEntriesCount(parseInt(value));
+        setSelectedEntries(true);
+       
+    }
+    console.log("displayedDataEntries", displayedEntriesCount)
+  
+    const displayedData = dataList.slice(0, displayedEntriesCount)
+    console.log("displayedData", displayedData);
+    
     // searching term (not working)
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -102,11 +94,13 @@ const Datatable = ({columnTitle, data}) => {
             <div className="datatable-features">
                 <div className="datatable-sort">
                     <p>Show
-                        <select>
-                            <option>10</option> 
-                            <option>25</option> 
-                            <option>50</option> 
-                            <option>100</option> 
+                        <select
+                            onChange={handleClickSelect}
+                        >
+                            <option value="10">10</option> 
+                            <option value="25">25</option> 
+                            <option value="50">50</option> 
+                            <option value="100">100</option> 
                         </select>
                     entries
                     </p>
@@ -173,22 +167,37 @@ const Datatable = ({columnTitle, data}) => {
                     </tr>
                 </thead>
                 <tbody className="table-body">
-                    {
-                       dataList && (
-                            Object.keys(initialDatas).map((key, index) => (
+                {
+                    selectedEntries && displayedData ? (
+                        displayedData.map((data, index) => (
+                        <tr key={index} className={getRowClass(index)}>
+                            <td>{data.firstname}</td>
+                            <td>{data.lastname}</td>
+                            <td>{data.startDate}</td>
+                            <td>{data.department}</td>
+                            <td>{data.dateOfBirth}</td>
+                            <td>{data.street}</td>
+                            <td>{data.city}</td>
+                            <td>{data.state}</td>
+                            <td>{data.code}</td>
+                        </tr>
+                        ))
+                    ) : (
+                        dataList.map((data, index) => (
                             <tr key={index} className={getRowClass(index)}>
-                                <td>{initialDatas[key].firstname}</td>
-                                <td>{initialDatas[key].lastname}</td>
-                                <td>{initialDatas[key].startDate}</td>
-                                <td>{initialDatas[key].department}</td>
-                                <td>{initialDatas[key].dateOfBirth}</td>
-                                <td>{initialDatas[key].street}</td>
-                                <td>{initialDatas[key].city}</td>
-                                <td>{initialDatas[key].state}</td>
-                                <td>{initialDatas[key].code}</td>
+                                <td>{data.firstname}</td>
+                                <td>{data.lastname}</td>
+                                <td>{data.startDate}</td>
+                                <td>{data.department}</td>
+                                <td>{data.dateOfBirth}</td>
+                                <td>{data.street}</td>
+                                <td>{data.city}</td>
+                                <td>{data.state}</td>
+                                <td>{data.code}</td>
                             </tr>
-                        )))
-                    }
+                        ))
+                    )
+                }
                 </tbody>
             </table>
         </>
