@@ -3,13 +3,14 @@ import "./datatable.scss";
 import employees from "../../datas/employees"
 
 const Datatable = ({columnTitle, data}) => {
+    const dataForm = data.datas;
     const initialDatas = employees;
  
     // state
     const [clickCount, setClickCount] = useState(0);
     const [clickedColumnIndex, setClickedColumnIndex] = useState(null);
     const [ dataList, setDataList ] = useState(initialDatas);
-    const [displayedEntriesCount, setDisplayedEntriesCount] = useState(0);
+    const [displayedEntriesCount, setDisplayedEntriesCount] = useState(10);
     const [selectedEntries, setSelectedEntries] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -19,7 +20,7 @@ const Datatable = ({columnTitle, data}) => {
         return index % 2 === 0 ? 'even-row' : 'odd-row';
 
     };
-
+ 
     const columnName = ["firstname", "lastname", "startDate", "department", "dateOfBirth","street","city","state","code"]
     /**
      * Filter datas by column when the users clicks to the filter icon.
@@ -28,20 +29,22 @@ const Datatable = ({columnTitle, data}) => {
      */
     const filterData = (indexClicked, clickCount) => {
         const column = columnName[indexClicked];
-        let sortedDatas;
-        selectedEntries ? sortedDatas = [...displayedData] : (searchTerm && searchResults.length > 0) ? sortedDatas = searchResults : sortedDatas = [...dataList] ; // on utilise la variable initialDatas pour repartir des données initiales à chaque filtrage
+        setDataList((prevState) => {
+        // copy of prevState
+        let sortedDatas = [...prevState];
         switch (clickCount) {
-          case 1:
-            sortedDatas.sort((a, b) => (a[column] < b[column] ? -1 : 1));
-            break;
-          case 2:
-            sortedDatas.sort((a, b) => (a[column] > b[column] ? -1 : 1));
-            break;
-          default:
-            break;
+            case 1:
+                sortedDatas.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+                break;
+            case 2:
+                sortedDatas.sort((a, b) => (a[column] > b[column] ? -1 : 1));
+                break;
+            default:
+                break;
         }
-        setDataList(sortedDatas);
-      };
+        return sortedDatas;
+    });
+};
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
         // if index is the index of the clicked column
@@ -58,6 +61,35 @@ const Datatable = ({columnTitle, data}) => {
     }    
     console.log("datalist", dataList)
   
+    // search term
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+    };
+
+    // filter dataList by searchTerm
+    const filterDataList = () => {
+        const results = 
+            dataList.filter(data => {
+            // Filter the dataList based on the searchTerm
+            return Object.values(data).some(value =>
+                value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          );
+        });
+        // Store the filtered results in dataList
+        setDataList(results);
+    };
+    // datalist filter when there is a change in searchTerm
+    useEffect(()=> {
+        if(!searchTerm) {
+            setDataList(initialDatas);
+        } else {
+            filterDataList();
+        }
+        
+    }, [searchTerm]);
+
+    // PAGINATION
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
@@ -66,36 +98,24 @@ const Datatable = ({columnTitle, data}) => {
         setSelectedEntries(true);
        
     }
-    console.log("displayedDataEntries", displayedEntriesCount)
-  
-    const displayedData = dataList.slice(0, displayedEntriesCount)
-    console.log("displayedData", displayedData);
+    const [currentPage, setCurrentPage] = useState(1);
 
-    // search term
-    const handleChange = event => {
-        const value = event.target.value;
-        setSearchTerm(event.target.value);
-        console.log("value search", value);
-        filterDataList();
+    // Calcule le nombre total de pages
+    const pageCount = Math.ceil(dataList.length / displayedEntriesCount);
+  
+    // Extrait les données pour la page actuelle
+    const start = (currentPage - 1) * displayedEntriesCount;
+    const end = start + displayedEntriesCount;
+    const displayedData = dataList.slice(start, end);
+
+    // Change de page
+    const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
     };
-    const filterDataList = () => {
-        const results = dataList.filter(data => {
-          // Filter the dataList based on the searchTerm
-          return Object.values(data).some(value =>
-            value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-          );
-        });
-        // Store the filtered results in searchResults
-        setSearchResults(results);
-      };
+
       
     console.log("search term", searchTerm);
-    console.log("searchResults", searchResults);
-    /*useEffect(() => {
-        const results = filterDataList()
-        setSearchResults(results);
-      }, [searchTerm]);*/
-
+  
     return (
         <>
             <h2 className="datatable-title">Current Employee</h2>
@@ -176,8 +196,7 @@ const Datatable = ({columnTitle, data}) => {
                 </thead>
                 <tbody className="table-body">
                 {
-                    selectedEntries && displayedData ? (
-                        displayedData.map((data, index) => (
+                    displayedData.map((data, index) => (
                         <tr key={index} className={getRowClass(index)}>
                             <td>{data.firstname}</td>
                             <td>{data.lastname}</td>
@@ -189,40 +208,17 @@ const Datatable = ({columnTitle, data}) => {
                             <td>{data.state}</td>
                             <td>{data.code}</td>
                         </tr>
-                        ))
-                    ) : (
-                            (searchTerm && searchResults.length > 0) ? (
-                              searchResults.map((data, index) => (
-                                <tr key={index} className={getRowClass(index)}>
-                                  <td>{data.firstname}</td>
-                                  <td>{data.lastname}</td>
-                                  <td>{data.startDate}</td>
-                                  <td>{data.department}</td>
-                                  <td>{data.dateOfBirth}</td>
-                                  <td>{data.street}</td>
-                                  <td>{data.city}</td>
-                                  <td>{data.state}</td>
-                                  <td>{data.code}</td>
-                                </tr>
-                              )))
-                            : 
-                            dataList.map((data, index) => (
-                                <tr key={index} className={getRowClass(index)}>
-                                    <td>{data.firstname}</td>
-                                    <td>{data.lastname}</td>
-                                    <td>{data.startDate}</td>
-                                    <td>{data.department}</td>
-                                    <td>{data.dateOfBirth}</td>
-                                    <td>{data.street}</td>
-                                    <td>{data.city}</td>
-                                    <td>{data.state}</td>
-                                    <td>{data.code}</td>
-                                </tr>
-                            )))
-                        
+                    ))     
                 }
                 </tbody>
             </table>
+            <div>
+                {Array.from({ length: pageCount }).map((_, index) => (
+                <button key={index} onClick={() => handlePageChange(index + 1)}>
+                    {index + 1}
+                </button>
+                ))}
+            </div>
         </>
     )
 }
