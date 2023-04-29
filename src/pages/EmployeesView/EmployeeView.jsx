@@ -11,7 +11,7 @@ import { FormContext } from "../../utils/context/formContext";
  * @returns {JSX} page of current employees
  */
 const EmployeeView = () => {
-    const { datasEmployee } = useContext(FormContext);
+    
     
     const titleTable = ["first name", "last name", "start date", "department", "date of birth", "street", "city", "state", "zip code"]
     return (
@@ -22,7 +22,7 @@ const EmployeeView = () => {
         <main>
             <Datatable 
                 columnTitle={titleTable} 
-                data={datasEmployee}
+                
             />
         </main>
         </>

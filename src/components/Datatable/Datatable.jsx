@@ -1,26 +1,57 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import "./datatable.scss";
 import employees from "../../datas/employees"
+import { FormContext } from "../../utils/context/formContext";
+/**
+ * TODO: afficher que 10 pages => quel tableau choisir
+ * pb datalist lorsqu'on change la page tableau se vide useMemo???
+ *  */ 
 
-const Datatable = ({columnTitle, data}) => {
-    const dataForm = data.datas;
-    const initialDatas = employees;
- 
+const Datatable = ({columnTitle}) => {
+    //const {datasEmployee, setDatasEmployee} = useContext(FormContext);
+    const displayedData = employees.slice(0,10);
+    //const datasForm = datasEmployee.formData;
+   
     // state
-    const [clickCount, setClickCount] = useState(0);
-    const [clickedColumnIndex, setClickedColumnIndex] = useState(null);
-    const [ dataList, setDataList ] = useState(initialDatas);
+    const [ clickCount, setClickCount ] = useState(0);
+    const [ clickedColumnIndex, setClickedColumnIndex ] = useState(null);
+    const [ dataList, setDataList ] = useState(displayedData);
+    const [ searchTerm, setSearchTerm ] = useState("");
     const [displayedEntriesCount, setDisplayedEntriesCount] = useState(10);
-    const [selectedEntries, setSelectedEntries] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+   
+  
+    // Sort datas by entries selected
+    const handleClickSelect = (e) => {
+        const value = e.target.value;
+        setDisplayedEntriesCount(parseInt(value));
+    }
+
+    useEffect(()=> {
+        setDataList(displayDataForCurrentPage());
+    },[displayedEntriesCount, currentPage]);
+    
+    // the total number of pages
+    const pageCount = Math.ceil(initialDatas.length / displayedEntriesCount);
+    
+    // number of data for the current page
+    const displayDataForCurrentPage = () => {
+        const start = (currentPage - 1) * displayedEntriesCount;
+        const end = start + displayedEntriesCount;
+        const data = initialDatas.slice(start, end) ;
+        return data;
+    }
+   
+    // Change page
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);  
+    };
 
     // grey one entry out of 2
-     const getRowClass = (index) => {
+    const getRowClass = (index) => {
         return index % 2 === 0 ? 'even-row' : 'odd-row';
-
     };
- 
+
     const columnName = ["firstname", "lastname", "startDate", "department", "dateOfBirth","street","city","state","code"]
     /**
      * Filter datas by column when the users clicks to the filter icon.
@@ -44,7 +75,7 @@ const Datatable = ({columnTitle, data}) => {
         }
         return sortedDatas;
     });
-};
+    };
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
         // if index is the index of the clicked column
@@ -82,38 +113,13 @@ const Datatable = ({columnTitle, data}) => {
     // datalist filter when there is a change in searchTerm
     useEffect(()=> {
         if(!searchTerm) {
-            setDataList(initialDatas);
+            setDataList(dataList);
         } else {
             filterDataList();
         }
         
     }, [searchTerm]);
 
-    // PAGINATION
-    // Sort datas by entries selected
-    const handleClickSelect = (e) => {
-        const value = e.target.value;
-        console.log("value", value);
-        setDisplayedEntriesCount(parseInt(value));
-        setSelectedEntries(true);
-       
-    }
-    const [currentPage, setCurrentPage] = useState(1);
-
-    // Calcule le nombre total de pages
-    const pageCount = Math.ceil(dataList.length / displayedEntriesCount);
-  
-    // Extrait les données pour la page actuelle
-    const start = (currentPage - 1) * displayedEntriesCount;
-    const end = start + displayedEntriesCount;
-    const displayedData = dataList.slice(start, end);
-
-    // Change de page
-    const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    };
-
-      
     console.log("search term", searchTerm);
   
     return (
@@ -196,7 +202,7 @@ const Datatable = ({columnTitle, data}) => {
                 </thead>
                 <tbody className="table-body">
                 {
-                    displayedData.map((data, index) => (
+                    dataList.map((data, index) => (
                         <tr key={index} className={getRowClass(index)}>
                             <td>{data.firstname}</td>
                             <td>{data.lastname}</td>
@@ -213,11 +219,13 @@ const Datatable = ({columnTitle, data}) => {
                 </tbody>
             </table>
             <div>
-                {Array.from({ length: pageCount }).map((_, index) => (
-                <button key={index} onClick={() => handlePageChange(index + 1)}>
-                    {index + 1}
-                </button>
-                ))}
+                { 
+                    Array.from({ length: pageCount }).map((_, index) => (
+                        <button key={index} onClick={() => handlePageChange(index + 1)}>
+                            {index + 1}
+                        </button>
+                    ))
+                }
             </div>
         </>
     )

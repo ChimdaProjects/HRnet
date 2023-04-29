@@ -94,7 +94,7 @@ const useFormData = () => {
             // if a field is not completed, add an error msg to newErrorsMsg
             if (!formData[field]) {
             newErrorsMsg[field] = `Please enter your ${field}`;
-        }
+            }
         });
         // add to state
         setErrors({...errors, ...newErrorsMsg});
