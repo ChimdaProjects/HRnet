@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import "./pagination.scss"
-import { PaginationContext } from '../../utils/context/paginationContext';
 
 const Pagination = (props) => {
     const { entriesPerPage, totalEntries, paginate, start, end  } = props;
-    const {currentPage} = useContext(PaginationContext);
     // page numbers list
     const pages = [];
     for (let i = 1; i <= Math.ceil(totalEntries / entriesPerPage) ; i++) {
@@ -14,7 +12,7 @@ const Pagination = (props) => {
     return ( 
         <>
         <div>
-            <p>Showing {start+1} to {end} of {totalEntries} entries </p>
+            <p>Showing {start + 1} to {end} of {totalEntries} entries </p>
         </div>
         <nav className="pagination-nav">
             <ul className="pagination-list">
