@@ -70,6 +70,20 @@ const Datatable = ({ columnTitle, datas }) => {
         setCurrentPage(pageNumber);
     };
 
+    const handlePreviousPage = () => {
+        if(!currentPage === 1) {
+            setCurrentPage(currentPage-1)
+        }
+        
+    };
+
+    const handleNextPage = () => {
+        if (!currentPage === (Math.ceil(datas.length / entriesPerPage))) {
+            setCurrentPage(currentPage+1)
+        };
+        
+    };
+
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
@@ -195,12 +209,15 @@ const Datatable = ({ columnTitle, datas }) => {
             </tbody>
         </table>
         <Pagination
-            entriesPerPage={entriesPerPage}
-            totalEntries={dataList.length}
-            paginate={handlePageChange}
-            start={indexOfFirstEntry}
-            end={indexOfLastEntry}
-            currentPage={currentPage}
+            entriesPerPage = { entriesPerPage }
+            totalEntries = { dataList.length }
+            paginate = { handlePageChange }
+            start = { indexOfFirstEntry }
+            end = { indexOfLastEntry }
+            currentPage={ currentPage }
+            handlePreviousPage = { handlePreviousPage }
+            handleNextPage = { handleNextPage }
+
         />
     </>
   );

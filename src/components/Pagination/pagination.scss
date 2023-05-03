@@ -1,22 +1,35 @@
 .pagination {
-
+    font-family: "roboto", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
     &-list {
         list-style: none;
         display: flex;
         flex-direction: row;
         &-item{
-            &-btn {
-                font-family: "roboto";
+            &-btn {  
                 width: 2rem;
                 margin-right: 0.5rem;
                 height: 2rem;
-                border-radius: 5px;
+                border:none;
                 background-color: white;
                 cursor: pointer;
-            &:hover {
-                color:green;
-                font-style: bold;
-            }    
+                &:hover {
+                    background-color: black;
+                    color:white;
+                    font-weight: bold;
+                    border: 1px solid black;
+                    border-radius: 5px;
+                }    
+            }
+            &-btn-disabled {
+                width: 2rem;
+                margin-right: 0.5rem;
+                height: 2rem;
+                border:none;
+                background-color: white;
             }
         }
     }
@@ -24,6 +37,11 @@
 }
 
 .pagination-active {
-    background-color: red;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
+.prev, .next {
+    width: 100%;
+}
