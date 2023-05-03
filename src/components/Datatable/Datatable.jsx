@@ -14,6 +14,11 @@ const Datatable = ({ columnTitle, datas }) => {
     const [ indexOfLastEntry, setIndexOfLastEntry ] = useState(10);
     const [ indexOfFirstEntry, setIndexOfFirstEntry ] = useState(0);
 
+    // grey one entry out of 2
+    const getRowClass = (index) => {
+        return index % 2 === 0 ? "even-row" : "odd-row";
+    };
+
     const columnName = [
         "firstname",
         "lastname",
@@ -40,7 +45,7 @@ const Datatable = ({ columnTitle, datas }) => {
 
         if (indexColumn) {
             const column = columnName[indexColumn];
-
+            console.log("column", column)
             switch (clickCount) {
             case 1:
                 newResults.sort((a, b) => (a[column] < b[column] ? -1 : 1));
@@ -54,7 +59,7 @@ const Datatable = ({ columnTitle, datas }) => {
         }
 
     setDataList(newResults);
-  }, [searchTerm, indexColumn, clickCount, currentPage, entriesPerPage]);
+    }, [searchTerm, indexColumn, clickCount, currentPage, entriesPerPage]);
 
     useEffect(() => {
         const indexOfLastEntry = currentPage * entriesPerPage;
@@ -65,22 +70,27 @@ const Datatable = ({ columnTitle, datas }) => {
         setIndexOfFirstEntry(indexOfFirstEntry);
     }, [currentPage, entriesPerPage]);
 
-  // Change page
+    // Change page
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
-    const handlePreviousPage = () => {
-        if(!currentPage === 1) {
-            setCurrentPage(currentPage-1)
+    console.log("current page", currentPage);
+    const handlePreviousPage = (pageNumber) => {
+        pageNumber = currentPage;
+        if ( currentPage > 1 ) {
+            setCurrentPage(pageNumber - 1);
+            console.log("prev page if", currentPage);
         }
-        
+        console.log("prev page", currentPage);
     };
 
-    const handleNextPage = () => {
-        if (!currentPage === (Math.ceil(datas.length / entriesPerPage))) {
-            setCurrentPage(currentPage+1)
+    const handleNextPage = (pageNumber) => {
+        if (!currentPage === (Math.ceil(dataList.length / entriesPerPage))) {
+            console.log("next page 1", currentPage)
+            setCurrentPage( currentPage + 1);
+            
         };
+        console.log("next page", currentPage + 1);
         
     };
 
@@ -91,10 +101,7 @@ const Datatable = ({ columnTitle, datas }) => {
         setCurrentPage(1);
     };
 
-    // grey one entry out of 2
-    const getRowClass = (index) => {
-        return index % 2 === 0 ? "even-row" : "odd-row";
-    };
+
 
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
@@ -217,6 +224,7 @@ const Datatable = ({ columnTitle, datas }) => {
             currentPage={ currentPage }
             handlePreviousPage = { handlePreviousPage }
             handleNextPage = { handleNextPage }
+            setCurrentPage = { setCurrentPage }
 
         />
     </>
