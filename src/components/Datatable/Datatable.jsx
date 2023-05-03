@@ -1,51 +1,25 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useMemo} from "react";
 import "./datatable.scss";
-import employees from "../../datas/employees"
 import { FormContext } from "../../utils/context/formContext";
 /**
  * TODO: afficher que 10 pages => quel tableau choisir
  * pb datalist lorsqu'on change la page tableau se vide useMemo???
  *  */ 
 
-const Datatable = ({columnTitle}) => {
+const Datatable = ({columnTitle, datas}) => {
     //const {datasEmployee, setDatasEmployee} = useContext(FormContext);
-    const displayedData = employees.slice(0,10);
-    //const datasForm = datasEmployee.formData;
-   
+   console.log(datas);
     // state
     const [ clickCount, setClickCount ] = useState(0);
     const [ clickedColumnIndex, setClickedColumnIndex ] = useState(null);
-    const [ dataList, setDataList ] = useState(displayedData);
+    const [ dataList, setDataList ] = useState(datas);
     const [ searchTerm, setSearchTerm ] = useState("");
-    const [displayedEntriesCount, setDisplayedEntriesCount] = useState(10);
-    const [currentPage, setCurrentPage] = useState(1);
-   
-  
+
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
         setDisplayedEntriesCount(parseInt(value));
     }
-
-    useEffect(()=> {
-        setDataList(displayDataForCurrentPage());
-    },[displayedEntriesCount, currentPage]);
-    
-    // the total number of pages
-    const pageCount = Math.ceil(initialDatas.length / displayedEntriesCount);
-    
-    // number of data for the current page
-    const displayDataForCurrentPage = () => {
-        const start = (currentPage - 1) * displayedEntriesCount;
-        const end = start + displayedEntriesCount;
-        const data = initialDatas.slice(start, end) ;
-        return data;
-    }
-   
-    // Change page
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);  
-    };
 
     // grey one entry out of 2
     const getRowClass = (index) => {
@@ -97,7 +71,11 @@ const Datatable = ({columnTitle}) => {
         const value = e.target.value;
         setSearchTerm(value);
     };
-
+    const data = useMemo(() => {
+        if (!searchTerm) {
+            return 
+        }
+    }, [searchTerm])
     // filter dataList by searchTerm
     const filterDataList = () => {
         const results = 
@@ -113,14 +91,13 @@ const Datatable = ({columnTitle}) => {
     // datalist filter when there is a change in searchTerm
     useEffect(()=> {
         if(!searchTerm) {
-            setDataList(dataList);
+            const data = initialDatas.slice(displayDataForCurrentPage());
+            setDataList(data);
         } else {
             filterDataList();
         }
         
     }, [searchTerm]);
-
-    console.log("search term", searchTerm);
   
     return (
         <>
@@ -218,15 +195,6 @@ const Datatable = ({columnTitle}) => {
                 }
                 </tbody>
             </table>
-            <div>
-                { 
-                    Array.from({ length: pageCount }).map((_, index) => (
-                        <button key={index} onClick={() => handlePageChange(index + 1)}>
-                            {index + 1}
-                        </button>
-                    ))
-                }
-            </div>
         </>
     )
 }

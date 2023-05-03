@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import employees from "../../datas/employees";
 export const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
@@ -14,7 +15,7 @@ export const FormProvider = ({ children }) => {
         department:""
         }
     );
-    const [datasEmployee, setDatasEmployee] = useState([]);
+    const [datasEmployee, setDatasEmployee] = useState([employees]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     
     const state = {
