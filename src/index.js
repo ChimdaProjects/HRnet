@@ -7,22 +7,19 @@ import reportWebVitals from './reportWebVitals';
 import { FormProvider } from "./utils/context/formContext";
 import { ErrorProvider } from './utils/context/errorContext';
 import { DateProvider } from './utils/context/dateContext';
-import { PaginationProvider } from './utils/context/paginationContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
-      <FormProvider>
-        <DateProvider>
-            <ErrorProvider>
-              <PaginationProvider>
-                <React.StrictMode>
-                    <App />
-                  </React.StrictMode>
-              </PaginationProvider>
-                  
-            </ErrorProvider>
-        </DateProvider>
-      </FormProvider>
+        <FormProvider>
+            <DateProvider>
+                <ErrorProvider>
+                    <React.StrictMode>
+                      <App />
+                    </React.StrictMode> 
+                </ErrorProvider>
+            </DateProvider>
+        </FormProvider>
     </Router>
 );
 
