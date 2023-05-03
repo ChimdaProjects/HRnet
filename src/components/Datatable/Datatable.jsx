@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./datatable.scss";
-import { FormContext } from "../../utils/context/formContext";
-import { PaginationContext } from "../../utils/context/paginationContext";
 import Pagination from "../../components/Pagination/Pagination";
 
 const Datatable = ({ columnTitle, datas }) => {
-    //const {datasEmployee, setDatasEmployee} = useContext(FormContext);
+   
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ entriesPerPage, setEntriesPerPage ] = useState(10);
     const [ clickCount, setClickCount ] = useState(0);
@@ -15,7 +13,6 @@ const Datatable = ({ columnTitle, datas }) => {
     const [ searchTerm, setSearchTerm ] = useState("");
     const [ indexOfLastEntry, setIndexOfLastEntry ] = useState(10);
     const [ indexOfFirstEntry, setIndexOfFirstEntry ] = useState(0);
-
 
     const columnName = [
         "firstname",
@@ -90,11 +87,11 @@ const Datatable = ({ columnTitle, datas }) => {
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
         // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
-        const newClickCount = clickCount === 2 ? 0 : clickCount + 1;
-        setClickCount(newClickCount);
+            const newClickCount = clickCount === 2 ? 0 : clickCount + 1;
+            setClickCount(newClickCount);
         } else {
-        setClickCount(1);
-        setClickedColumnIndex(index);
+            setClickCount(1);
+            setClickedColumnIndex(index);
         }
 
         setIndexColumn(index);
@@ -105,8 +102,6 @@ const Datatable = ({ columnTitle, datas }) => {
         const value = e.target.value;
         setSearchTerm(value);
     };
-
-    console.log('dataList.length',dataList.length)
 
     return (
     <>
