@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, useMemo} from "react";
 import "./datatable.scss";
 import { FormContext } from "../../utils/context/formContext";
+import { PaginationContext } from "../../utils/context/paginationContext";
 /**
  * TODO: afficher que 10 pages => quel tableau choisir
  * pb datalist lorsqu'on change la page tableau se vide useMemo???
@@ -8,7 +9,8 @@ import { FormContext } from "../../utils/context/formContext";
 
 const Datatable = ({columnTitle, datas}) => {
     //const {datasEmployee, setDatasEmployee} = useContext(FormContext);
-   console.log(datas);
+    const {entriesPerPage, setEntriesPerPage} = useContext(PaginationContext);
+   console.log("datas recues en props",datas);
     // state
     const [ clickCount, setClickCount ] = useState(0);
     const [ clickedColumnIndex, setClickedColumnIndex ] = useState(null);
@@ -18,7 +20,7 @@ const Datatable = ({columnTitle, datas}) => {
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
-        setDisplayedEntriesCount(parseInt(value));
+        setEntriesPerPage((prevState) =>{ return parseInt(value)});
     }
 
     // grey one entry out of 2
@@ -91,7 +93,7 @@ const Datatable = ({columnTitle, datas}) => {
     // datalist filter when there is a change in searchTerm
     useEffect(()=> {
         if(!searchTerm) {
-            const data = initialDatas.slice(displayDataForCurrentPage());
+            const data = dataList;
             setDataList(data);
         } else {
             filterDataList();
@@ -179,7 +181,7 @@ const Datatable = ({columnTitle, datas}) => {
                 </thead>
                 <tbody className="table-body">
                 {
-                    dataList.map((data, index) => (
+                    dataList?.map((data, index) => (
                         <tr key={index} className={getRowClass(index)}>
                             <td>{data.firstname}</td>
                             <td>{data.lastname}</td>

@@ -19,18 +19,18 @@ const EmployeeView = () => {
     
     const titleTable = ["first name", "last name", "start date", "department", "date of birth", "street", "city", "state", "zip code"]
     const datas = datasEmployee[0];
-    console.log("datas", datas);
+    //console.log("datas", datas);
 
     // Get current entries
     const indexOfLastEntry = currentPage * entriesPerPage;
     //const end = currentPage === pageCount ? totalEntries : start + displayedEntriesCount;
-    const indexOfFirstEntry = indexOfLastEntry * entriesPerPage;
+    const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
     const currentEntries = datas.slice(indexOfFirstEntry, indexOfLastEntry);
     console.log("currentEntries", currentEntries);
 
     // Change page
     const handlePageChange = pageNumber => setCurrentPage(pageNumber);
-    
+
     return (
         <>
         <header>
