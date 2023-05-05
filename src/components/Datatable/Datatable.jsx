@@ -3,17 +3,19 @@ import "./datatable.scss";
 import Pagination from "../../components/Pagination/Pagination";
 
 const Datatable = ({ columnTitle, datas }) => {
+
+    const initialDatas = datas["0"].concat(datas["formData"]);
    
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ entriesPerPage, setEntriesPerPage ] = useState(10);
     const [ clickCount, setClickCount ] = useState(0);
     const [ clickedColumnIndex, setClickedColumnIndex ] = useState(null);
     const [ indexColumn, setIndexColumn ] = useState(null);
-    const [ dataList, setDataList ] = useState(datas);
+    const [ dataList, setDataList ] = useState(initialDatas);
     const [ searchTerm, setSearchTerm ] = useState("");
     const [ indexOfLastEntry, setIndexOfLastEntry ] = useState(10);
     const [ indexOfFirstEntry, setIndexOfFirstEntry ] = useState(0);
-
+    console.log("dataList", dataList)
     // grey one entry out of 2
     const getRowClass = (index) => {
         return index % 2 === 0 ? "even-row" : "odd-row";
@@ -32,7 +34,7 @@ const Datatable = ({ columnTitle, datas }) => {
     ];
 
     useEffect(() => {
-        let newResults = [...datas];
+        let newResults = [...initialDatas];
 
         if (searchTerm) {
             newResults = newResults.filter((data) => {
@@ -64,7 +66,6 @@ const Datatable = ({ columnTitle, datas }) => {
     useEffect(() => {
         const indexOfLastEntry = currentPage * entriesPerPage;
         const indexOfFirstEntry = (currentPage - 1) * entriesPerPage;
-        // newResults = newResults.slice(indexOfFirstEntry, indexOfLastEntry);
 
         setIndexOfLastEntry(indexOfLastEntry);
         setIndexOfFirstEntry(indexOfFirstEntry);
@@ -74,34 +75,13 @@ const Datatable = ({ columnTitle, datas }) => {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    console.log("current page", currentPage);
-    const handlePreviousPage = (pageNumber) => {
-        pageNumber = currentPage;
-        if ( currentPage > 1 ) {
-            setCurrentPage(pageNumber - 1);
-            console.log("prev page if", currentPage);
-        }
-        console.log("prev page", currentPage);
-    };
-
-    const handleNextPage = (pageNumber) => {
-        if (!currentPage === (Math.ceil(dataList.length / entriesPerPage))) {
-            console.log("next page 1", currentPage)
-            setCurrentPage( currentPage + 1);
-            
-        };
-        console.log("next page", currentPage + 1);
-        
-    };
-
+   
     // Sort datas by entries selected
     const handleClickSelect = (e) => {
         const value = e.target.value;
         setEntriesPerPage(parseInt(value));
         setCurrentPage(1);
     };
-
-
 
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
@@ -182,7 +162,7 @@ const Datatable = ({ columnTitle, datas }) => {
                 }
                 return (
                     <th className="table-head-row-title" key={`${index}-${elt}`}>
-                    {elt}
+                        {elt}
                     <span
                         className="table-icon"
                         id={index}
@@ -200,7 +180,9 @@ const Datatable = ({ columnTitle, datas }) => {
                 {
                     dataList?.filter((_, index) => index >= indexOfFirstEntry && index < indexOfLastEntry)
                     .map((data, index) => (
+                            
                         <tr key={index} className={getRowClass(index)}>
+                            {console.log("data firstname", data.firstname)}
                             <td>{data.firstname}</td>
                             <td>{data.lastname}</td>
                             <td>{data.startDate}</td>
@@ -222,8 +204,6 @@ const Datatable = ({ columnTitle, datas }) => {
             start = { indexOfFirstEntry }
             end = { indexOfLastEntry }
             currentPage={ currentPage }
-            handlePreviousPage = { handlePreviousPage }
-            handleNextPage = { handleNextPage }
             setCurrentPage = { setCurrentPage }
 
         />

@@ -56,7 +56,6 @@ const useFormData = () => {
      * @param {object} date selected by the component Datepicker
      */
     const handleDateSelect = (date) => {
-        console.log("date", date);
         const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
         setFormData({
             ...formData,
