@@ -99,10 +99,9 @@ const useFormData = () => {
         setErrors({...errors, ...newErrorsMsg});
         // checking if there s value in newErrorsMsg
         if (Object.values(newErrorsMsg).every(val => val === "")) {
-            setDatasEmployee(prevEmployeeData => ({
-                ...prevEmployeeData ? prevEmployeeData : {},
-                formData: [...(prevEmployeeData?.formData || []), formData],
-            }));
+            setDatasEmployee(prevEmployeeData => {
+                return [...prevEmployeeData, formData]
+            });
             setIsSubmitted(!isSubmitted);
             // clear values from form
             resetForm(); 

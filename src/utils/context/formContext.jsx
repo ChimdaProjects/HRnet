@@ -15,7 +15,7 @@ export const FormProvider = ({ children }) => {
         department:""
         }
     );
-    const [datasEmployee, setDatasEmployee] = useState([employees]);
+    const [datasEmployee, setDatasEmployee] = useState(employees);
     const [isSubmitted, setIsSubmitted] = useState(false);
     
     const state = {

@@ -4,18 +4,16 @@ import Pagination from "../../components/Pagination/Pagination";
 
 const Datatable = ({ columnTitle, datas }) => {
 
-    const initialDatas = datas["0"].concat(datas["formData"]);
-   
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ entriesPerPage, setEntriesPerPage ] = useState(10);
     const [ clickCount, setClickCount ] = useState(0);
     const [ clickedColumnIndex, setClickedColumnIndex ] = useState(null);
     const [ indexColumn, setIndexColumn ] = useState(null);
-    const [ dataList, setDataList ] = useState(initialDatas);
+    const [ dataList, setDataList ] = useState(datas);
     const [ searchTerm, setSearchTerm ] = useState("");
     const [ indexOfLastEntry, setIndexOfLastEntry ] = useState(10);
     const [ indexOfFirstEntry, setIndexOfFirstEntry ] = useState(0);
-    console.log("dataList", dataList)
+    //console.log("dataList", dataList)
     // grey one entry out of 2
     const getRowClass = (index) => {
         return index % 2 === 0 ? "even-row" : "odd-row";
@@ -32,9 +30,9 @@ const Datatable = ({ columnTitle, datas }) => {
         "state",
         "code",
     ];
-
+    
     useEffect(() => {
-        let newResults = [...initialDatas];
+        let newResults = [...datas];
 
         if (searchTerm) {
             newResults = newResults.filter((data) => {
@@ -45,9 +43,10 @@ const Datatable = ({ columnTitle, datas }) => {
             });
         }
 
-        if (indexColumn) {
+        if (!indexColumn) {
+            console.log("index column filtre", indexColumn)
             const column = columnName[indexColumn];
-            console.log("column", column)
+            console.log("je rentre dans le filtre ?", column)
             switch (clickCount) {
             case 1:
                 newResults.sort((a, b) => (a[column] < b[column] ? -1 : 1));
@@ -85,6 +84,7 @@ const Datatable = ({ columnTitle, datas }) => {
 
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
+        console.log("handleclickicon", index);
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
         // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
@@ -96,8 +96,10 @@ const Datatable = ({ columnTitle, datas }) => {
         }
 
         setIndexColumn(index);
+        
     };
-
+    console.log("index column", indexColumn);
+    
     // search term
     const handleChange = (e) => {
         const value = e.target.value;
@@ -111,7 +113,7 @@ const Datatable = ({ columnTitle, datas }) => {
             <div className="datatable-sort">
             <p>
                 Show
-                <select onChange={handleClickSelect}>
+                <select onChange={ handleClickSelect }>
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -121,12 +123,12 @@ const Datatable = ({ columnTitle, datas }) => {
             </p>
             </div>
             <div className="datatable-search">
-            <label htmlFor="search">Search :</label>
+            <label htmlFor="search" id="search">Search :</label>
             <input
                 id="search"
                 type="text"
-                value={searchTerm}
-                onChange={handleChange}
+                value={ searchTerm }
+                onChange={ handleChange }
             />
             </div>
         </div>
@@ -148,7 +150,7 @@ const Datatable = ({ columnTitle, datas }) => {
                     <i
                         className="fa-solid fa-sort-up"
                         style={{ color: "#888EE0" }}
-                        id={index}
+                        id={ index }
                     ></i>
                     );
                 } else if (clickCount === 2) {
@@ -156,7 +158,7 @@ const Datatable = ({ columnTitle, datas }) => {
                     <i
                         className="fa-solid fa-sort-down"
                         style={{ color: "##888EE0" }}
-                        id={index}
+                        id={ index }
                     ></i>
                     );
                 }
@@ -165,11 +167,11 @@ const Datatable = ({ columnTitle, datas }) => {
                         {elt}
                     <span
                         className="table-icon"
-                        id={index}
-                        value={elt}
+                        id={ index }
+                        value={ elt }
                         onClick={() => handleClickIcon(index)}
                     >
-                        {iconElement}
+                        { iconElement }
                     </span>
                     </th>
                 );
@@ -180,7 +182,7 @@ const Datatable = ({ columnTitle, datas }) => {
                 {
                     dataList?.filter((_, index) => index >= indexOfFirstEntry && index < indexOfLastEntry)
                     .map((data, index) => (
-                        <tr key={index} className={getRowClass(index)}>
+                        <tr key={ index } className={ getRowClass(index) }>
                             <td>{ data.firstname }</td>
                             <td>{ data.lastname }</td>
                             <td>{ data.startDate }</td>
@@ -201,7 +203,7 @@ const Datatable = ({ columnTitle, datas }) => {
             paginate = { handlePageChange }
             start = { indexOfFirstEntry }
             end = { indexOfLastEntry }
-            currentPage={ currentPage }
+            currentPage = { currentPage }
             setCurrentPage = { setCurrentPage }
 
         />
