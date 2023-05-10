@@ -2,7 +2,6 @@ import { createContext, useState } from "react";
 import employees from "../../datas/employees";
 export const FormContext = createContext();
 
-
 export const FormProvider = ({ children }) => {
     const [datas, setDatas] = useState(
        {

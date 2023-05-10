@@ -10,12 +10,8 @@ import { FormContext } from "../../utils/context/formContext";
  */
 const EmployeeView = () => {
     
-
-
     const {datasEmployee} = useContext(FormContext);
-    const titleTable = ["first name", "last name", "start date", "department", "date of birth", "street", "city", "state", "zip code"]
-    const datas = datasEmployee[0];
-  
+    const titleTable = ["first name", "last name", "start date", "department", "date of birth", "street", "city", "state", "zip code"];
 
     return (
         <>

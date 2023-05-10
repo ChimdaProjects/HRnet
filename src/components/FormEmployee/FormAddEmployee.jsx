@@ -26,12 +26,13 @@ const FormAddEmployee = () => {
     const { showDatePickerBirth, setShowDatePickerBirth, showDatePickerStart, setShowDatePickerStart } = useContext(DateContext);
 
     // custom hook 
-    const { datas, handleChange, resetForm, handleBlur, handleDateSelect, handleDateSelectStart, errorsMsg, saveEmployee } = useFormData();
+    const { datas, handleChange, resetForm, handleBlur, handleDateSelect, handleDateSelectStart, errorsMsg, saveEmployee, setIsSubmitted } = useFormData();
     
     useEffect(() => {
         resetForm();
+        setIsSubmitted(false);
     }, []);
-      
+    console.log("issubmitted", isSubmitted)
     return (
         <div className="formaddemployee">
             <h2 className="form-title">
@@ -196,10 +197,9 @@ const FormAddEmployee = () => {
                     </button>
             </form>
         { 
-            isSubmitted && <Modal />
+            isSubmitted ? <Modal /> : ""
         }
     </div>
     )
 };
 export default FormAddEmployee;
-

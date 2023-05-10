@@ -180,18 +180,16 @@ const Datatable = ({ columnTitle, datas }) => {
                 {
                     dataList?.filter((_, index) => index >= indexOfFirstEntry && index < indexOfLastEntry)
                     .map((data, index) => (
-                            
                         <tr key={index} className={getRowClass(index)}>
-                            {console.log("data firstname", data.firstname)}
-                            <td>{data.firstname}</td>
-                            <td>{data.lastname}</td>
-                            <td>{data.startDate}</td>
-                            <td>{data.department}</td>
-                            <td>{data.dateOfBirth}</td>
-                            <td>{data.street}</td>
-                            <td>{data.city}</td>
-                            <td>{data.state}</td>
-                            <td>{data.code}</td>
+                            <td>{ data.firstname }</td>
+                            <td>{ data.lastname }</td>
+                            <td>{ data.startDate }</td>
+                            <td>{ data.department }</td>
+                            <td>{ data.dateOfBirth }</td>
+                            <td>{ data.street }</td>
+                            <td>{ data.city }</td>
+                            <td>{ data.state }</td>
+                            <td>{ data.code }</td>
                         </tr>
                     ))
                 }
