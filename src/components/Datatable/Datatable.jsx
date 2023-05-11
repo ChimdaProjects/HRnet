@@ -99,7 +99,7 @@ const Datatable = ({ columnTitle, datas }) => {
         const value = e.target.value;
         setSearchTerm(value);
     };
-
+    
     return (
     <>
         <h2 className="datatable-title">Current Employee</h2>

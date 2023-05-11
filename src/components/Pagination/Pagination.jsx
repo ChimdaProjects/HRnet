@@ -2,18 +2,26 @@ import React, { useEffect, useState } from 'react';
 import "./pagination.scss"
 
 const Pagination = (props) => {
-    const { entriesPerPage, totalEntries, paginate, start, end, currentPage, handlePreviousPage, handleNextPage, setCurrentPage  } = props;
-    
+    const { entriesPerPage, totalEntries, paginate, start, end, currentPage, setCurrentPage  } = props;
+    // total pages 
     const numberPages = Math.ceil(totalEntries / entriesPerPage);
+    // calculate number of pages from the first page
     const distanceFromStart = currentPage - 1;
+    // calculate number of pages to the final page
     const distanceFromEnd = numberPages - currentPage;
 
-    // page numbers list
+    // array of pages
     let pages = [];
    
-    let i = distanceFromStart >= 4 ? currentPage - 1 : 2; 
-    let max = distanceFromEnd >= 4 ? currentPage + 1 : numberPages - 1;
+    let startingPage = distanceFromStart >= 4 ? currentPage - 1 : 2; 
+    let endingPage = distanceFromEnd >= 4 ? currentPage + 1 : numberPages - 1;
     
+    useEffect(() => {
+        // Faire défiler vers le haut de la page lorsque la page change
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [currentPage]);
+    
+    // method to calculate the range of pages 
     const range = (from, to, step=1) => {
         let i = from;
         const range = [];
@@ -23,14 +31,15 @@ const Pagination = (props) => {
         }
         return range;
     }
+
     // case 1 : current page = 1 2 3 4, displayed pages : 1 2 3 4 5
     if (currentPage <=4) {
-        let rangePages = range(i, numberPages > 4 ? numberPages : numberPages-1);
+        let rangePages = range(startingPage, numberPages > 4 ? numberPages : numberPages-1);
         pages = rangePages.slice(0,4);
     }
     // case 2: current page between 5 and pages total - 4
     else if (currentPage >= 5 && currentPage < numberPages - 4 ) {
-        let  rangePages = range(i, max)
+        let  rangePages = range(startingPage, endingPage)
         pages = rangePages;
     }
     // case 3: current page 
@@ -38,6 +47,7 @@ const Pagination = (props) => {
         let rangePages = range(numberPages - 4, numberPages-1);
         pages = rangePages;
     }
+   
    
     const entryEnd = numberPages === currentPage ? totalEntries : end ;
 

@@ -103,7 +103,7 @@ const FormAddEmployee = () => {
                             onBlur={handleBlur}
                             onChange={handleChange}
                             value={datas.startDate? datas.startDate : formattedDateNow()}
-                            className={errorsMsg.startDate? "error" : ""}
+                            className={datas.startDate === "Invalid date" && errorsMsg.startDate? "error" : ""}
                         />
                         {errorsMsg.startDate && (
                             <p className="form-error">{errorsMsg.startDate}</p>

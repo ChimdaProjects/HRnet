@@ -40,10 +40,12 @@
                 background-color: white;
             }
         }
-    }
-    
+    }  
 }
-
+button[disabled] {
+    pointer-events: none;
+    cursor: not-allowed;
+}
 .pagination-active {
     font-weight: bold;
     border: 3px solid #6D8312;

@@ -39,9 +39,9 @@ const useFormData = () => {
         }));
         validateField(name, value);// Validation des données lorsqu'une saisie a été effectuée
     };
-    
+    console.log("date", formData)
     /**
-     * This function formats the date entered when there is no more focus in this input field 
+     * This function formats the date entered when there is no focus in this input field 
      * @param {Event} event 
      */
     const handleBlur = (event) => {
@@ -80,10 +80,17 @@ const useFormData = () => {
         validateField('startDate', formattedDate); // Validation de la date de début lorsqu'elle a été modifiée
     
     }
+    /**
+     * This function resets values of form
+     */
     const resetForm = () => {
         setFormData(initialData);
     };
 
+    /**
+     * This function saves the values entered in the form
+     * @param {Event} e 
+     */
     const saveEmployee = (e) => {
         e.preventDefault();
         // checking if each field is completed

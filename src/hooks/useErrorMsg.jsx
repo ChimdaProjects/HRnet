@@ -31,12 +31,13 @@ const useErrorMsg = () => {
 
             case "dateOfBirth":
             case "startDate":
-              if (value === "" || value.length < 1) {
+              if (value === "" || value.length < 1 || value == "Invalid date") {
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
                   [name]: `Le champ ${name} est requis.`,
                 }));
-              } else {
+              }  
+              else{
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
                   [name]: "",
