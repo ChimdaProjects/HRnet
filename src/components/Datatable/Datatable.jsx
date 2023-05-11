@@ -44,9 +44,7 @@ const Datatable = ({ columnTitle, datas }) => {
         }
 
         if (!indexColumn) {
-            console.log("index column filtre", indexColumn)
             const column = columnName[indexColumn];
-            console.log("je rentre dans le filtre ?", column)
             switch (clickCount) {
             case 1:
                 newResults.sort((a, b) => (a[column] < b[column] ? -1 : 1));
@@ -84,7 +82,6 @@ const Datatable = ({ columnTitle, datas }) => {
 
     // when the user clicks on filter's icon
     const handleClickIcon = (index) => {
-        console.log("handleclickicon", index);
         // if index is the index of the clicked column
         if (index === clickedColumnIndex) {
         // if the click counter is equal to 2, we reset it to 0 otherwise we add 1
@@ -98,7 +95,6 @@ const Datatable = ({ columnTitle, datas }) => {
         setIndexColumn(index);
         
     };
-    console.log("index column", indexColumn);
     
     // search term
     const handleChange = (e) => {
