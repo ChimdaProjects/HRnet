@@ -47,14 +47,14 @@ const Pagination = (props) => {
                     <li className="pagination-list-item">
                         <button className= "pagination-list-item-btn prev" disabled={currentPage === 1 ? true : false } onClick={ () => currentPage > 1 ? setCurrentPage(currentPage - 1) : "" }>Previous</button>
                     </li>
-                    
+                    {numberPages > 1 &&
                      <li className="pagination-list-item">
                             <button 
                                 onClick={ ()=> paginate(1) } 
                                 className={ currentPage === 1 ? "pagination-list-item-btn pagination-active" : "pagination-list-item-btn" }>
                                 1
                             </button>
-                        </li>
+                        </li>}
                         { currentPage >= 5 &&
                         <li className="pagination-list-item">
                             <p className="">...</p>
