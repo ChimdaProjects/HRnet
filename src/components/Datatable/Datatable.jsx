@@ -13,7 +13,7 @@ const Datatable = ({ columnTitle, datas }) => {
     const [ searchTerm, setSearchTerm ] = useState("");
     const [ indexOfLastEntry, setIndexOfLastEntry ] = useState(10);
     const [ indexOfFirstEntry, setIndexOfFirstEntry ] = useState(0);
-    //console.log("dataList", dataList)
+    
     // grey one entry out of 2
     const getRowClass = (index) => {
         return index % 2 === 0 ? "even-row" : "odd-row";
@@ -43,7 +43,7 @@ const Datatable = ({ columnTitle, datas }) => {
             });
         }
 
-        if (!indexColumn) {
+        if (indexColumn !== null) {
             const column = columnName[indexColumn];
             switch (clickCount) {
             case 1:
@@ -91,9 +91,7 @@ const Datatable = ({ columnTitle, datas }) => {
             setClickCount(1);
             setClickedColumnIndex(index);
         }
-
-        setIndexColumn(index);
-        
+        setIndexColumn(index); 
     };
     
     // search term

@@ -32,7 +32,7 @@ const FormAddEmployee = () => {
         resetForm();
         setIsSubmitted(false);
     }, []);
-    console.log("issubmitted", isSubmitted)
+
     return (
         <div className="formaddemployee">
             <h2 className="form-title">
