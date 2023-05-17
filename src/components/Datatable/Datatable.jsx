@@ -47,10 +47,27 @@ const Datatable = ({ columnTitle, datas }) => {
             const column = columnName[indexColumn];
             switch (clickCount) {
             case 1:
-                newResults.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+                if (column === "startDate" || column === "dateOfBirth" ) {
+                    newResults.sort((a, b) => {
+                        const dateA = new Date(a[column]);
+                        const dateB = new Date(b[column]);
+                        return dateA - dateB;
+                    })
+                } else {
+                    newResults.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+                }
+                
                 break;
             case 2:
+                if (column === "startDate" || column === "dateOfBirth" ) {
+                    newResults.sort((a, b) => {
+                        const dateA = new Date(a[column]);
+                        const dateB = new Date(b[column]);
+                        return dateB - dateA;
+                    })
+                } else {
                 newResults.sort((a, b) => (a[column] > b[column] ? -1 : 1));
+                }
                 break;
             default:
                 break;
