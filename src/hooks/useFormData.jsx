@@ -113,7 +113,7 @@ const useFormData = () => {
      * This function saves the values entered in the form
      * @param {Event} e 
      */
-    const saveEmployee = (e) => {
+    /*const saveEmployee = (e) => {
         e.preventDefault();
         // checking if each field is completed
         const requiredFields = ["firstname", "lastname", "dateOfBirth", "startDate", "street", "city", "state", "code", "department"];
@@ -137,8 +137,39 @@ const useFormData = () => {
         } else { 
             alert("Form not completed !");
             console.log("error msg", newErrorsMsg);
-        }             
-    };
+        }  */
+        const saveEmployee = (e) => {
+            e.preventDefault();
+             // checking if each field is completed
+            const requiredFields = ["firstname", "lastname", "dateOfBirth", "startDate", "street", "city", "state", "code", "department"];
+            const newErrorsMsg = {};
+            requiredFields.forEach(field => {
+                // if a field is not completed, add an error msg to newErrorsMsg
+                if (!datas[field]) {
+                newErrorsMsg[field] = `Please enter your ${field}`;
+                }
+            });
+            // add to state
+            setErrorsMsg({...errorsMsg, ...newErrorsMsg});
+                // Checking if there are any error messages
+                const hasErrors = Object.values(errorsMsg).some(val => val !== "") || Object.values(newErrorsMsg).some(val => val !== "");
+            
+                if (hasErrors) {
+                    // If there are error messages, do not save the employee
+                    alert("Form not completed !");
+                    return;
+                }
+            
+                // Save the employee
+                setDatasEmployee(prevEmployeeData => {
+                    return [...prevEmployeeData, datas];
+                });
+                setIsSubmitted(!isSubmitted);
+            
+                // Clear values from form
+                resetForm();
+            };
+   
    
     return {
         datas,
