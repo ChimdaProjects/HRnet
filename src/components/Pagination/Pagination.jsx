@@ -38,7 +38,7 @@ const Pagination = (props) => {
         pages = rangePages.slice(0,4);
     }
     // case 2: current page between 5 and pages total - 4
-    else if (currentPage >= 5 && currentPage < numberPages - 4 ) {
+    else if (currentPage >= 5 && currentPage < numberPages - 3 ) {
         let  rangePages = range(startingPage, endingPage)
         pages = rangePages;
     }
@@ -85,7 +85,7 @@ const Pagination = (props) => {
                             </button>
                         </li>)})
                     }
-                    { currentPage < numberPages - 4 &&
+                    { currentPage < numberPages - 3 &&
                         <li className="pagination-list-item">
                             <button className="pagination-list-item-dots">...</button>
                         </li>

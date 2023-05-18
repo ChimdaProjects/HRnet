@@ -108,6 +108,7 @@ const Datatable = ({ columnTitle, datas }) => {
             setClickCount(1);
             setClickedColumnIndex(index);
         }
+        setCurrentPage(1);
         setIndexColumn(index); 
     };
     

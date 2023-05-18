@@ -8,60 +8,61 @@ import useErrorMsg from "./useErrorMsg";
 import moment from "moment";
 
 const useFormData = () => {
-    const { datas, setDatasEmployee, setIsSubmitted, isSubmitted } = useContext(FormContext);
+    const { datas, setDatas, setDatasEmployee, setIsSubmitted, isSubmitted } = useContext(FormContext);
     const { setShowDatePickerBirth, setShowDatePickerStart } = useContext(DateContext);
     const { errorsMsg, setErrorsMsg, validateField } = useErrorMsg(); // Ajout de useErrorMsg
 
-    // Initial datas
-    const initialData = {
-        lastname: "",
-        firstname: "",
-        dateOfBirth: "",
-        startDate: "",
-        street: "",
-        city: "",
-        code: "",
-        department: "",
-    };
-
-  // Initialiser le state de vos données de formulaire à initialData
-  const [ formData, setFormData ] = useState(initialData);
-  const [ errors, setErrors ] = useState(errorsMsg); 
     /**
      * this function retrieves each value from the form and validates it
      * @param {Event} event 
      */
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData((prevState) => ({
+        setDatas((prevState) => ({
             ...prevState,
             [name]:value
         }));
         validateField(name, value);// Validation des données lorsqu'une saisie a été effectuée
     };
-    console.log("date", formData)
-    /**
-     * This function formats the date entered when there is no focus in this input field 
-     * @param {Event} event 
-     */
-    const handleBlur = (event) => {
-        const {name, value} = event.target;
-        const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
-        setFormData({...formData, [name]: formattedDate});
-        validateField(name, formattedDate); // Validation de la date de naissance lorsqu'elle a été modifiée
-    };
-   
+
+    const formatDateString = (dateString) => {
+        const date = new Date(dateString);
+      
+        // Vérifier si la date est valide
+        if (isNaN(date.getTime())) {
+          return "Invalid date"
+        }
+      
+        const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Mois (ajouter 1 au mois car il est basé sur zéro)
+        const day = date.getDate().toString().padStart(2, "0"); // Jour
+        const year = date.getFullYear(); // Année
+      
+        let formattedYear = year.toString();
+      
+        // Formater l'année si elle est saisie avec seulement deux chiffres
+        if (formattedYear.length === 2) {
+          const currentYear = new Date().getFullYear();
+          const currentCentury = Math.floor(currentYear / 100) * 100;
+          const prefix = year <= currentYear % 100 ? currentCentury : currentCentury - 100;
+          formattedYear = (prefix + year).toString();
+        }
+      
+        // Formater la date au format MM/DD/YYYY
+        const formattedDate = `${month}/${day}/${formattedYear}`;
+      
+        return formattedDate;
+      };
     /**
      * This function gets selected date of birth by date picker
      * @param {object} date selected by the component Datepicker
      */
     const handleDateSelect = (date) => {
-        const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
-        setFormData({
-            ...formData,
+        //const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
+        const formattedDate = formatDateString(date);
+        setDatas({
+            ...datas,
             dateOfBirth : formattedDate
         })
-
         setShowDatePickerBirth(false);
         validateField('dateOfBirth', formattedDate); // Validation de la date de naissance lorsqu'elle a été modifiée
     };
@@ -71,20 +72,41 @@ const useFormData = () => {
      * @param {object} date selected by the component Datepicker
      */
     const handleDateSelectStart = (date) => {
-        const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
-        setFormData({
-            ...formData,
+    //const formattedDate = moment(date, "MM/DD/YYYY").format("MM/DD/YYYY");
+    const formattedDate = formatDateString(date);
+        setDatas({
+            ...datas,
             startDate: formattedDate
         })
         setShowDatePickerStart(false);
         validateField('startDate', formattedDate); // Validation de la date de début lorsqu'elle a été modifiée
     
     }
+
+    
+    /**
+     * This function formats the date entered when there is no focus in this input field 
+     * @param {Event} event 
+     */
+    const handleBlur = (event) => {
+        const {name, value} = event.target;
+        //const formattedDate = moment(value, "MM/DD/YYYY").format("MM/DD/YYYY");
+        const formattedDate = formatDateString(value);
+        setDatas({
+            ...datas, 
+            [name]: formattedDate
+        });
+        validateField(name, formattedDate); // Validation de la date de naissance lorsqu'elle a été modifiée
+        console.log("date",value) 
+    };
+
+
+
     /**
      * This function resets values of form
      */
     const resetForm = () => {
-        setFormData(initialData);
+        setDatas({});
     };
 
     /**
@@ -98,16 +120,16 @@ const useFormData = () => {
         const newErrorsMsg = {};
         requiredFields.forEach(field => {
             // if a field is not completed, add an error msg to newErrorsMsg
-            if (!formData[field]) {
+            if (!datas[field]) {
             newErrorsMsg[field] = `Please enter your ${field}`;
             }
         });
         // add to state
-        setErrors({...errors, ...newErrorsMsg});
+        setErrorsMsg({...errorsMsg, ...newErrorsMsg});
         // checking if there s value in newErrorsMsg
         if (Object.values(newErrorsMsg).every(val => val === "")) {
             setDatasEmployee(prevEmployeeData => {
-                return [...prevEmployeeData, formData]
+                return [...prevEmployeeData, datas]
             });
             setIsSubmitted(!isSubmitted);
             // clear values from form
@@ -119,8 +141,8 @@ const useFormData = () => {
     };
    
     return {
-        datas: formData,
-        errorsMsg: errors,
+        datas,
+        errorsMsg,
         setErrorsMsg,
         handleChange, 
         resetForm, 

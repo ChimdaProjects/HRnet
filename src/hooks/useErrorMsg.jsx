@@ -30,13 +30,40 @@ const useErrorMsg = () => {
               break;
 
             case "dateOfBirth":
-            case "startDate":
-              if (value === "" || value.length < 1 || value == "Invalid date") {
+              console.log("value error date", value)
+              if (value === "" || value.length < 1) {
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
                   [name]: `Le champ ${name} est requis.`,
                 }));
-              }  
+              } 
+              if ( value == "Invalid date") {
+                console.log("je suis ici")
+                setErrorsMsg((prevErrorsMsg) => ({
+                  ...prevErrorsMsg,
+                  [name]: `La date saisie pour le champ ${name} est invalide.`,
+                }));
+              }
+              else{
+                setErrorsMsg((prevErrorsMsg) => ({
+                  ...prevErrorsMsg,
+                  [name]: "",
+                }));
+              }
+              break;
+            case "startDate":
+              if (value === "" || value.length < 1) {
+                setErrorsMsg((prevErrorsMsg) => ({
+                  ...prevErrorsMsg,
+                  [name]: `Le champ ${name} est requis.`,
+                }));
+              } 
+              if ( value == "Invalid date") {
+                setErrorsMsg((prevErrorsMsg) => ({
+                  ...prevErrorsMsg,
+                  [name]: `La date saisie pour le champ ${name} est invalide.`,
+                }));
+              }
               else{
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
@@ -115,6 +142,6 @@ const useErrorMsg = () => {
           }
     }
 
-    return { errorsMsg , validateField  }
+    return { errorsMsg , validateField, setErrorsMsg  }
 }
 export default useErrorMsg;
