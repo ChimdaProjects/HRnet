@@ -16,7 +16,7 @@ const Select = ({data, id, name, value, onChange, className }) => {
         {data.map((item, index) => (
             <option
                 key={`${index}-${item}`} 
-                value={item.name}>
+                value={item.abbreviation}>
                     {item.name}
             </option>
         ))}
