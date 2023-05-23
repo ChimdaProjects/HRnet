@@ -44,7 +44,14 @@ const Pagination = (props) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  // method to calculate the range of pages
+  /**
+   * Generates an array of numbers within a specified range.
+   *
+   * @param {number} from - The starting value of the range.
+   * @param {number} to - The ending value of the range.
+   * @param {number} [step=1] - The step size between numbers in the range.
+   * @returns {number[]} - An array of numbers within the specified range.
+   */
   const range = (from, to, step = 1) => {
     let i = from;
     const range = [];
@@ -63,7 +70,7 @@ const Pagination = (props) => {
     );
     pages = rangePages.slice(0, 4);
   }
-  // case 2: current page between 5 and pages total - 4
+  // case 2: current page between 5 and pages total - 3
   else if (currentPage >= 5 && currentPage < numberPages - 3) {
     let rangePages = range(startingPage, endingPage);
     pages = rangePages;

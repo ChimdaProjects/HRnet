@@ -6,6 +6,11 @@ import logo from "../../assets/logo_wealth_health.jpg";
 // style
 import "./navbar.scss";
 
+/**
+ * Navbar component.
+ *
+ * @returns {JSX.Element} - The rendered Navbar component.
+ */
 const Navbar = () => {
   return (
     <nav className="navbar">
