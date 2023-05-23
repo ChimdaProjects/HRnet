@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "../src/components/App/App";
 import { BrowserRouter as Router } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { FormProvider } from "./utils/context/formContext";
 import { ErrorProvider } from "./utils/context/errorContext";
 import { DateProvider } from "./utils/context/dateContext";
+import App from "./components/App/App";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,7 +20,7 @@ root.render(
         </ErrorProvider>
       </DateProvider>
     </FormProvider>
-  </Router>
+  </Router>,
 );
 
 // If you want to start measuring performance in your app, pass a function
