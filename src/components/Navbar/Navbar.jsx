@@ -1,38 +1,29 @@
 import React from "react";
 // router
-import { NavLink, Link, } from 'react-router-dom';
+import { NavLink, Link } from "react-router-dom";
 // img
-import logo from "../../assets/logo_wealth_health.jpg"
+import logo from "../../assets/logo_wealth_health.jpg";
 // style
-import "./navbar.scss"
+import "./navbar.scss";
 
 const Navbar = () => {
-    
-
   return (
     <nav className="navbar">
-        <div className="navbar-logo">
-            <Link 
-                  to="/" 
-            >
-                  <img src={ logo } alt="logo of hrnet" className="navbar-logo-img" />
-            </Link>
-        </div>
+      <div className="navbar-logo">
+        <Link to="/">
+          <img src={logo} alt="logo of hrnet" className="navbar-logo-img" />
+        </Link>
+      </div>
       <ul className="navbar-content">
         <li className="navbar-content-path">
-            <NavLink to="/">
-                Create employee
-            </NavLink>
+          <NavLink to="/">Create employee</NavLink>
         </li>
         <li className="navbar-content-path">
-            <NavLink to="/current-employee">
-                Current employees
-            </NavLink>
+          <NavLink to="/current-employee">Current employees</NavLink>
         </li>
       </ul>
     </nav>
   );
-}
+};
 
 export default Navbar;
-

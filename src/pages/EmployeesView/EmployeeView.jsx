@@ -1,6 +1,6 @@
 import Datatable from "../../components/Datatable/Datatable";
 import Navbar from "../../components/Navbar/Navbar";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 // context
 import { FormContext } from "../../utils/context/formContext";
 
@@ -9,25 +9,29 @@ import { FormContext } from "../../utils/context/formContext";
  * @returns {JSX} page of current employees
  */
 const EmployeeView = () => {
-    
-    const {datasEmployee} = useContext(FormContext);
-    const titleTable = ["first name", "last name", "start date", "department", "date of birth", "street", "city", "state", "zip code"];
+  const { datasEmployee } = useContext(FormContext);
+  const titleTable = [
+    "first name",
+    "last name",
+    "start date",
+    "department",
+    "date of birth",
+    "street",
+    "city",
+    "state",
+    "zip code",
+  ];
 
-    return (
-        <>
-        <header>
-            <Navbar />
-        </header>
-        <main>
-            <Datatable 
-                columnTitle={titleTable} 
-                datas={datasEmployee}
-            />
-            
-        </main>
-        </>
-
-    )
-}
+  return (
+    <>
+      <header>
+        <Navbar />
+      </header>
+      <main>
+        <Datatable columnTitle={titleTable} datas={datasEmployee} />
+      </main>
+    </>
+  );
+};
 
 export default EmployeeView;

@@ -1,45 +1,40 @@
 .error {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &-img {
+    height: 20rem;
+    margin: 0 auto;
+  }
+  &-content {
     display: flex;
     flex-direction: column;
-    
-    &-img {
-        height: 20rem;
-        margin:0 auto;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #048358;
+    &-text {
+      font-size: 2.5rem;
+      margin: 0.5rem auto;
     }
-    &-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        color:#048358;
-        &-text {
-            font-size: 2.5rem;
-            margin: 0.5rem auto;
-        }
-        &-txt {
-            margin: 1rem auto;
-            font-size: 1.5rem;     
-        }
-        
-        
+    &-txt {
+      margin: 1rem auto;
+      font-size: 1.5rem;
     }
-    &-link {
-        font-size: 1.2rem;
-        border: 0.5px solid rgb(215, 200, 200);
-        padding:1rem;
-        border-radius: 30px;
-        margin-top:1rem;
-        background-color: #048358;
-        color: white;
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-            color: black;
-        }
+  }
+  &-link {
+    font-size: 1.2rem;
+    border: 0.5px solid rgb(215, 200, 200);
+    padding: 1rem;
+    border-radius: 30px;
+    margin-top: 1rem;
+    background-color: #048358;
+    color: white;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      color: black;
     }
-            
-
-    
+  }
 }

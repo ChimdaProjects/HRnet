@@ -10,23 +10,19 @@ import Modal from "../../components/Modal/Modal";
  * @returns { JSX } homepage component view
  */
 const Homepage = () => {
-    return (
-        <div className="homepage">
-            <header>
-                <Navbar />
-            </header>
-            <main >
-                <div className="container">
-                    <FormAddEmployee />  
-                </div>
-            </main>
-            <footer>
-
-            </footer>
-           
-            
+  return (
+    <div className="homepage">
+      <header>
+        <Navbar />
+      </header>
+      <main>
+        <div className="container">
+          <FormAddEmployee />
         </div>
-    );
-}
+      </main>
+      <footer></footer>
+    </div>
+  );
+};
 
 export default Homepage;
