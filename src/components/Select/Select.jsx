@@ -4,6 +4,18 @@ import PropTypes from 'prop-types';
 // style
 import "./select.scss";
 
+/**
+ * This component represents a select dropdown.
+ *
+ * @param {Object} props - The props object.
+ * @param {Array} props.data - The array of select options.
+ * @param {string} props.id - The ID of the select element.
+ * @param {string} props.name - The name of the select element.
+ * @param {string} props.value - The selected value of the select element.
+ * @param {function} props.onChange - The function to handle the select change event.
+ * @param {string} props.className - The CSS class name for styling purposes.
+ * @returns {JSX} - The select component.
+ */
 const Select = ({ data, id, name, value, onChange, className }) => {
 
   return (

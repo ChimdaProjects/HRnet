@@ -2,6 +2,14 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./datatable.scss";
 import Pagination from "../Pagination/Pagination";
 
+/**
+ * This component represents a data table.
+ *
+ * @param {Object} props - The props object.
+ * @param {Array} props.columnTitle - The array of column titles for the table.
+ * @param {Array} props.datas - The array of data objects to display in the table.
+ * @returns {JSX} - The data table component.
+ */
 const Datatable = ({ columnTitle, datas }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(10);
@@ -223,6 +231,23 @@ const Datatable = ({ columnTitle, datas }) => {
       />
     </>
   );
+};
+
+Datatable.propTypes = {
+  columnTitle: PropTypes.arrayOf(PropTypes.string).isRequired,
+  datas: PropTypes.arrayOf(
+    PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+      dateOfBirth: PropTypes.string.isRequired,
+      street: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      code: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Datatable;

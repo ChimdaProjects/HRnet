@@ -1,6 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import "./pagination.scss";
 
+/**
+ * This component represents a pagination control.
+ *
+ * @param {Object} props - The props object.
+ * @param {number} props.entriesPerPage - The number of entries per page.
+ * @param {number} props.totalEntries - The total number of entries.
+ * @param {function} props.paginate - The function to handle pagination.
+ * @param {number} props.start - The starting index of the current page.
+ * @param {number} props.end - The ending index of the current page.
+ * @param {number} props.currentPage - The current page number.
+ * @param {function} props.setCurrentPage - The function to set the current page number.
+ * @returns {JSX} - The pagination component.
+ */
 const Pagination = (props) => {
   const {
     entriesPerPage,
@@ -11,6 +25,7 @@ const Pagination = (props) => {
     currentPage,
     setCurrentPage,
   } = props;
+
   // total pages
   const numberPages = Math.ceil(totalEntries / entriesPerPage);
   // calculate number of pages from the first page
@@ -151,5 +166,15 @@ const Pagination = (props) => {
       </nav>
     </div>
   );
+};
+
+Pagination.propTypes = {
+  entriesPerPage: PropTypes.number.isRequired,
+  totalEntries: PropTypes.number.isRequired,
+  paginate: PropTypes.func.isRequired,
+  start: PropTypes.number.isRequired,
+  end: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
 };
 export default Pagination;

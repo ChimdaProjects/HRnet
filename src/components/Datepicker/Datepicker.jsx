@@ -1,8 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, {useState} from "react";
+import PropTypes from "prop-types";
 import "./datepicker.scss";
 
+/**
+ * This component represents a date picker.
+ *
+ * @param {Object} props - The props object.
+ * @param {function} props.onSelect - The callback function called when a date is selected.
+ * @returns {JSX.Element} - The date picker component.
+ */
 const Datepicker = ({ onSelect }) => {
   // state
   const [selectedDate, setSelectedDate] = useState(null);
@@ -249,6 +255,10 @@ const Datepicker = ({ onSelect }) => {
       </div>
     )
   );
+};
+
+Datepicker.propTypes = {
+  onSelect: PropTypes.func,
 };
 
 export default Datepicker;
