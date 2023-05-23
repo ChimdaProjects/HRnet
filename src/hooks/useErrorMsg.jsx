@@ -30,7 +30,6 @@ const useErrorMsg = () => {
               break;
 
             case "dateOfBirth":
-              console.log("value error date", value)
               if (value === "" || value.length < 1) {
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
@@ -38,7 +37,6 @@ const useErrorMsg = () => {
                 }));
               } 
               if ( value == "Invalid date") {
-                console.log("je suis ici")
                 setErrorsMsg((prevErrorsMsg) => ({
                   ...prevErrorsMsg,
                   [name]: `La date saisie pour le champ ${name} est invalide.`,

@@ -197,7 +197,11 @@ const FormAddEmployee = () => {
                     </button>
             </form>
         { 
-            isSubmitted ? <Modal /> : ""
+            isSubmitted ?
+            <Modal 
+                text = "Employee successfully created !" 
+            /> :
+            ""
         }
     </div>
     )

@@ -12,6 +12,7 @@ export const FormProvider = ({ children }) => {
         street:"",
         city:"",
         state:"",
+        code: "",
         department:""
         }
     );

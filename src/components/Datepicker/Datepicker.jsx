@@ -108,7 +108,6 @@ const Datepicker = ({onSelect }) => {
     // get month by select and display the calendar of this selection
     const handleMonthSelected = (e) => {
       const month = e.target.value;
-      console.log("month", month);
       setMonthSelected(month);
       setDisplayedMonth(
         new Date(yearSelected, month)
@@ -118,7 +117,6 @@ const Datepicker = ({onSelect }) => {
     // get year
     const handleYearSelected = (e) => {
       const yearSelected = e.target.value;
-      console.log("year selected", yearSelected)
       setYearSelected(yearSelected);
       setDisplayedMonth(new Date(yearSelected, monthSelected));
       
