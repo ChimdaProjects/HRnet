@@ -9,9 +9,9 @@ import Pagination from "../Pagination/Pagination";
  * @param {Object} props - The props object.
  * @param {Array} props.columnTitle - The array of column titles for the table.
  * @param {Array} props.datas - The array of data objects to display in the table.
- * @returns {JSX} - The data table component.
+ * @returns {JSX.Element} - The data table component.
  */
-const Datatable = ({ columnTitle, datas }) => {
+function Datatable({ columnTitle, datas }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [clickCount, setClickCount] = useState(0);
@@ -23,9 +23,7 @@ const Datatable = ({ columnTitle, datas }) => {
   const [indexOfFirstEntry, setIndexOfFirstEntry] = useState(0);
 
   // grey one entry out of 2
-  const getRowClass = (index) => {
-    return index % 2 === 0 ? "even-row" : "odd-row";
-  };
+  const getRowClass = (index) => (index % 2 === 0 ? "even-row" : "odd-row");
 
   const columnName = [
     "firstname",
@@ -44,8 +42,7 @@ const Datatable = ({ columnTitle, datas }) => {
 
     if (searchTerm) {
       newResults = newResults.filter((data) => {
-        // Filter the dataList based on the searchTerm
-        return Object.values(data).some((value) =>
+ return Object.values(data).some((value) =>
           value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
@@ -122,7 +119,7 @@ const Datatable = ({ columnTitle, datas }) => {
 
   // search term
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setSearchTerm(value);
   };
 
@@ -165,7 +162,7 @@ const Datatable = ({ columnTitle, datas }) => {
                     className="fa-solid fa-sort"
                     style={{ color: "#e1e2e5" }}
                     id={index}
-                  ></i>
+                  />
                 );
               } else if (clickCount === 1) {
                 iconElement = (
@@ -173,7 +170,7 @@ const Datatable = ({ columnTitle, datas }) => {
                     className="fa-solid fa-sort-up"
                     style={{ color: "#888EE0" }}
                     id={index}
-                  ></i>
+                  />
                 );
               } else if (clickCount === 2) {
                 iconElement = (
@@ -181,17 +178,19 @@ const Datatable = ({ columnTitle, datas }) => {
                     className="fa-solid fa-sort-down"
                     style={{ color: "##888EE0" }}
                     id={index}
-                  ></i>
+                  />
                 );
               }
               return (
                 <th className="table-head-row-title" key={`${index}-${elt}`}>
                   {elt}
+                  {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
                   <span
                     className="table-icon"
                     id={index}
                     value={elt}
                     onClick={() => handleClickIcon(index)}
+                    aria-hidden
                   >
                     {iconElement}
                   </span>
@@ -203,11 +202,10 @@ const Datatable = ({ columnTitle, datas }) => {
         <tbody className="table-body">
           {dataList
             ?.filter(
-              (_, index) =>
-                index >= indexOfFirstEntry && index < indexOfLastEntry
+              (_, index) => index >= indexOfFirstEntry && index < indexOfLastEntry,
             )
             .map((data, index) => (
-              <tr key={index} className={getRowClass(index)}>
+              <tr key={`data-${index}`} className={getRowClass(index)}>
                 <td>{data.firstname}</td>
                 <td>{data.lastname}</td>
                 <td>{data.startDate}</td>
@@ -232,7 +230,7 @@ const Datatable = ({ columnTitle, datas }) => {
       />
     </>
   );
-};
+}
 
 Datatable.propTypes = {
   columnTitle: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -247,7 +245,7 @@ Datatable.propTypes = {
       city: PropTypes.string.isRequired,
       state: PropTypes.string.isRequired,
       code: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
 };
 

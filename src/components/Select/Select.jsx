@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 // style
 import "./select.scss";
@@ -17,7 +17,6 @@ import "./select.scss";
  * @returns {JSX} - The select component.
  */
 const Select = ({ data, id, name, value, onChange, className }) => {
-
   return (
     <select
       id={id}

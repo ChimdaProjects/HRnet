@@ -15,7 +15,7 @@ import "./pagination.scss";
  * @param {function} props.setCurrentPage - The function to set the current page number.
  * @returns {JSX} - The pagination component.
  */
-const Pagination = (props) => {
+function Pagination(props) {
   const {
     entriesPerPage,
     totalEntries,
@@ -36,8 +36,8 @@ const Pagination = (props) => {
   // array of pages
   let pages = [];
 
-  let startingPage = distanceFromStart >= 4 ? currentPage - 1 : 2;
-  let endingPage = distanceFromEnd >= 4 ? currentPage + 1 : numberPages - 1;
+  const startingPage = distanceFromStart >= 4 ? currentPage - 1 : 2;
+  const endingPage = distanceFromEnd >= 4 ? currentPage + 1 : numberPages - 1;
 
   useEffect(() => {
     // Faire défiler vers le haut de la page lorsque la page change
@@ -54,30 +54,26 @@ const Pagination = (props) => {
    */
   const range = (from, to, step = 1) => {
     let i = from;
-    const range = [];
+    const numberpages = [];
     while (i <= to) {
       range.push(i);
       i += step;
     }
-    return range;
+    return numberpages;
   };
 
   // case 1 : current page = 1 2 3 4, displayed pages : 1 2 3 4 5
   if (currentPage <= 4) {
-    let rangePages = range(
+    const rangePages = range(
       startingPage,
-      numberPages > 4 ? numberPages : numberPages - 1
+      numberPages > 4 ? numberPages : numberPages - 1,
     );
     pages = rangePages.slice(0, 4);
-  }
-  // case 2: current page between 5 and pages total - 3
-  else if (currentPage >= 5 && currentPage < numberPages - 3) {
-    let rangePages = range(startingPage, endingPage);
+  } else if (currentPage >= 5 && currentPage < numberPages - 3) {
+    const rangePages = range(startingPage, endingPage);
     pages = rangePages;
-  }
-  // case 3: current page
-  else if (currentPage >= numberPages - 4) {
-    let rangePages = range(numberPages - 4, numberPages - 1);
+  } else if (currentPage >= numberPages - 4) {
+    const rangePages = range(numberPages - 4, numberPages - 1);
     pages = rangePages;
   }
 
@@ -87,18 +83,24 @@ const Pagination = (props) => {
     <div className="pagination">
       <div className="pagination-details">
         <p className="pagination-details-content">
-          Showing {start + 1} to {entryEnd} of {totalEntries} entries{" "}
+          Showing
+          {start + 1}
+          to
+          {entryEnd}
+          of
+          {totalEntries}
+          entries
+          {" "}
         </p>
       </div>
       <nav className="pagination-nav">
         <ul className="pagination-list">
           <li className="pagination-list-item">
             <button
+              type="button"
               className="pagination-list-item-btn prev"
               disabled={currentPage === 1 ? true : false}
-              onClick={() =>
-                currentPage > 1 ? setCurrentPage(currentPage - 1) : ""
-              }
+              onClick={() => (currentPage > 1 ? setCurrentPage(currentPage - 1) : "")}
             >
               Previous
             </button>
@@ -106,7 +108,8 @@ const Pagination = (props) => {
           {numberPages > 1 && (
             <li className="pagination-list-item">
               <button
-                onClick={() => paginate(1)}
+                type="button"
+                onClick={() => (paginate(1))}
                 className={
                   currentPage === 1
                     ? "pagination-list-item-btn pagination-active"
@@ -119,33 +122,33 @@ const Pagination = (props) => {
           )}
           {currentPage >= 5 && (
             <li className="pagination-list-item">
-              <button className="pagination-list-item-dots">...</button>
+              <button type="button" className="pagination-list-item-dots">...</button>
             </li>
           )}
-          {pages.map((number) => {
-            return (
-              <li key={number} className="pagination-list-item">
-                <button
-                  onClick={() => paginate(number)}
-                  className={
-                    currentPage === number
-                      ? "pagination-list-item-btn pagination-active"
-                      : "pagination-list-item-btn"
-                  }
-                >
-                  {number}
-                </button>
-              </li>
-            );
-          })}
+          {pages.map((number) => (
+            <li key={number} className="pagination-list-item">
+              <button
+                type="button"
+                onClick={() => paginate(number)}
+                className={
+                  currentPage === number
+                    ? "pagination-list-item-btn pagination-active"
+                    : "pagination-list-item-btn"
+                }
+              >
+                {number}
+              </button>
+            </li>
+          ))}
           {currentPage < numberPages - 3 && (
             <li className="pagination-list-item">
-              <button className="pagination-list-item-dots">...</button>
+              <button type="button" className="pagination-list-item-dots">...</button>
             </li>
           )}
 
           <li className="pagination-list-item">
             <button
+              type="button"
               onClick={() => paginate(numberPages)}
               className={
                 currentPage === numberPages
@@ -158,13 +161,14 @@ const Pagination = (props) => {
           </li>
           <li className="pagination-list-item">
             <button
+              type="button"
               className="pagination-list-item-btn next "
+              /* eslint no-unneeded-ternary: [0] */
               disabled={currentPage === numberPages ? true : false}
-              onClick={() =>
-                currentPage === numberPages.length
-                  ? ""
-                  : setCurrentPage(currentPage + 1)
-              }
+              onClick={() => (currentPage === numberPages.length
+                ? ""
+                : setCurrentPage(currentPage + 1)
+              )}
             >
               Next
             </button>
@@ -173,7 +177,7 @@ const Pagination = (props) => {
       </nav>
     </div>
   );
-};
+}
 
 Pagination.propTypes = {
   entriesPerPage: PropTypes.number.isRequired,

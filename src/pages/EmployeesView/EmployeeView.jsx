@@ -1,14 +1,15 @@
-import Datatable from "../../components/Datatable/Datatable";
-import Navbar from "../../components/Navbar/Navbar";
 import React, { useContext } from "react";
 // context
 import { FormContext } from "../../utils/context/formContext";
+// components
+import Datatable from "../../components/Datatable/Datatable";
+import Navbar from "../../components/Navbar/Navbar";
 
 /**
  * This function displays the page of current view employee
  * @returns {JSX} page of current employees
  */
-const EmployeeView = () => {
+function EmployeeView() {
   const { datasEmployee } = useContext(FormContext);
   const titleTable = [
     "first name",
@@ -32,6 +33,6 @@ const EmployeeView = () => {
       </main>
     </>
   );
-};
+}
 
 export default EmployeeView;

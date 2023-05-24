@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Error from "../../components/Error/Error";
-const ErrorPage = () => {
+
+function ErrorPage() {
   return (
     <div className="errorpage">
       <header>
@@ -10,9 +11,9 @@ const ErrorPage = () => {
       <main>
         <Error />
       </main>
-      <footer></footer>
+      <footer />
     </div>
   );
-};
+}
 
 export default ErrorPage;

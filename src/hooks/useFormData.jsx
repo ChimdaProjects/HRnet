@@ -107,7 +107,7 @@ const useFormData = () => {
    */
   const resetForm = () => {
     setDatas(initialDatas);
-    setErrorsMsg({})
+    setErrorsMsg({});
   };
 
   /**
@@ -138,21 +138,19 @@ const useFormData = () => {
     // add to state
     setErrorsMsg({ ...errorsMsg, ...newErrorsMsg });
     // Checking if there are any error messages
-    const hasErrors =
-      Object.values(errorsMsg).some((val) => val !== "") ||
-      Object.values(newErrorsMsg).some((val) => val !== "");
+    const hasErrors = Object.values(errorsMsg).some((val) => val !== "") || Object.values(newErrorsMsg).some((val) => val !== "");
 
     if (hasErrors) {
       // If there are error messages, do not save the employee
       //
       setIsSubmitted(false);
-      return (<><Modal text="Form not completed !"/></>);
+      return (
+        alert("Form not completed !")
+      );
     }
 
     // Save the employee
-    setDatasEmployee((prevEmployeeData) => {
-      return [...prevEmployeeData, datas];
-    });
+    setDatasEmployee((prevEmployeeData) => [...prevEmployeeData, datas]);
     setIsSubmitted(!isSubmitted);
 
     // Clear values from form

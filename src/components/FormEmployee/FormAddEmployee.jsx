@@ -18,7 +18,7 @@ import useFormData from "../../hooks/useFormData";
  * This function displays the form to add an employee
  * @returns {JSX} component react
  */
-const FormAddEmployee = () => {
+function FormAddEmployee() {
   // import state from Context
   const { isSubmitted } = useContext(FormContext);
   const {
@@ -96,8 +96,9 @@ const FormAddEmployee = () => {
               onClick={() => {
                 setShowDatePickerBirth(!showDatePickerBirth);
               }}
+              aria-hidden
             >
-              <i className="fa-regular fa-calendar"></i>
+              <i className="fa-regular fa-calendar" />
             </span>
             {errorsMsg.dateOfBirth && (
               <p className="form-error">{errorsMsg.dateOfBirth}</p>
@@ -125,8 +126,9 @@ const FormAddEmployee = () => {
               onClick={() => {
                 setShowDatePickerStart(!showDatePickerStart);
               }}
+              aria-hidden
             >
-              <i className="fa-regular fa-calendar"></i>
+              <i className="fa-regular fa-calendar" />
             </span>
             {errorsMsg.startDate && (
               <p className="form-error">{errorsMsg.startDate}</p>
@@ -206,8 +208,8 @@ const FormAddEmployee = () => {
           Save
         </button>
       </form>
-      {isSubmitted ? <Modal text="Employee successfully created !" /> :""}
+      {isSubmitted ? <Modal text="Employee successfully created !" /> : ""}
     </div>
   );
-};
+}
 export default FormAddEmployee;

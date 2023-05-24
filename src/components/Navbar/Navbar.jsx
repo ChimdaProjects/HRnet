@@ -11,7 +11,7 @@ import "./navbar.scss";
  *
  * @returns {JSX.Element} - The rendered Navbar component.
  */
-const Navbar = () => {
+function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -29,6 +29,6 @@ const Navbar = () => {
       </ul>
     </nav>
   );
-};
+}
 
 export default Navbar;

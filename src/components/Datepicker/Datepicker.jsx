@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./datepicker.scss";
 
@@ -9,7 +9,7 @@ import "./datepicker.scss";
  * @param {function} props.onSelect - The callback function called when a date is selected.
  * @returns {JSX.Element} - The date picker component.
  */
-const Datepicker = ({ onSelect }) => {
+function Datepicker({ onSelect }) {
   // state
   const [selectedDate, setSelectedDate] = useState(null);
   const [displayedMonth, setDisplayedMonth] = useState(new Date());
@@ -56,30 +56,27 @@ const Datepicker = ({ onSelect }) => {
     return new Date(year, month + 1, 0).getDate();
   };
   // names of day on 1 week
-  const getWeekdayNames = () => {
-    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  };
+  const getWeekdayNames = () => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   // names of month on 1 year
-  const getMonthNames = () => {
-    return [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-  };
+  const getMonthNames = () => [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   // years on dropdown menu for year selection
   const years = [];
-  for (let i = 1949; i <= new Date().getFullYear(); i++) {
+  for (let i = 1949; i <= new Date().getFullYear(); i += 1) {
     years.push(i);
   }
   years.sort((a, b) => b - a);
@@ -91,38 +88,38 @@ const Datepicker = ({ onSelect }) => {
     const firstDayOfMonth = new Date(
       displayedMonth.getFullYear(),
       displayedMonth.getMonth(),
-      1
+      1,
     ).getDay();
 
     // represente le dernier jour du mois
     const lastDayOfMonth = new Date(
       displayedMonth.getFullYear(),
       displayedMonth.getMonth(),
-      daysInMonth
+      daysInMonth,
     ).getDay();
 
     const days = [];
 
-    // Remplir les jours du mois précédent (case vide pour les mois ou le 1er jour ne commence pas un lundi )
-    for (let i = firstDayOfMonth; i > 0; i--) {
+    // Remplir les jours du mois précédent
+    for (let i = firstDayOfMonth; i > 0; i -= 1) {
       days.push(null);
     }
 
     // Remplir les jours du mois en cours
-    for (let i = 1; i <= daysInMonth; i++) {
+    for (let i = 1; i <= daysInMonth; i += 1) {
       const calendrier = new Date(
         displayedMonth.getFullYear(),
         displayedMonth.getMonth(),
-        i
+        i,
       );
 
       days.push(
-        new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i)
+        new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), i),
       );
     }
 
     // Remplissez les jours du mois suivant
-    for (let i = 0; i < 6 - lastDayOfMonth; i++) {
+    for (let i = 0; i < 6 - lastDayOfMonth; i += 1) {
       days.push(null);
     }
     return days;
@@ -160,20 +157,21 @@ const Datepicker = ({ onSelect }) => {
   return (
     showDatePicker && (
       <div className="calendar">
-        <span className="calendar-close" onClick={closeDatePicker}>
-          <i className="fa-solid fa-xmark"></i>
+        <span className="calendar-close" onClick={closeDatePicker} aria-hidden>
+          <i className="fa-solid fa-xmark" />
         </span>
         <div className="calendar-header">
-          <button className="calendar-reset" onClick={handleResetToCurrentDate}>
-            <i className="fa-solid fa-house"></i>
+          <button type="button" className="calendar-reset" onClick={handleResetToCurrentDate}>
+            <i className="fa-solid fa-house" />
           </button>
           <button
+            type="button"
             className="calendar-header-left"
             onClick={handlePrevMonthClick}
           >
             &lt;
           </button>
-          <h2 className="calendar-title" onClick={handleSelectionDate}>
+          <h2 className="calendar-title" onClick={handleSelectionDate} aria-hidden>
             {displayedMonth.toLocaleDateString("en-US", {
               month: "long",
               year: "numeric",
@@ -186,30 +184,27 @@ const Datepicker = ({ onSelect }) => {
                 value={monthSelected}
                 onChange={handleMonthSelected}
               >
-                {getMonthNames().map((month, index) => {
-                  return (
-                    <option key={month} value={index}>
-                      {month}
-                    </option>
-                  );
-                })}
+                {getMonthNames().map((month, index) => (
+                  <option key={month} value={index}>
+                    {month}
+                  </option>
+                ))}
               </select>
               <select
                 className="calendar-year"
                 value={yearSelected}
                 onChange={handleYearSelected}
               >
-                {years.map((year) => {
-                  return (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  );
-                })}
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
               </select>
             </>
           )}
           <button
+            type="button"
             className="calendar-header-right"
             onClick={handleNextMonthClick}
           >
@@ -244,6 +239,7 @@ const Datepicker = ({ onSelect }) => {
                           : "calendar-td"
                       }
                       onClick={() => handleDateClick(day)}
+                      aria-hidden
                     >
                       {day && day.getDate()}
                     </td>
