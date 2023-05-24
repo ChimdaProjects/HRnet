@@ -58,7 +58,7 @@ option {
   font-size: 1.1rem;
 }
 input,
-#department {
+select {
   //width: 30%;
   border-radius: 5px;
   height: 2rem;
@@ -124,4 +124,7 @@ input:focus {
   top: -1.8rem;
   left: 28rem;
   cursor: pointer;
+}
+.form-calendar {
+  height: 0;
 }

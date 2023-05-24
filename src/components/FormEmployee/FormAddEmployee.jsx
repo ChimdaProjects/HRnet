@@ -93,17 +93,17 @@ const FormAddEmployee = () => {
               onChange={handleChange}
               className={errorsMsg.dateOfBirth ? "error" : ""}
             />
-            {errorsMsg.dateOfBirth && (
-              <p className="form-error">{errorsMsg.dateOfBirth}</p>
-            )}
-
             <span
+              className="form-calendar"
               onClick={() => {
                 setShowDatePickerBirth(!showDatePickerBirth);
               }}
             >
               <i className="fa-regular fa-calendar"></i>
             </span>
+            {errorsMsg.dateOfBirth && (
+              <p className="form-error">{errorsMsg.dateOfBirth}</p>
+            )}
 
             {showDatePickerBirth && <Datepicker onSelect={handleDateSelect} />}
             {/* start date input */}
@@ -115,23 +115,24 @@ const FormAddEmployee = () => {
               placeholder="MM/JJ/AAAA"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={datas.startDate ? datas.startDate : formattedDateNow()}
+              value={datas.startDate}
               className={
-                datas.startDate === "Invalid date" && errorsMsg.startDate
+                datas.startDate === "Invalid date" || errorsMsg.startDate
                   ? "error"
                   : ""
               }
             />
-            {errorsMsg.startDate && (
-              <p className="form-error">{errorsMsg.startDate}</p>
-            )}
             <span
+              className="form-calendar"
               onClick={() => {
                 setShowDatePickerStart(!showDatePickerStart);
               }}
             >
               <i className="fa-regular fa-calendar"></i>
             </span>
+            {errorsMsg.startDate && (
+              <p className="form-error">{errorsMsg.startDate}</p>
+            )}
 
             {showDatePickerStart && (
               <Datepicker onSelect={handleDateSelectStart} />
@@ -207,7 +208,7 @@ const FormAddEmployee = () => {
           Save
         </button>
       </form>
-      {isSubmitted ? <Modal text="Employee successfully created !" /> : ""}
+      {isSubmitted ? <Modal text="Employee successfully created !" /> :""}
     </div>
   );
 };

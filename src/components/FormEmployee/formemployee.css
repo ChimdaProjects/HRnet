@@ -65,7 +65,7 @@ option {
 }
 
 input,
-#department {
+select {
   border-radius: 5px;
   height: 2rem;
   border: 1px solid rgb(202, 202, 202);
@@ -131,4 +131,8 @@ input:focus {
   top: -1.8rem;
   left: 28rem;
   cursor: pointer;
-} /*# sourceMappingURL=formemployee.css.map */
+}
+
+.form-calendar {
+  height: 0;
+}/*# sourceMappingURL=formemployee.css.map */

@@ -143,9 +143,9 @@ const useFormData = () => {
 
     if (hasErrors) {
       // If there are error messages, do not save the employee
-      //<Modal text="Form not completed !"/>
-      alert("Form not completed !");
-      return;
+      //
+      setIsSubmitted(false);
+      return (<><Modal text="Form not completed !"/></>);
     }
 
     // Save the employee
