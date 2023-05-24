@@ -107,6 +107,7 @@ const useFormData = () => {
    */
   const resetForm = () => {
     setDatas(initialDatas);
+    setErrorsMsg({})
   };
 
   /**

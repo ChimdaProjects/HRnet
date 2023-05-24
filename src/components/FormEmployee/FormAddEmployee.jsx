@@ -13,8 +13,6 @@ import states from "../../datas/states";
 import departments from "../../datas/departments";
 // custom hooks
 import useFormData from "../../hooks/useFormData";
-// utils
-import { formattedDateNow } from "../../utils/services/date";
 
 /**
  * This function displays the form to add an employee
