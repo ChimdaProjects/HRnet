@@ -56,7 +56,7 @@ function Pagination(props) {
     let i = from;
     const numberpages = [];
     while (i <= to) {
-      range.push(i);
+      numberpages.push(i);
       i += step;
     }
     return numberpages;
@@ -83,14 +83,7 @@ function Pagination(props) {
     <div className="pagination">
       <div className="pagination-details">
         <p className="pagination-details-content">
-          Showing
-          {start + 1}
-          to
-          {entryEnd}
-          of
-          {totalEntries}
-          entries
-          {" "}
+          Showing {start + 1} to {entryEnd} of {totalEntries} entries
         </p>
       </div>
       <nav className="pagination-nav">

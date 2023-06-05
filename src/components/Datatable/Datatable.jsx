@@ -42,7 +42,7 @@ function Datatable({ columnTitle, datas }) {
 
     if (searchTerm) {
       newResults = newResults.filter((data) => {
- return Object.values(data).some((value) =>
+      return Object.values(data).some((value) =>
           value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
