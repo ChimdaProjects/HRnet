@@ -11,14 +11,14 @@ const useErrorMsg = () => {
       if (value === "" || value.length < 2) {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `Le champ ${name} ne peut être vide et doit contenir au min 2 caractères.`,
+          [name]: `The ${name} field cannot be empty and must contain at least 2 characters.`,
         }));
       } else {
         const regex = /^[a-zA-ZÀ-ÿ\s"’.\-]*$/;
         if (!regex.test(value)) {
           setErrorsMsg((prevErrorsMsg) => ({
             ...prevErrorsMsg,
-            [name]: `Le champ ${name} doit contenir uniquement des lettres`,
+            [name]: `The ${name} field must contain only letters`,
           }));
         } else {
           setErrorsMsg((prevErrorsMsg) => ({
@@ -33,13 +33,13 @@ const useErrorMsg = () => {
       if (value === "" || value.length < 1) {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `Le champ ${name} est requis.`,
+          [name]: `Le champ ${name} is required.`,
         }));
       }
       if (value === "Invalid date") {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `La date saisie pour le champ ${name} est invalide.`,
+          [name]: `The entered date for the field ${name} is invalid.`,
         }));
       } else {
         setErrorsMsg((prevErrorsMsg) => ({
@@ -52,13 +52,13 @@ const useErrorMsg = () => {
       if (value === "" || value.length < 1) {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `Le champ ${name} est requis.`,
+          [name]: `The ${name} fiel is required.`,
         }));
       }
       if (value === "Invalid date") {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `La date saisie pour le champ ${name} est invalide.`,
+          [name]: `The entered date for the field ${name} is invalid.`,
         }));
       } else {
         setErrorsMsg((prevErrorsMsg) => ({
@@ -73,7 +73,7 @@ const useErrorMsg = () => {
       if (value === "" || value.length < 2) {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          [name]: `Le champ ${name} ne peut être vide.`,
+          [name]: `The field ${name} cannot be empty.`,
         }));
       } else {
         setErrorsMsg((prevErrorsMsg) => ({
@@ -87,7 +87,7 @@ const useErrorMsg = () => {
       if (value === "") {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          state: "Vous devez choisir un état.",
+          state: "You must select a State.",
         }));
       } else {
         setErrorsMsg((prevErrorsMsg) => ({
@@ -101,14 +101,14 @@ const useErrorMsg = () => {
       if (value === "") {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          code: `Le champ ${name} ne peut être vide et doit contenir que des chiffres.`,
+          code: `The field ${name} cannot be empty and must contain only numbers.`,
         }));
       } else {
         const regex = /^[0-9]{1,5}$/;
         if (!regex.test(value)) {
           setErrorsMsg((prevErrorsMsg) => ({
             ...prevErrorsMsg,
-            code: `Le champ ${name} doit contenir uniquement des chiffres et 5 caractères au max.`,
+            code: `The field ${name} must contain only numbers and at least 5 numbers.`,
           }));
         } else {
           setErrorsMsg((prevErrorsMsg) => ({
@@ -123,7 +123,7 @@ const useErrorMsg = () => {
       if (value === "") {
         setErrorsMsg((prevErrorsMsg) => ({
           ...prevErrorsMsg,
-          department: "Vous devez sélectionner un département.",
+          department: "You must select a department.",
         }));
       } else {
         setErrorsMsg((prevErrorsMsg) => ({
