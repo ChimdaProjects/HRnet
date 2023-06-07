@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "datatable-hrnet": "^0.1.8",
     "faker": "^6.6.6",
     "moment": "^2.29.4",
     "node-sass": "^7.0.3",

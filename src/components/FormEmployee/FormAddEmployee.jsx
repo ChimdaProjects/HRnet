@@ -183,6 +183,7 @@ function FormAddEmployee() {
 
             {errorsMsg.city && <p className="form-error">{errorsMsg.city}</p>}
             {/* state input */}
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="state">
               State
             </label>
@@ -212,6 +213,7 @@ function FormAddEmployee() {
           </fieldset>
           {/* department input */}
           <div className="form-department">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="department">Department</label>
             <Select
               name="department"

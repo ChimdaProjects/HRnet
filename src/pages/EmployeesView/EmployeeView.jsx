@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 // context
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Datatable } from "datatable-hrnet";
 import { FormContext } from "../../utils/context/formContext";
 // components
-import Datatable from "../../components/Datatable/Datatable";
 import Navbar from "../../components/Navbar/Navbar";
-
 /**
  * This function displays the page of current view employee
  * @returns {JSX} page of current employees
