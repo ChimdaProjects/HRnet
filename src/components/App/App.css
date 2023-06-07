@@ -6,3 +6,11 @@
   font-family: "Roboto", sans-serif;
 }
 
+.datatable-search {
+  display: flex;
+}
+/*.datatable-sort select {
+  height: 2rem;
+  width: 4rem;
+  margin: 0 1rem;
+}*/
