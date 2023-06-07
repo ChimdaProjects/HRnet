@@ -83,6 +83,7 @@ function Pagination(props) {
     <div className="pagination">
       <div className="pagination-details">
         <p className="pagination-details-content">
+          {/* eslint-disable-next-line react/jsx-one-expression-per-line */ }
           Showing {start + 1} to {entryEnd} of {totalEntries} entries
         </p>
       </div>

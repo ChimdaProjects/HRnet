@@ -11,6 +11,7 @@ import "./datepicker.scss";
  */
 function Datepicker({ onSelect }) {
   // state
+  // eslint-disable-next-line no-unused-vars
   const [selectedDate, setSelectedDate] = useState(null);
   const [displayedMonth, setDisplayedMonth] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(true);
@@ -28,7 +29,7 @@ function Datepicker({ onSelect }) {
   // when the user clicks to display the previous month
   const handlePrevMonthClick = () => {
     setDisplayedMonth(
-      new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1)
+      new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1),
     );
     setMonthSelected(monthSelected - 1);
     // si le mois est égal à Janvier
@@ -40,7 +41,7 @@ function Datepicker({ onSelect }) {
   // when the user clicks to display the next month
   const handleNextMonthClick = () => {
     setDisplayedMonth(
-      new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1)
+      new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1),
     );
     setMonthSelected(monthSelected + 1);
     if (monthSelected === 11) {
@@ -107,6 +108,7 @@ function Datepicker({ onSelect }) {
 
     // Remplir les jours du mois en cours
     for (let i = 1; i <= daysInMonth; i += 1) {
+      // eslint-disable-next-line no-unused-vars
       const calendrier = new Date(
         displayedMonth.getFullYear(),
         displayedMonth.getMonth(),
@@ -138,6 +140,7 @@ function Datepicker({ onSelect }) {
 
   // get year
   const handleYearSelected = (e) => {
+    // eslint-disable-next-line no-shadow
     const yearSelected = e.target.value;
     setYearSelected(yearSelected);
     setDisplayedMonth(new Date(yearSelected, monthSelected));
@@ -229,9 +232,11 @@ function Datepicker({ onSelect }) {
                 return rows;
               }, [])
               .map((row, rowIndex) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <tr key={rowIndex}>
                   {row.map((day, dayIndex) => (
                     <td
+                      // eslint-disable-next-line react/no-array-index-key
                       key={dayIndex}
                       className={
                         day && day.getDate() === currentDate.getDate()
@@ -251,10 +256,10 @@ function Datepicker({ onSelect }) {
       </div>
     )
   );
-};
+}
 
 Datepicker.propTypes = {
-  onSelect: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default Datepicker;

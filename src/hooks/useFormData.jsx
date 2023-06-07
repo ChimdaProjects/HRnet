@@ -1,18 +1,16 @@
 // context
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import moment from "moment";
 import { FormContext } from "../utils/context/formContext";
 import { DateContext } from "../utils/context/dateContext";
-import moment from "moment";
 // hook
 import useErrorMsg from "./useErrorMsg";
-// component
-import Modal from "../components/Modal/Modal";
 
 const useFormData = () => {
-  const { datas, setDatas, setDatasEmployee, setIsSubmitted, isSubmitted } =
-    useContext(FormContext);
-  const { setShowDatePickerBirth, setShowDatePickerStart } =
-    useContext(DateContext);
+  const {
+    datas, setDatas, setDatasEmployee, setIsSubmitted, isSubmitted,
+  } = useContext(FormContext);
+  const { setShowDatePickerBirth, setShowDatePickerStart } = useContext(DateContext);
   const { errorsMsg, setErrorsMsg, validateField } = useErrorMsg();
 
   const initialDatas = {
@@ -26,6 +24,7 @@ const useFormData = () => {
     code: "",
     department: "",
   };
+
   /**
    * This function retrieves each value from the form and validates it
    * @param {Event} event
@@ -47,6 +46,7 @@ const useFormData = () => {
     // the formats of the entered values allowed
     const formats = ["MMDDYYYY", "MM/DD/YYYY", "MMDDYY", "MM/DD/YY"];
 
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < formats.length; i++) {
       const format = formats[i];
       const parsedDate = moment(dateString, format, true);
@@ -142,11 +142,8 @@ const useFormData = () => {
 
     if (hasErrors) {
       // If there are error messages, do not save the employee
-      //
       setIsSubmitted(false);
-      return (
-        alert("Form not completed !")
-      );
+      return;
     }
 
     // Save the employee

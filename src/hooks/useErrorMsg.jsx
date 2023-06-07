@@ -14,6 +14,7 @@ const useErrorMsg = () => {
           [name]: `The ${name} field cannot be empty and must contain at least 2 characters.`,
         }));
       } else {
+        // eslint-disable-next-line no-useless-escape
         const regex = /^[a-zA-ZÀ-ÿ\s"’.\-]*$/;
         if (!regex.test(value)) {
           setErrorsMsg((prevErrorsMsg) => ({
@@ -134,6 +135,7 @@ const useErrorMsg = () => {
       break;
 
     default:
+      // eslint-disable-next-line no-console
       console.log(`Sorry, we are out of ${name}.`);
     }
   };

@@ -16,7 +16,9 @@ import "./select.scss";
  * @param {string} props.className - The CSS class name for styling purposes.
  * @returns {JSX} - The select component.
  */
-const Select = ({ data, id, name, value, onChange, className }) => {
+function Select({
+  data, id, name, value, onChange, className,
+}) {
   return (
     <select
       id={id}
@@ -26,25 +28,26 @@ const Select = ({ data, id, name, value, onChange, className }) => {
       className={className}
     >
       {data.map((item, index) => (
+        // eslint-disable-next-line react/no-array-index-key
         <option key={`${index}-${item}`} value={item.abbreviation}>
           {item.name}
         </option>
       ))}
     </select>
   );
-};
+}
 
 Select.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       abbreviation: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  className: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 export default Select;

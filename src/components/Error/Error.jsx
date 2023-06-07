@@ -7,19 +7,20 @@ import "./error.scss";
  * This function displays the error
  * @returns {JSX} error component react
  */
-const Error = () => {
+function Error() {
   return (
     <div className="error">
       <div className="error-content">
         <p className="error-content-text">Oops !</p>
-        <p className="error-content-txt">La page demandée n"existe pas...</p>
-        <img src={imgError} alt="image of 404 page" className="error-img" />
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        <p className="error-content-txt">La page demandée n'existe pas...</p>
+        <img src={imgError} alt="404 page" className="error-img" />
         <Link to="/" className="error-link">
           RETOUR ACCUEIL
         </Link>
       </div>
     </div>
   );
-};
+}
 
 export default Error;

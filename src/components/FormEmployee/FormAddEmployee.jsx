@@ -53,44 +53,52 @@ function FormAddEmployee() {
         <div className="form-content">
           <div className="form-left">
             {/* firstname input */}
-            <label htmlFor="first-name">First Name</label>
-            <input
-              type="text"
-              id="first-name"
-              name="firstname"
-              value={datas.firstname}
-              onChange={handleChange}
-              required
-              className={errorsMsg.firstname ? "error" : ""}
-            />
+            <label htmlFor="first-name">
+              First Name
+              <input
+                type="text"
+                id="first-name"
+                name="firstname"
+                value={datas.firstname}
+                onChange={handleChange}
+                required
+                className={errorsMsg.firstname ? "error" : ""}
+              />
+            </label>
+
             {errorsMsg.firstname && (
               <p className="form-error">{errorsMsg.firstname}</p>
             )}
             {/* lastname input */}
-            <label htmlFor="last-name">Last Name</label>
-            <input
-              type="text"
-              id="last-name"
-              name="lastname"
-              value={datas.lastname}
-              onChange={handleChange}
-              className={errorsMsg.lastname ? "error" : ""}
-            />
+            <label htmlFor="last-name">
+              Last Name
+              <input
+                type="text"
+                id="last-name"
+                name="lastname"
+                value={datas.lastname}
+                onChange={handleChange}
+                className={errorsMsg.lastname ? "error" : ""}
+              />
+            </label>
+
             {errorsMsg.lastname && (
               <p className="form-error">{errorsMsg.lastname}</p>
             )}
             {/* date of birth input */}
-            <label htmlFor="date-of-birth">Date of Birth</label>
-            <input
-              id="date-of-birth"
-              type="text"
-              name="dateOfBirth"
-              placeholder="MM/JJ/AAAA"
-              value={datas.dateOfBirth}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              className={errorsMsg.dateOfBirth ? "error" : ""}
-            />
+            <label htmlFor="date-of-birth">
+              Date of Birth
+              <input
+                id="date-of-birth"
+                type="text"
+                name="dateOfBirth"
+                placeholder="MM/JJ/AAAA"
+                value={datas.dateOfBirth}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                className={errorsMsg.dateOfBirth ? "error" : ""}
+              />
+            </label>
             <span
               className="form-calendar"
               onClick={() => {
@@ -106,21 +114,24 @@ function FormAddEmployee() {
 
             {showDatePickerBirth && <Datepicker onSelect={handleDateSelect} />}
             {/* start date input */}
-            <label htmlFor="start-date">Start Date</label>
-            <input
-              id="start-date"
-              type="text"
-              name="startDate"
-              placeholder="MM/JJ/AAAA"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={datas.startDate}
-              className={
-                datas.startDate === "Invalid date" || errorsMsg.startDate
-                  ? "error"
-                  : ""
-              }
-            />
+            <label htmlFor="start-date">
+              Start Date
+              <input
+                id="start-date"
+                type="text"
+                name="startDate"
+                placeholder="MM/JJ/AAAA"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={datas.startDate}
+                className={
+                  datas.startDate === "Invalid date" || errorsMsg.startDate
+                    ? "error"
+                    : ""
+                }
+              />
+            </label>
+
             <span
               className="form-calendar"
               onClick={() => {
@@ -142,31 +153,39 @@ function FormAddEmployee() {
           <fieldset className="address">
             <legend>Address</legend>
             {/* street input */}
-            <label htmlFor="street">Street</label>
-            <input
-              id="street"
-              type="text"
-              name="street"
-              value={datas.street}
-              onChange={handleChange}
-              className={errorsMsg.street ? "error" : ""}
-            />
+            <label htmlFor="street">
+              Street
+              <input
+                id="street"
+                type="text"
+                name="street"
+                value={datas.street}
+                onChange={handleChange}
+                className={errorsMsg.street ? "error" : ""}
+              />
+            </label>
+
             {errorsMsg.street && (
               <p className="form-error">{errorsMsg.street}</p>
             )}
             {/* city input */}
-            <label htmlFor="city">City</label>
-            <input
-              id="city"
-              type="text"
-              name="city"
-              value={datas.city}
-              onChange={handleChange}
-              className={errorsMsg.city ? "error" : ""}
-            />
+            <label htmlFor="city">
+              City
+              <input
+                id="city"
+                type="text"
+                name="city"
+                value={datas.city}
+                onChange={handleChange}
+                className={errorsMsg.city ? "error" : ""}
+              />
+            </label>
+
             {errorsMsg.city && <p className="form-error">{errorsMsg.city}</p>}
             {/* state input */}
-            <label htmlFor="state">State</label>
+            <label htmlFor="state">
+              State
+            </label>
             <Select
               name="state"
               id="state"
@@ -177,15 +196,18 @@ function FormAddEmployee() {
             />
             {errorsMsg.state && <p className="form-error">{errorsMsg.state}</p>}
             {/* zip code input */}
-            <label htmlFor="zip-code">Zip Code</label>
-            <input
-              id="zip-code"
-              type="number"
-              name="code"
-              value={datas.code}
-              onChange={handleChange}
-              className={errorsMsg.code ? "error" : ""}
-            />
+            <label htmlFor="zip-code">
+              Zip Code
+              <input
+                id="zip-code"
+                type="number"
+                name="code"
+                value={datas.code}
+                onChange={handleChange}
+                className={errorsMsg.code ? "error" : ""}
+              />
+            </label>
+
             {errorsMsg.code && <p className="form-error">{errorsMsg.code}</p>}
           </fieldset>
           {/* department input */}
@@ -208,7 +230,7 @@ function FormAddEmployee() {
           Save
         </button>
       </form>
-      {isSubmitted ? <Modal text="Employee successfully created !" /> : ""}
+      {isSubmitted ? <Modal text="Employee successfully created !" /> : "" }
     </div>
   );
 }
