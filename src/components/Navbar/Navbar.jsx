@@ -16,7 +16,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-logo">
         <Link to="/">
-          <img src={logo} width="140px" height="140px" alt="logo of hrnet" className="navbar-logo-img" />
+          <img src={logo} width="100%" height="100%" alt="logo of hrnet" className="navbar-logo-img" />
         </Link>
       </div>
       <ul className="navbar-content">
