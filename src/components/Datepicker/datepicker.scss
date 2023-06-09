@@ -51,6 +51,7 @@
   &-month,
   &-year {
     display: flex;
+    height: 3rem;
     align-items: center;
     font-size: 1.2rem;
     border: 1px solid rgb(236, 235, 235);
@@ -68,6 +69,7 @@
 
   &-month {
     width: 8.5rem;
+    height: 3rem;
     & option {
       padding: 1rem;
       height: 10rem;
