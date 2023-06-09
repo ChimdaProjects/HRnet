@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./modal.scss";
 
 /**
- * This function displays a modal when an employee is created
+ * This function displays a modal
  * @returns {JSX} modal react component
  */
 function Modal({ text }) {

@@ -4,7 +4,7 @@ import imgError from "../../assets/error.jpg";
 import "./error.scss";
 
 /**
- * This function displays the error
+ * This function displays the 404 page
  * @returns {JSX} error component react
  */
 function Error() {

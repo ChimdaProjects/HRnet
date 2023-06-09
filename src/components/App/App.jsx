@@ -9,6 +9,10 @@ import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 // styles
 import "./App.css";
 
+/**
+ * This function returns the router of the app
+ * @returns {JSX}
+ */
 function App() {
   return (
     <div className="App">
